@@ -1,0 +1,34 @@
+<style lang="less">
+
+</style>
+<template>
+    <!-- rich-text -->
+    <rich-text nodes="{{nodes}}" bindtap="tap"></rich-text>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import util from '../../utils/util'
+
+wepy.page ({
+    // mixins = [testMixin]
+
+    data: {
+      src: 'http://app.jiehuo.site'
+    },
+
+    onLoad(options) {
+      if (options.src) this.src = options.src
+      // loading
+      util.toast('加载中...', 'loading', 1000)
+    }
+    //
+  })
+</script>
+<config>
+{
+    navigationBarTitleText: '',
+    backgroundColorBottom: 'white',
+    enablePullDownRefresh: false
+}
+</config>

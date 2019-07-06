@@ -1,0 +1,211 @@
+<style lang="less">
+    @import "../../utils/colors";
+    page{
+        height: 100%;
+        background: @background;
+    }
+    .container{
+        background: @white;
+    }
+    .header{
+        width: 100%;
+        height: 200rpx;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        .username{
+            color: @black;
+            font-size: 32rpx;
+            line-height: 1;
+        }
+        .login{
+            color: #55a8f4;
+        }
+        .avatar{
+            height: 120rpx;
+            width: 120rpx;
+            border-radius: 50%;
+        }
+    }
+    .items{
+        flex:1;
+        width: 100%;
+        font-size:30rpx;
+        margin-top:60rpx;
+        padding-left:30rpx;
+        box-sizing:border-box;
+        flex-direction: column;
+        .item{
+            height: 100rpx;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .description{
+            flex: 1;
+            height: 100%;
+            align-items: center;
+            margin-left: 30rpx;
+            padding-right: 30rpx;
+            justify-content:space-between;
+            border-bottom: 1rpx solid @background;
+            button{
+                margin:0;
+                padding:0;
+                font-size:30rpx;
+                width:100%;
+                border: none;
+                text-align:left;
+                background:transparent;
+            }
+            button::after{
+                border: none;
+            }
+        }
+    }
+    .logout{
+        width: 100%;
+        height: 100rpx;
+        font-size:32rpx;
+        margin-top:80rpx;
+        background: @white;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<template>
+    <van-nav-bar bgColor="bg-theme" isBack="{{true}}">
+        <view slot="backText">返回</view>
+        <view slot="title">我的</view>
+    </van-nav-bar>
+    <view class="container">
+        <view class="header">
+            <image src="{{userInfo.avatar || avatar}}" class="avatar" mode="aspectFill"></image>
+            <text class="username {{userInfo ? '' : 'login'}}" @tap="redirectTo('/packageMine/mine/baseProfile')">
+                {{userInfo ? userInfo.nickname || userInfo.phone : '登录/注册'}}
+            </text>
+        </view>
+        <view class="items">
+            <view class="item" @tap="redirectTo('develop')">
+                <image src="/images/mine/wallet.png" class="icon"/>
+                <view class="description">
+                    <text>我的钱包</text>
+                    <view style="align-items: center">
+                        <text style="margin-right:10rpx;">{{userInfo.money || '0.00'}}</text>
+                        <image src="/images/arrow_right.png" class="icon-xs"/>
+                    </view>
+                </view>
+            </view>
+            <view class="item" @tap="redirectTo('/pages/other/partner')">
+                <image src="/images/mine/partner.png" class="icon"/>
+                <view class="description">
+                    <text>合伙人计划</text>
+                    <image src="/images/arrow_right.png" class="icon-xs"/>
+                </view>
+            </view>
+            <view class="item" @tap="redirectTo('/pages/other/protocol')">
+                <image src="/images/mine/protocol.png" class="icon"/>
+                <view class="description">
+                    <text>协议及说明</text>
+                    <image src="/images/arrow_right.png" class="icon-xs"/>
+                </view>
+            </view>
+            <view class="item">
+                <image src="/images/mine/recommend.png" class="icon"/>
+                <view class="description">
+                    <button open-type="share">推荐给好友</button>
+                    <image src="/images/arrow_right.png" class="icon-xs"/>
+                </view>
+            </view>
+            <view class="item">
+                <image src="/images/mine/contact.png" class="icon"/>
+                <view class="description">
+                    <button open-type="contact">联系客服</button>
+                    <image src="/images/arrow_right.png" class="icon-xs"/>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="logout" wx:if="{{userInfo}}" @tap="logout()">
+        退出登录
+    </view>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import util from '../../utils/util'
+
+  // import testMixin from '../../mixins/test'
+
+  wepy.page ({
+    config: {
+      navigationBarTitleText: '我的',
+      enablePullDownRefresh: false
+    },
+    // mixins = [testMixin]
+
+    data: {
+      userInfo: null,
+      avatar: null,
+      imgDomain: '',
+      tabs: [
+      ]
+    },
+
+    onShow() {
+      this.userInfo = this.$parent.globalData.userInfo
+      this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
+    },
+
+    // 事件处理函数(集中保存在methods对象中)
+    methods: {
+      logout() {
+        util.wxRequest('/logout').then(loginRes => {
+          util.toast(loginRes.msg)
+        })
+        // 移除用户信息
+        this.userInfo = null
+        this.$parent.globalData.userInfo = null
+        wepy.removeStorageSync('userInfo')
+        wepy.removeStorageSync('authorization')
+      },
+      redirectTo(path) {
+        if (path === 'develop') {
+          util.toast('开发中...'); return
+        }
+        if (this.userInfo) {
+          wepy.navigateTo({url: path})
+          return
+        }
+        wepy.navigateTo({url: '/pages/other/login'})
+      }
+    },
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {
+      console.log('onPullDownRefresh')
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
+      console.log('onReachBottom')
+    },
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage(res) {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        // console.log(res.target)
+      }
+      return {
+        title: '我正在购买xxx',
+        path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
+      }
+    }
+  })
+</script>

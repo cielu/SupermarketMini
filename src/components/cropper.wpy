@@ -1,0 +1,89 @@
+<template>
+    <canvas
+            class="cropper"
+            disable-scroll="true"
+            @touchstart="ts"
+            @touchmove="tm"
+            @touchend="te"
+            style="width:{{width}}px;height:{{height}}px;background-color: rgba(0, 0, 0, 0.8)"
+            @error="canvasError"
+            canvas-id="cropper">
+    </canvas>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import WeCropper from 'we-cropper'
+
+  export default class Cropper extends wepy.component {
+    data = {
+      $: null,
+      id: 'cropper',
+      targetId: 'targetCropper'
+    }
+
+    props = {
+      options: Object
+    }
+
+    computed = {
+      width () {
+        return this.options.width
+      },
+      height () {
+        return this.options.height
+      },
+      pixelRatio () {
+        return this.options.pixelRatio
+      }
+    }
+
+    methods = {
+      ts (e) {
+        this.$.touchStart(e)
+      },
+      tm (e) {
+        this.$.touchMove(e)
+      },
+      te (e) {
+        this.$.touchEnd(e)
+      },
+      canvasError (e) {
+        console.error(e.detail.errMsg)
+      }
+    }
+
+    pushOrigin (src) {
+      this.$.pushOrign(src)
+    }
+    updateCanvas () {
+      this.$.updateCanvas()
+    }
+    getCropperImage () {
+      // we-cropper v1.3.0 之后 getCropperImage 方法返回 Promise 对象
+      return this.$.getCropperImage()
+    }
+    getCropperBase64 (fn, ev) {
+      this.$.getCropperImage(fn)
+    }
+
+    onLoad () {
+      const options = this.options
+      options.id = this.id
+      options.targetId = this.targetId
+      this.$ = new WeCropper(options)
+        .on('ready', (...args) => {
+          this.$emit('ready', ...args)
+        })
+        .on('beforeImageLoad', (...args) => {
+          this.$emit('beforeImageLoad', ...args)
+        })
+        .on('imageLoad', (...args) => {
+          this.$emit('imageLoad', ...args)
+        })
+        .on('beforeDraw', (...args) => {
+          this.$emit('beforeDraw', ...args)
+        })
+    }
+  }
+</script>

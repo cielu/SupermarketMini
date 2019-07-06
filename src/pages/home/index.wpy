@@ -1,0 +1,465 @@
+<style lang="less">
+    @import "../../utils/colors";
+    page{
+        height: 100%;
+        background: @white;
+    }
+    .van-nav-custom{
+        background: #79a98e !important;
+    }
+    .van-nav-bar__title{
+        max-width: 65% !important;
+        margin: 0 0 0 30rpx !important;
+        align-items: center !important;
+    }
+    .van-title {
+        font-weight: 400;
+        align-items: center;
+    }
+    .van-search{
+        padding: 6rpx 28rpx !important;
+        background: transparent !important;
+    }
+    .van-cell{
+        padding:6rpx 10rpx !important;
+    }
+    .ac{
+        align-items: center;
+    }
+    .container{
+        .swiper-banner{
+            width:100%;
+            margin: 10rpx 0;
+            padding:10rpx 24rpx;
+            background: -webkit-linear-gradient(top,#fefefe,#fcfcfc);
+            box-sizing:border-box;
+            border-radius: 30rpx;
+            .slide-image{
+                width: 100%;
+                height: 100%;
+                border-radius: 30rpx;
+            }
+            .wx-swiper-dot{
+                width:8rpx;
+                height:8rpx;
+                display: inline-flex;
+                justify-content:space-between;
+                vertical-align: middle;
+                border-radius: 6rpx;
+                overflow:hidden;
+                border:0px
+            }
+            .wx-swiper-dot::before{
+                content: '';
+                flex-grow: 1;
+                background:#fff;
+                border-radius: 15rpx;
+                border:0px
+            }
+            .wx-swiper-dot.wx-swiper-dot-active{
+                width:26rpx;
+                height:8rpx;
+                border: none;
+                border-radius: 20rpx;
+            }
+        }
+        .swiper-box {
+            width: 100%;
+            height: 400rpx;
+            flex-direction: row;
+            background: -webkit-linear-gradient(top,#fcfcfc,#f9f9f9);
+            .grids{
+                flex-wrap: wrap;
+                padding: 20rpx;
+                box-sizing: border-box;
+                .grid{
+                    width: 20%;
+                    height: 180rpx;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+                    .grid_icon{
+                        width: 88rpx;
+                        height: 88rpx;
+                    }
+                    .label{
+                        color: #333333;
+                        font-size: 24rpx;
+                    }
+                }
+            }
+        }
+        .advert {
+            width: 100%;
+            height: 200rpx;
+            padding: 0 28rpx;
+            background: -webkit-linear-gradient(top,#f9f9f9,#f7f7f7);
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            .advert-img-left {
+                height: 180rpx;
+                width: 500rpx;
+                border-radius: 30rpx;
+            }
+            .advert-img-right {
+                width: 180rpx;
+                height: 180rpx;
+                border-radius: 30rpx;
+            }
+        }
+        .group-box{
+            width: 100%;
+            height: 100%;
+            padding: 20rpx 20rpx 0;
+            background: #f7f7f7;
+            box-sizing: border-box;
+            flex-direction: column;
+            .group-title{
+                padding:24rpx 20rpx;
+                background: @white;
+                border-radius: 36rpx 20rpx 0 0;
+                justify-content: space-between;
+                border-bottom: 1rpx solid @background;
+            }
+            .group-body{
+                background: @white;
+                white-space:nowrap;
+                border-radius:0 0 20rpx 20rpx;
+                .scroll-h{
+                    width:100%;
+                    height: 420rpx;
+                    font-size: 32rpx;
+                    padding:20rpx 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    box-sizing: border-box;
+                    .group-goods{
+                        height: 380rpx;
+                        min-width: 200rpx;
+                        margin-left: 16rpx;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        justify-content: space-between;
+                        .goodsPic{
+                            width: 200rpx;
+                            height: 200rpx;
+                        }
+                        .title{
+                            color: #333333;
+                            font-size:24rpx;
+                            overflow: hidden;
+                            display: -webkit-box;
+                            text-overflow: ellipsis;
+                            word-wrap: break-word;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            white-space: normal !important;
+                        }
+                        .group_nun{
+                            height: 30rpx;
+                            font-size: 20rpx;
+                            padding: 0 14rpx;
+                            border-radius: 30rpx;
+                            color: @themeColor;
+                            align-items: center;
+                            border: 2rpx solid @themeColor;
+                        }
+                        .group_price{
+                            font-weight: 500;
+                            font-size:36rpx;
+                            color: @price;
+                        }
+                    }
+                }
+            }
+        }
+        .guessULike{
+            width: 100%;
+            background: #f7f7f7;
+            flex-direction: column;
+            .guessList{
+                background: red;
+                height: 500rpx;
+                width: 100%;
+            }
+            .scroll-x .tabs:first-child{
+                padding-left: 10rpx;
+            }
+            .scroll-x{
+                width:100%;
+                height: 150rpx;
+                font-size: 32rpx;
+                overflow: hidden;
+                padding: 0 20rpx;
+                white-space: nowrap;
+                box-sizing: border-box;
+                .active{
+                    .tab_name{
+                        color: @themeColor !important;
+                    }
+                    .tab_desc{
+                        height: 40rpx;
+                        padding: 0 14rpx;
+                        color: @white !important;
+                        background: @themeColor;
+                        align-items: center;
+                        border-radius: 40rpx;
+                    }
+                }
+                .tabs{
+                    height: 150rpx;
+                    padding: 20rpx 24rpx;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+                    box-sizing: border-box;
+                    .tab_name{
+                        color: #333333;
+                        font-size: 34rpx;
+                        font-weight: 500;
+                    }
+                    .tab_desc{
+                        font-size: 22rpx;
+                        color: @dark;
+                    }
+                }
+            }
+        }
+    }
+</style>
+<template>
+    <van-nav-bar border="{{false}}" fixed="{{true}}" custom-class="van-nav-custom">
+        <div slot="title" class="van-title">
+            <van-icon name="location" color="#fff" size="20px"/>
+            <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
+            <div style="flex-direction: column;align-items: center">
+                <van-icon name="qr" color="#fff" size="20px"/>
+                <text style="color:#fff;line-height:16rpx;font-size:16rpx">会员码</text>
+            </div>
+        </div>
+    </van-nav-bar>
+    <div class="container">
+        <div style="padding-top: {{StatusBarHeight + 45}}px;"></div>
+        <div style="height:{{StatusBarHeight + 300}}rpx;width:100%;border-radius:0 0 50rpx 50rpx;position:absolute;background:#79a98e;"></div>
+        <swiper wx:if="{{imgUrls.length>0}}"
+                autoplay="{{true}}"
+                indicator-active-color="rgba(255,255,255,.7)"
+                indicator-dots="{{imgUrls.length >1 ? true : false}}"
+                interval="{{5000}}"
+                duration="{{1000}}"
+                class="swiper-banner"
+        >
+            <swiper-item v-for="item,key,index in imgUrls" class="slide-image">
+                <image src="{{item}}" class="slide-image"/>
+            </swiper-item>
+        </swiper>
+        <swiper class="swiper-box" wx:if="{{ menuTabs.length > 0}}">
+            <!-- 我是哈哈 -->
+            <swiper-item v-for="grids,key,index in menuTabs ">
+                <div class="grids">
+                    <div v-for="grid,key,index in grids" class="grid">
+                        <image class="grid_icon" src="{{grid.imgUrl}}" />
+                        <div class="label">{{grid.elementName}}</div>
+                    </div>
+                </div>
+            </swiper-item>
+        </swiper>
+        <!-- 广告 advertise -->
+        <div class="advert">
+            <image src="http://cdn.linghui.co/temai.png" class="advert-img-left"></image>
+            <image src="http://cdn.linghui.co/bag.png" class="advert-img-right"></image>
+        </div>
+        <div class="group-box">
+            <div class="group-title">
+                <div class="ac">
+                    <van-icon name="fire" color="#fb4028" size="20px"/>
+                    <text style="font-size:18px;margin-left:14rpx">小店拼团</text>
+                    <text style="color:#feab43;margin:0 10rpx;">•</text>
+                    <text style="font-size:12px;color: #939393;">拼出实惠、省钱省心</text>
+                </div>
+                <div class="ac" style="color:#939393;">
+                    <text style="font-size:13px">更多</text>
+                    <van-icon name="arrow" color="#939393" size="14px"/>
+                </div>
+            </div>
+            <div class="group-body">
+                <scroll-view scroll-x="true" class="scroll-h">
+                    <div style="flex-wrap: nowrap;">
+                        <div v-for="item,index in groupGoods" class="group-goods">
+                            <image src="{{item.goodsPic}}" class="goodsPic" mode="aspectFill"/>
+                            <text class="title">{{item.goodsName}}</text>
+                            <div class="group_nun">{{item.groupNum}}人团</div>
+                            <div class="group_price">¥{{item.pgPrice}}</div>
+                        </div>
+                    </div>
+                </scroll-view>
+            </div>
+        </div>
+        <div class="guessULike">
+            <scroll-view scroll-x="true" class="scroll-x">
+                <div style="flex-wrap: nowrap;">
+                    <div v-for="item,index in guessULikeTabs" class="tabs {{currentLikedTab === index ? 'active' : ''}}">
+                        <div class="tab_name">{{item.tabName}}</div>
+                        <div class="tab_desc">{{item.tabDesc}}</div>
+                    </div>
+                </div>
+            </scroll-view>
+            <!-- guessList -->
+            <goodsItemsColumn :goodsList.sync="guessULikeGoods" />
+        </div>
+    </div>
+</template>
+
+<script>
+    import wepy from '@wepy/core'
+    import util from '../../utils/util'
+    import menus from '../../utils/menus'
+    // import eventHub from '../../common/eventHub'
+    // import testMixin from '../../mixins/test'
+    wepy.page({
+      // mixins = [testMixin]
+
+      data: {
+        userInfo: null,
+        avatar: null,
+        imgUrls: [
+          'http://cdn.linghui.co/618.png',
+          'http://cdn.linghui.co/duanwu.png',
+          'http://cdn.linghui.co/618.png',
+          'http://cdn.linghui.co/duanwu.png',
+          'http://cdn.linghui.co/618.png',
+          'http://cdn.linghui.co/duanwu.png'
+        ],
+        StatusBarHeight: 50,
+        outOfStatusBar: false,
+        menuTabs: [],
+        groupGoods: [],
+        guessULikeTabs: [{tabDesc: '猜你喜欢', tabName: '全部'}],
+        guessULikeGoods: [],
+        currentLikedTab: 0
+      },
+
+      onLoad(options) {
+        let newArr = []
+        for (let i = 0; i < menus.tabs.length; i += 10) {
+          newArr.push(menus.tabs.slice(i, i + 10))
+        }
+        this.menuTabs = newArr
+        this.loadGroupGoods()
+        this.loadGuessULikeTabs()
+        this.loadGuessULikeGoods()
+      },
+
+      onShow() {
+        this.userInfo = this.$app.$options.globalData.userInfo
+        this.avatar = this.$app.$options.globalData.imgDomain + 'avatar.png'
+        this.StatusBarHeight = this.$app.$options.globalData.StatusBarHeight
+      },
+
+      // 事件处理函数(集中保存在methods对象中)
+      methods: {
+        redirectTo(path) {
+          console.log(path)
+        },
+        //  load group goods
+        loadGroupGoods() {
+          // console.log('load group goods')
+          util.wxRequest('/nsefs-web/spellGroup/querySpellGroupSaleSourceInfo/1057100075904731_applet_4.0.2_.html').then(res => {
+            // console.log(res)
+            // if (res.result.data.length < res.result.per_page) {
+            //   this.showSpin = false
+            // }
+            this.groupGoods = res.resultData
+          })
+        },
+
+        loadGuessULikeTabs() {
+          let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-72&pageSize=20&pageNum=1&tabCode=&source=applet&version=4.0.2&tabCount=5&mainCatalogueId=2171'
+          util.wxRequest('/nsrfs-web/homepage/guessULikeTabGoods.do', data, 'POST').then(res => {
+            // console.log(res)
+            // if (res.result.data.length < res.result.per_page) {
+            //   this.showSpin = false
+            // }
+            this.guessULikeTabs = [{tabDesc: '猜你喜欢', tabName: '全部'}].concat(res.resultData.tabList)
+          })
+        },
+
+        loadGuessULikeGoods() {
+          let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-77&pageSize=20&pageNum=1&source=applet&version=4.0.2'
+          util.wxRequest('/nsrfs-web/homepage/gussulike.do', data, 'POST').then(res => {
+            console.log(res)
+            // if (res.result.data.length < res.result.per_page) {
+            //   this.showSpin = false
+            // }
+            this.guessULikeGoods = res.resultData.goodsList
+          })
+        },
+
+        loadHotWordInfo() {
+          util.wxRequest('/hotWord/hotWordInfo/1057100075904731_99999965_applet_4.0.2_.html').then(res => {
+            console.log(res)
+            // if (res.result.data.length < res.result.per_page) {
+            //   this.showSpin = false
+            // }
+            // this.guessULikeTabs = [{tabDesc: '猜你喜欢', tabName: '全部'}].concat(res.resultData.tabList)
+          })
+        }
+      },
+
+      onPageScroll(res) {
+        // 小于 this.scrollTop
+        if (res.scrollTop < 300) {
+          if (this.outOfStatusBar) {
+            this.outOfStatusBar = false
+          }
+        } else {
+          if (!this.outOfStatusBar) {
+            this.outOfStatusBar = true
+          }
+        }
+      },
+
+      /**
+       * 页面相关事件处理函数--监听用户下拉动作
+       */
+      onPullDownRefresh() {
+        console.log('onPullDownRefresh')
+      },
+
+      /**
+       * 页面上拉触底事件的处理函数
+       */
+      onReachBottom() {
+        console.log('onReachBottom')
+      },
+
+      /**
+       * 用户点击右上角分享
+       */
+      onShareAppMessage(res) {
+        if (res.from === 'button') {
+          // 来自页面内转发按钮
+          // console.log(res.target)
+        }
+        return {
+          title: '我正在购买商品，你也来试试吧！',
+          path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
+        }
+      }
+})
+</script>
+
+<config>
+{
+    navigationBarTitleText: '首页',
+    enablePullDownRefresh: false,
+    backgroundColorTop: '#79a98e',
+    navigationBarTextStyle: 'white',
+    usingComponents: {
+        'van-icon': 'module:vant-weapp/lib/icon/index',
+        'van-search': 'module:vant-weapp/lib/search/index',
+        'goodsItemsColumn': '~@/components/goodsItemsColumn'
+    }
+}
+</config>

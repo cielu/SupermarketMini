@@ -1,0 +1,222 @@
+<style lang="less">
+    page {
+        background: #f7f7f7;
+        font-family: -apple-system-font, "Helvetica Neue", SimSun;
+    }
+    view{
+        display: flex;
+    }
+    ::-webkit-scrollbar {
+        width: 0 ;
+        height: 0;
+        color: transparent;
+    }
+    .van-icon,.van-icon:before{
+        display:flex !important;
+    }
+    .container {
+        width: 100%;
+        overflow: hidden;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    .icon-lg{
+        height: 66rpx;
+        width: 66rpx;
+    }
+    .icon-l{
+        height: 56rpx;
+        width: 56rpx;
+    }
+    .icon {
+        height: 46rpx;
+        width: 46rpx;
+    }
+    .icon-sm{
+        width: 36rpx;
+        height: 36rpx;
+    }
+    .icon-xs{
+        width: 26rpx;
+        height: 26rpx;
+    }
+    .ellipsis{
+        text-overflow:ellipsis;
+        word-break:break-all;
+        -webkit-line-clamp:1;
+        overflow:hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+    }
+    .backdrop{
+        background:rgba(0, 0, 0, 0.4);
+        position:fixed;
+        z-index:1000;
+        top:0;
+        right:0;
+        left:0;
+        bottom:0;
+    }
+</style>
+
+<script>
+import wepy from '@wepy/core'
+// import eventHub from './common/eventHub'
+import util from './utils/util'
+
+wepy.app({
+  hooks: {
+    // App 级别 hook，对整个 App 生效
+    // 同时存在 Page hook 和 App hook 时，优先执行 Page hook，返回值再交由 App hook 处
+    'before-setData': function (dirty) {
+      console.log('setData dirty: ', dirty)
+      return dirty
+    }
+  },
+  globalData: {
+    userInfo: null,
+    imgDomain: 'http://jiehuo.oss-cn-shenzhen.aliyuncs.com/',
+    mapKey: 'F5XBZ-PFWRK-DFZJJ-AOK7V-HPAEF-ELBZM',
+    current_area: null,
+    SystemInfo: null,
+    StatusBarHeight: 50
+  },
+
+  onLaunch() {
+    // this.testAsync()
+    // eventHub.$on('app-launch', (...args) => {
+    //   console.log('app-launch event emitted, the params are:')
+    //   console.log(args)
+    // })
+    this.$options.globalData.userInfo = wx.getStorageSync('userInfo')
+    this.getLocation()
+    //  check session
+    wx.checkSession({
+      fail: function() {
+        wx.login({
+          success(login) {
+            // get the login res
+            if (login.errMsg === 'login:ok') {
+              let data = {}
+              data.type = 'checkSession'
+              data.code = login.code
+              util.wxRequest('/login-mini-app', data, 'POST').then(res => {
+                if (res.result) {
+                  this.$options.globalData.userInfo = res.result.user
+                  wx.setStorageSync('userInfo', res.result.user)
+                  wx.setStorageSync('authorization', 'Bearer ' + res.result.token)
+                }
+              })
+            }
+          }
+        })
+      }
+    })
+    let systemInfo = wx.getSystemInfoSync()
+    this.$options.globalData.SystemInfo = systemInfo
+    this.$options.globalData.StatusBarHeight = systemInfo.statusBarHeight
+  },
+
+  methods: {
+
+    getLocation() {
+      let _this = this
+      let timestamp = Math.ceil((new Date()).valueOf() / 1000)
+      let currentArea = wx.getStorageSync('current_area')
+      // 已存储位置，并且存储的位置1天内有效
+      if (currentArea && currentArea.timestamp > timestamp - 60 * 60 * 24) {
+        this.$options.globalData.current_area = currentArea; return
+      }
+      let url = 'https://apis.map.qq.com/ws/geocoder/v1/?get_poi=1&key=' + this.$options.globalData.mapKey
+      wx.getLocation({
+        type: 'gcj02',
+        altitude: true,
+        success(res) {
+          // 获取附近位置信息
+          url += '&location=' + res.latitude + ',' + res.longitude
+          // api根据经纬度查询附近地点
+          util.wxRequest(url).then(res => {
+            currentArea = res.result.pois[0]
+            currentArea = {...currentArea, timestamp}
+            wx.setStorageSync('current_area', currentArea)
+            _this.$options.globalData.current_area = currentArea
+          })
+        },
+        fail(res) {
+          util.toast('获取地理位置失败!')
+        }
+      })
+    }
+  }
+})
+</script>
+<config>
+{
+    pages: [
+        'pages/home/index',
+        'pages/mine/index',
+        'pages/category/index',
+        'pages/other/login',
+        'pages/other/protocol',
+        'pages/other/location',
+        'pages/other/webview'
+    ],
+    subPackages: [
+        {
+            'root': 'packageGoods',
+            'name': 'packageGoods',
+            'pages': [
+                'spellGroup/index',
+                'goodsList/index'
+            ]
+        }
+    ],
+    permission: {
+        'scope.userLocation': {
+            'desc': '您的位置信息将用于获取附近任务或服务'
+        }
+    },
+    window: {
+        navigationStyle: 'custom',
+        backgroundColorTop: '#ffffff',
+        backgroundTextStyle: 'dark',
+        backgroundColorBottom: '#f3f4f5',
+        navigationBarBackgroundColor: 'white',
+        navigationBarTitleText: '超时连锁小店',
+        navigationBarTextStyle: 'black',
+        enablePullDownRefresh: true
+    },
+    tabBar: {
+        color: '#999',
+        selectedColor: '#fe8824',
+        backgroundColor: '#fff',
+        borderStyle: 'black',
+        list: [{
+            pagePath: 'pages/home/index',
+            iconPath: '/images/tabBar/home.png',
+            selectedIconPath: '/images/tabBar/home_active.png',
+            text: '首页'
+        }, {
+            pagePath: 'pages/category/index',
+            iconPath: '/images/tabBar/category.png',
+            selectedIconPath: '/images/tabBar/category_active.png',
+            text: '分类'
+        }, {
+            pagePath: 'pages/mine/index',
+            iconPath: '/images/tabBar/mine.png',
+            selectedIconPath: '/images/tabBar/mine_active.png',
+            text: '我的'
+        }]
+    },
+    usingComponents: {
+        'van-nav-bar': 'module:vant-weapp/lib/nav-bar/index'
+    },
+    networkTimeout: {
+        'request': 10000,
+        'downloadFile': 10000
+    },
+    debug: true
+}
+</config>

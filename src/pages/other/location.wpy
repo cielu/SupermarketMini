@@ -1,0 +1,193 @@
+<style lang="less">
+    @import "../../utils/colors";
+    page{
+        height: 100%;
+    }
+    .ac{
+        align-items: center;
+    }
+    .title{
+        color: #78828f;
+        font-size: 28rpx;
+        margin: 26rpx 0;
+    }
+    .top{
+        width: 100%;
+        align-items: center;
+        height: 110rpx;
+        background: @white;
+        justify-content: center;
+        .input-box{
+            width:92%;
+            height: 70rpx;
+            font-size:32rpx;
+            align-items: center;
+            border-radius:40rpx;
+            background: @background;
+            .location{
+                align-items: center;
+                padding: 0 20rpx 0 30rpx;
+            }
+        }
+    }
+    .location_city{
+        width: 100%;
+        font-size: 30rpx;
+        padding-left:30rpx;
+        padding-bottom:12rpx;
+        box-sizing:border-box;
+        flex-direction: column;
+        .location{
+            margin: 0 25rpx;
+            justify-content: space-between
+        }
+        .location_item{
+            height:100rpx;
+            flex-direction: column;
+            justify-content: flex-end;
+            border-bottom: 1rpx solid @background;
+        }
+    }
+</style>
+<template>
+    <view class="container">
+        <!--定位搜索-->
+        <view class="top">
+            <view class="input-box">
+                <view class="location">
+                    <text style="margin-right:14rpx;">{{current_city}}</text>
+                    <wux-icon type="ios-arrow-down" size="12" color="#595959" style="margin-bottom:2rpx;"/>
+                </view>
+                <text style="transform: scaleY(.8);color: #898989;">|</text>
+                <input style="height:70rpx;flex:1;margin-left:22rpx;" bindinput="getSuggest" placeholder="搜索该城市的地址"/>
+            </view>
+        </view>
+        <view class="location_city">
+            <view class="title ac">
+                <wux-icon type="ios-pin" size="12" color="#8d949f"/>
+                <text style="margin-left:12rpx;">当前位置</text>
+            </view>
+            <view class="ac location">
+                <text style="font-weight:500;font-size:32rpx;" @tap="chooseLocation(current_area)">{{current_area.title}}</text>
+                <view class="ac" style="margin-top:10rpx;" @tap="getLocation()">
+                    <wux-icon type="md-locate" size="15" color="#3788fb"/>
+                    <text style="margin:0 12rpx;color:#595959;">重新定位</text>
+                </view>
+            </view>
+        </view>
+        <view class="location_city" style="margin-bottom:50rpx">
+            <view class="title ac">
+                <wux-icon type="ios-compass" size="12" color="#8d949f"/>
+                <text style="margin-left:12rpx;">附近地址</text>
+            </view>
+            <view wx:if="{{local_area.length===0}}" style="justify-content: center">
+                <wux-spin wux-class="spin" size="large"/>
+            </view>
+            <!--关键词输入提示列表渲染-->
+            <view style="flex-direction: column;margin-left:28rpx;">
+                <repeat for="{{local_area}}" key="index" index="index">
+                    <!--绑定回填事件-->
+                    <view class="location_item" @tap="chooseLocation(item)">
+                        <!--渲染地址title-->
+                        <view bindtap="backfill" id="{{index}}">{{item.title}}</view>
+                        <!--渲染详细地址-->
+                        <view class="ellipsis" style="font-size:12px;color:#696969;margin:2rpx 0 8rpx;">{{item.address}}</view>
+                    </view>
+                </repeat>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import util from '../../utils/util'
+
+  let QQMapWX = require('../../utils/qqmap-wx-jssdk.min.js')
+      // 实例化API核心类
+  let qqmapsdk
+
+ wepy.page ({
+    // mixins = [testMixin]
+    data: {
+      latitude: null,
+      longitude: null,
+      current_city: '长沙市',
+      current_area: {},
+      local_area: []
+    },
+    onLoad (options) {
+      qqmapsdk = new QQMapWX({
+        key: this.$parent.globalData.mapKey
+      })
+      this.getLocation()
+    },
+    getLocation() {
+      this.local_area = []
+      wepy.getLocation({type: 'gcj02', altitude: true}).then(res => {
+        // 获取附近位置信息
+        this.getLocalLocation(res.latitude, res.longitude)
+        this.latitude = res.latitude
+        this.longitude = res.longitude
+      })
+    },
+    getLocalLocation(latitude = null, longitude = null) {
+      if (latitude == null) {
+        latitude = this.latitude
+        longitude = this.longitude
+      }
+      let url = 'https://apis.map.qq.com/ws/geocoder/v1/?get_poi=1&key=' + this.$parent.globalData.mapKey
+      url += '&location=' + latitude + ',' + longitude
+      // api根据经纬度查询附近地点
+      wepy.request({url}).then(res => {
+        this.current_city = res.data.result.ad_info.city
+        this.local_area = res.data.result.pois
+        this.current_area = this.local_area[0]
+        this.$parent.globalData.current_area = this.current_area
+        this.$apply()
+      }).catch(e => {
+        console.log(e)
+        util.toast('定位失败，请稍后再试')
+      })
+    },
+    // 触发关键词输入提示事件
+    getSuggest (e) {
+      let keyword = e.detail.value
+      if (keyword === '' || keyword.length === 0) {
+        this.getLocalLocation(); return
+      }
+      let _this = this
+      // 搜索附近地址
+      qqmapsdk.getSuggestion({
+        // 获取输入框值并设置keyword参数
+        keyword, // 用户输入的关键词，可设置固定值,如keyword:'KFC'
+        region: this.current_city, // 设置城市名，限制关键词所示的地域范围，非必填参数
+        success: function (res) { // 搜索成功后的回调
+          _this.local_area = res.data
+          _this.$apply()
+        },
+        fail: function (error) {
+          console.error(error)
+        }
+      })
+    },
+    // 事件处理函数(集中保存在methods对象中)
+    methods: {
+      chooseLocation (location) {
+        this.$parent.globalData.current_area = location
+        wepy.navigateBack()
+      }
+    }
+    //
+  })
+</script>
+
+<config>
+{
+    navigationBarTitleText: '我的位置',
+    usingComponents: {
+<!--        'wux-icon': '../../../wux-ui/icon/index',-->
+<!--        'wux-spin': '../../../wux-ui/spin/index'-->
+    }
+}
+</config>
