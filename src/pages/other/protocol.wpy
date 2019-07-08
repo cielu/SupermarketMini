@@ -38,30 +38,30 @@
   import wepy from '@wepy/core'
   import util from '../../utils/util'
 
-wepy.page ({
+wepy.page({
     // mixins = [testMixin]
 
-    data: {
-      lists: [
+      data: {
+          lists: [
         {name: '用户协议', path: '/pages/other/webview'},
         {name: '其他信息', path: '/pages/other/webview'}
-      ]
-    },
+          ]
+      },
 
-    onLoad(options) {
+      onLoad(options) {
       // util.wxRequest('/service/delete').then(res => {
       //   util.toast(res.msg)
       //   if (res.status === 'success') {
       //   }
       // })
-    },
+      },
 
     // 事件处理函数(集中保存在methods对象中)
-    methods: {
-      redirectTo (path) {
-        util.navigateTo(path)
+      methods: {
+          redirectTo (path) {
+              util.navigateTo(path)
+          }
       }
-    }
     //
   })
 </script>

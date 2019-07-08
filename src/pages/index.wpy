@@ -144,152 +144,152 @@ module.exports.getTime = getTime;
   import testMixin from '../mixins/test'
 
   wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
+      config: {
+          navigationBarTitleText: 'test'
+      },
 
-    hooks: {
+      hooks: {
       // Page 级别 hook, 只对当前 Page 的 setData 生效。
-      'before-setData': function (dirty) {
-        if (Math.random() < 0.2) {
-          console.log('setData canceled')
-          return false // Cancel setData
-        }
-        dirty.time = +new Date()
-        return dirty
-      }
-    },
-
-    mixins: [testMixin],
-
-    data: {
-      inputmodel: 'v-model',
-      mynum: 20,
-      userInfo: {
-        nickName: '加载中...'
+          'before-setData': function (dirty) {
+              if (Math.random() < 0.2) {
+                  console.log('setData canceled')
+                  return false // Cancel setData
+              }
+              dirty.time = +new Date()
+              return dirty
+          }
       },
-      currentTime: +new Date(),
-      setTimeoutTitle: '标题三秒后会被修改',
-      count: 0,
-      netrst: '',
-      groupList: [
-        {
-          id: 1,
-          name: '点击改变',
-          list: [
-            {
-              childid: '1.1',
-              childname: '子项，点我改变'
-            }, {
-              childid: '1.2',
-              childname: '子项，点我改变'
-            }, {
-              childid: '1.3',
-              childname: '子项，点我改变'
-            }
+
+      mixins: [testMixin],
+
+      data: {
+          inputmodel: 'v-model',
+          mynum: 20,
+          userInfo: {
+              nickName: '加载中...'
+          },
+          currentTime: +new Date(),
+          setTimeoutTitle: '标题三秒后会被修改',
+          count: 0,
+          netrst: '',
+          groupList: [
+              {
+                  id: 1,
+                  name: '点击改变',
+                  list: [
+                      {
+                          childid: '1.1',
+                          childname: '子项，点我改变'
+                      }, {
+                          childid: '1.2',
+                          childname: '子项，点我改变'
+                      }, {
+                          childid: '1.3',
+                          childname: '子项，点我改变'
+                      }
+                  ]
+              },
+              {
+                  id: 2,
+                  name: '点击改变',
+                  list: [
+                      {
+                          childid: '2.1',
+                          childname: '子项，点我改变'
+                      }, {
+                          childid: '2.2',
+                          childname: '子项，点我改变'
+                      }, {
+                          childid: '2.3',
+                          childname: '子项，点我改变'
+                      }
+                  ]
+              },
+              {
+                  id: 3,
+                  name: '点击改变',
+                  list: [
+                      {
+                          childid: '3.1',
+                          childname: '子项，点我改变'
+                      }
+                  ]
+              }
           ]
-        },
-        {
-          id: 2,
-          name: '点击改变',
-          list: [
-            {
-              childid: '2.1',
-              childname: '子项，点我改变'
-            }, {
-              childid: '2.2',
-              childname: '子项，点我改变'
-            }, {
-              childid: '2.3',
-              childname: '子项，点我改变'
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: '点击改变',
-          list: [
-            {
-              childid: '3.1',
-              childname: '子项，点我改变'
-            }
-          ]
-        }
-      ]
-    },
+      },
 
-    computed: {
-      testcomputed () {
-        return 'computed - ' + this.mynum
-      }
-    },
+      computed: {
+          testcomputed () {
+              return 'computed - ' + this.mynum
+          }
+      },
 
-    methods: {
-      tap () {
-        throw 'can not go here'
-      },
-      plus () {
-        this.mynum++
-      },
-      toast () {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
+      methods: {
+          tap () {
+              throw 'can not go here'
+          },
+          plus () {
+              this.mynum++
+          },
+          toast () {
+              let promise = this.$invoke('toast', 'show', {
+                  title: '自定义标题',
+                  img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+              })
 
-        promise.then((d) => {
-          console.log('toast done')
-        })
-      },
-      mixintap () {
-        console.log('do noting from ' + this.$is)
-      },
-      communicate () {
-        let counters = this.$children.filter((com) => com.$is === 'components/counter')
+              promise.then((d) => {
+                  console.log('toast done')
+              })
+          },
+          mixintap () {
+              console.log('do noting from ' + this.$is)
+          },
+          communicate () {
+              let counters = this.$children.filter((com) => com.$is === 'components/counter')
 
       // Get children counter
-        counters[0].num++
-        counters[1].num--
+              counters[0].num++
+              counters[1].num--
 
-        eventHub.$emit('app-launch', {a: 1}, {b: 2})
-      },
-      request () {
-        let self = this
-        let i = 10
-        let map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
-        while (i--) {
-          wx.request({
-            url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
-            success: function (d) {
-              if (d.statusCode !== 200) {
-                self.netrst += d.statusCode + '.'
-              } else {
-                self.netrst += d.data + '.'
+              eventHub.$emit('app-launch', {a: 1}, {b: 2})
+          },
+          request () {
+              let self = this
+              let i = 10
+              let map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
+              while (i--) {
+                  wx.request({
+                      url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
+                      success: function (d) {
+                          if (d.statusCode !== 200) {
+                              self.netrst += d.statusCode + '.'
+                          } else {
+                              self.netrst += d.data + '.'
+                          }
+                      }
+                  })
               }
-            }
-          })
-        }
+          },
+          counterEmit (num) {
+              console.log(`${this.$is} receive event, the number is: ${num}`)
+          }
       },
-      counterEmit (num) {
-        console.log(`${this.$is} receive event, the number is: ${num}`)
+
+      created () {
+          let self = this
+          self.currentTime = +new Date()
+
+          self.setTimeoutTitle = '标题三秒后会被修改'
+          setTimeout(() => {
+              self.setTimeoutTitle = '到三秒了'
+          }, 3000)
+
+          wx.getUserInfo({
+              success (res) {
+                  self.userInfo = res.userInfo
+              }
+          })
       }
-    },
-
-    created () {
-      let self = this
-      self.currentTime = +new Date()
-
-      self.setTimeoutTitle = '标题三秒后会被修改'
-      setTimeout(() => {
-        self.setTimeoutTitle = '到三秒了'
-      }, 3000)
-
-      wx.getUserInfo({
-        success (res) {
-          self.userInfo = res.userInfo
-        }
-      })
-    }
   })
 </script>
 <config>

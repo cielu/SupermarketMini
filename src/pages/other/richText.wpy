@@ -10,18 +10,18 @@
   import wepy from '@wepy/core'
   import util from '../../utils/util'
 
-wepy.page ({
+wepy.page({
     // mixins = [testMixin]
 
-    data: {
-      src: 'http://app.jiehuo.site'
-    },
+      data: {
+          src: 'http://app.jiehuo.site'
+      },
 
-    onLoad(options) {
-      if (options.src) this.src = options.src
+      onLoad(options) {
+          if (options.src) this.src = options.src
       // loading
-      util.toast('加载中...', 'loading', 1000)
-    }
+          util.toast('加载中...', 'loading', 1000)
+      }
     //
   })
 </script>

@@ -1,13 +1,16 @@
 <style lang="less">
     @import "../../utils/colors";
-    page{
-        height: 100%;
-        background: @white;
+    @import "../../utils/linear-gradient";
+    .custom-nav{
+        width: 100%;
+        position: relative;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        -webkit-user-select: none;
+        user-select: none;
     }
-    .van-nav-custom{
-        background: #79a98e !important;
-    }
-    .van-nav-bar__title{
+    .van-nav-bar-title{
         max-width: 65% !important;
         margin: 0 0 0 30rpx !important;
         align-items: center !important;
@@ -17,6 +20,7 @@
         align-items: center;
     }
     .van-search{
+        width: 400rpx;
         padding: 6rpx 28rpx !important;
         background: transparent !important;
     }
@@ -27,13 +31,17 @@
         align-items: center;
     }
     .container{
+        .fill-bg{
+            width:100%;
+            position:absolute;
+            border-radius:0 0 50rpx 50rpx;
+        }
         .swiper-banner{
             width:100%;
-            margin: 10rpx 0;
+            margin-top: 20rpx;
             padding:10rpx 24rpx;
-            background: -webkit-linear-gradient(top,#fefefe,#fcfcfc);
             box-sizing:border-box;
-            border-radius: 30rpx;
+            background: -webkit-linear-gradient(top,#ffffff,#fefefe);
             .slide-image{
                 width: 100%;
                 height: 100%;
@@ -63,17 +71,23 @@
                 border-radius: 20rpx;
             }
         }
-        .swiper-box {
+        .grids-box {
             width: 100%;
-            height: 400rpx;
+            height: 360rpx;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
             flex-direction: row;
-            background: -webkit-linear-gradient(top,#fcfcfc,#f9f9f9);
+            padding: 10rpx 24rpx;
+            background: -webkit-linear-gradient(top,#fefefe,#fcfcfc);
             .grids{
-                flex-wrap: wrap;
-                padding: 20rpx;
+                //flex-wrap: wrap;
+                min-width: 140rpx;
+                flex-direction: column;
+                /*padding: 20rpx;*/
                 box-sizing: border-box;
                 .grid{
-                    width: 20%;
+                    width: 100%;
                     height: 180rpx;
                     flex-direction: column;
                     align-items: center;
@@ -89,11 +103,29 @@
                 }
             }
         }
+        .slide{
+            width:100%;
+            height:30rpx;
+            align-items: center;
+            padding:20rpx 0;
+            background: #fcfcfc;
+            .slide-bar{
+                width:100rpx;
+                margin:0 auto;
+                height:2px;
+                background:#eee;
+                .slide-show{
+                    height:100%;
+                    width:40rpx;
+                    background-color: #ff6969;
+                }
+            }
+        }
         .advert {
             width: 100%;
             height: 200rpx;
             padding: 0 28rpx;
-            background: -webkit-linear-gradient(top,#f9f9f9,#f7f7f7);
+            background: -webkit-linear-gradient(top,#fcfcfc,#f7f7f7);
             align-items: center;
             justify-content: space-between;
             box-sizing: border-box;
@@ -229,42 +261,64 @@
     }
 </style>
 <template>
-    <van-nav-bar border="{{false}}" fixed="{{true}}" custom-class="van-nav-custom">
-        <div slot="title" class="van-title">
-            <van-icon name="location" color="#fff" size="20px"/>
-            <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
-            <div style="flex-direction: column;align-items: center">
-                <van-icon name="qr" color="#fff" size="20px"/>
-                <text style="color:#fff;line-height:16rpx;font-size:16rpx">会员码</text>
+    <div class="container">
+        <transition name="fade">
+            <van-nav-bar border="{{false}}" fixed="{{true}}" title-class="van-nav-bar-title" v-if="showVanNavBar">
+                <div slot="title" class="van-title">
+                    <van-icon name="location" color="{{showVanNavBar ? '#333' : '#fff'}}" size="20px"/>
+                    <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
+                    <div style="flex-direction: column;align-items: center">
+                        <van-icon name="qr" color="{{showVanNavBar ? '#333' : '#fff'}}" size="20px"/>
+                        <text style="color:{{showVanNavBar ? '#333' : '#fff'}};line-height:16rpx;font-size:16rpx">会员码</text>
+                    </div>
+                </div>
+            </van-nav-bar>
+        </transition>
+        <div class="fill-bg {{customNavClass}}" style="height:{{StatusBarHeight + 140}}px;{{customNavStyle}}">
+            <div class="custom-nav" style="margin-top:{{StatusBarHeight}}px" v-show="!showVanNavBar">
+                <div slot="title" class="van-title" style="margin-left:30rpx">
+                    <van-icon name="location" color="#fff" size="20px"/>
+                    <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
+                    <div style="flex-direction: column;align-items: center">
+                        <van-icon name="qr" color="#fff" size="20px"/>
+                        <text style="color:#fff;line-height:16rpx;font-size:16rpx">会员码</text>
+                    </div>
+                </div>
             </div>
         </div>
-    </van-nav-bar>
-    <div class="container">
         <div style="padding-top: {{StatusBarHeight + 45}}px;"></div>
-        <div style="height:{{StatusBarHeight + 300}}rpx;width:100%;border-radius:0 0 50rpx 50rpx;position:absolute;background:#79a98e;"></div>
         <swiper wx:if="{{imgUrls.length>0}}"
                 autoplay="{{true}}"
+                circular="{{true}}"
                 indicator-active-color="rgba(255,255,255,.7)"
                 indicator-dots="{{imgUrls.length >1 ? true : false}}"
+                easing-function="easeOutCubic"
                 interval="{{5000}}"
                 duration="{{1000}}"
+                bindchange="onBannerChange"
                 class="swiper-banner"
         >
-            <swiper-item v-for="item,key,index in imgUrls" class="slide-image">
-                <image src="{{item}}" class="slide-image"/>
+            <swiper-item v-for="item,index in imgUrls" class="slide-image">
+                <image src="{{item.uri}}" class="slide-image" />
             </swiper-item>
         </swiper>
-        <swiper class="swiper-box" wx:if="{{ menuTabs.length > 0}}">
-            <!-- 我是哈哈 -->
-            <swiper-item v-for="grids,key,index in menuTabs ">
-                <div class="grids">
+        <scroll-view scroll-x="true" class="grids-box" scroll-with-animation="true" v-if="menuTabs.length > 0" bindscroll="onGridsScroll">
+            <!--内容区域-->
+            <div style="flex-wrap: nowrap;">
+                <div class="grids" v-for="grids,index in menuTabs">
                     <div v-for="grid,key,index in grids" class="grid">
                         <image class="grid_icon" src="{{grid.imgUrl}}" />
                         <div class="label">{{grid.elementName}}</div>
                     </div>
                 </div>
-            </swiper-item>
-        </swiper>
+            </div>
+        </scroll-view >
+        <!--滚动条部分-->
+        <view class="slide">
+            <view class='slide-bar' >
+                <view class="slide-show" style="margin-left:{{slideLeft <=1 ? 0 : slideLeft+'rpx'}};"></view>
+            </view>
+        </view>
         <!-- 广告 advertise -->
         <div class="advert">
             <image src="http://cdn.linghui.co/temai.png" class="advert-img-left"></image>
@@ -320,141 +374,182 @@
     wepy.page({
       // mixins = [testMixin]
 
-      data: {
-        userInfo: null,
-        avatar: null,
-        imgUrls: [
-          'http://cdn.linghui.co/618.png',
-          'http://cdn.linghui.co/duanwu.png',
-          'http://cdn.linghui.co/618.png',
-          'http://cdn.linghui.co/duanwu.png',
-          'http://cdn.linghui.co/618.png',
-          'http://cdn.linghui.co/duanwu.png'
-        ],
-        StatusBarHeight: 50,
-        outOfStatusBar: false,
-        menuTabs: [],
-        groupGoods: [],
-        guessULikeTabs: [{tabDesc: '猜你喜欢', tabName: '全部'}],
-        guessULikeGoods: [],
-        currentLikedTab: 0
-      },
+        data: {
+            userInfo: null,
+            avatar: null,
+            customNavClass: '', // 自定义导航类
+            customNavStyle: '', // 自定义导航style
+            slideLeft: 0, // 滑块位置
+            slideRatio: 2,
+            imgUrls: [
+                {uri: 'http://cdn.linghui.co/618.png', style: 'background-image: linear-gradient(45deg, #7579ff 0%,#967cea 100%);', class: ''},
+                {uri: 'http://cdn.linghui.co/duanwu.png', style: '', class: 'bg-happy-holidays'},
+                {uri: 'http://cdn.linghui.co/618.png', style: 'background-image: linear-gradient(45deg, #7579ff 0%,#967cea 100%);', class: ''},
+                {uri: 'http://cdn.linghui.co/duanwu.png', style: '', class: 'bg-happy-holidays'},
+                {uri: 'http://cdn.linghui.co/618.png', style: 'background-image: linear-gradient(45deg, #7579ff 0%,#967cea 100%);', class: ''},
+                {uri: 'http://cdn.linghui.co/duanwu.png', style: '', class: 'bg-happy-holidays'},
+                {uri: 'http://cdn.linghui.co/618.png', style: 'background-image: linear-gradient(45deg, #7579ff 0%,#967cea 100%);', class: ''},
+                {uri: 'http://cdn.linghui.co/duanwu.png', style: '', class: 'bg-happy-holidays'}
+            ],
+            StatusBarHeight: 50,
+            showVanNavBar: true, // 是否展示有赞的导航栏
+            menuTabs: [],
+            groupGoods: [],
+            guessULikeTabs: [{tabDesc: '猜你喜欢', tabName: '全部'}],
+            guessULikeGoods: [],
+            currentLikedTab: 0
+        },
 
-      onLoad(options) {
-        let newArr = []
-        for (let i = 0; i < menus.tabs.length; i += 10) {
-          newArr.push(menus.tabs.slice(i, i + 10))
-        }
-        this.menuTabs = newArr
-        this.loadGroupGoods()
-        this.loadGuessULikeTabs()
-        this.loadGuessULikeGoods()
-      },
+        onLoad(options) {
+            this.StatusBarHeight = this.$app.$options.globalData.StatusBarHeight
+            // if has banners
+            if (this.imgUrls.length > 0) {
+                this.showVanNavBar = false
+            }
+            let newArr = []
+            for (let i = 0; i < menus.tabs.length; i += 2) {
+                newArr.push(menus.tabs.slice(i, i + 2))
+            }
+            this.menuTabs = newArr
+            this.slideRatio = 100 / (this.menuTabs.length * 142) * (700 / this.$app.$options.globalData.SystemInfo.windowWidth) * 2
+            // fetch data
+            this.changeCustomNavStyle()
+            this.loadGroupGoods()
+            this.loadGuessULikeTabs()
+            this.loadGuessULikeGoods()
+        },
 
-      onShow() {
-        this.userInfo = this.$app.$options.globalData.userInfo
-        this.avatar = this.$app.$options.globalData.imgDomain + 'avatar.png'
-        this.StatusBarHeight = this.$app.$options.globalData.StatusBarHeight
-      },
+        onShow() {
+            this.userInfo = this.$app.$options.globalData.userInfo
+            this.avatar = this.$app.$options.globalData.imgDomain + 'avatar.png'
+        },
 
       // 事件处理函数(集中保存在methods对象中)
-      methods: {
-        redirectTo(path) {
-          console.log(path)
-        },
+        methods: {
+            redirectTo(path) {
+                console.log(path)
+            },
+            onBannerChange(e) {
+                this.changeCustomNavStyle(e.$wx.detail.current)
+            },
+            onGridsScroll(e) {
+                this.slideLeft = e.$wx.detail.scrollLeft * this.slideRatio
+            },
+            changeCustomNavStyle(index = 0) {
+                this.customNavClass = this.imgUrls[index].class
+                this.customNavStyle = this.imgUrls[index].style
+            },
         //  load group goods
-        loadGroupGoods() {
+            loadGroupGoods() {
           // console.log('load group goods')
-          util.wxRequest('/nsefs-web/spellGroup/querySpellGroupSaleSourceInfo/1057100075904731_applet_4.0.2_.html').then(res => {
+                util.wxRequest('/nsefs-web/spellGroup/querySpellGroupSaleSourceInfo/1057100075904731_applet_4.0.2_.html').then(res => {
             // console.log(res)
             // if (res.result.data.length < res.result.per_page) {
             //   this.showSpin = false
             // }
-            this.groupGoods = res.resultData
-          })
-        },
+                    this.groupGoods = res.resultData
+                })
+            },
 
-        loadGuessULikeTabs() {
-          let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-72&pageSize=20&pageNum=1&tabCode=&source=applet&version=4.0.2&tabCount=5&mainCatalogueId=2171'
-          util.wxRequest('/nsrfs-web/homepage/guessULikeTabGoods.do', data, 'POST').then(res => {
+            loadGuessULikeTabs() {
+                let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-72&pageSize=20&pageNum=1&tabCode=&source=applet&version=4.0.2&tabCount=5&mainCatalogueId=2171'
+                util.wxRequest('/nsrfs-web/homepage/guessULikeTabGoods.do', data, 'POST').then(res => {
             // console.log(res)
             // if (res.result.data.length < res.result.per_page) {
             //   this.showSpin = false
             // }
-            this.guessULikeTabs = [{tabDesc: '猜你喜欢', tabName: '全部'}].concat(res.resultData.tabList)
-          })
-        },
+                    this.guessULikeTabs = [{tabDesc: '猜你喜欢', tabName: '全部'}].concat(res.resultData.tabList)
+                })
+            },
 
-        loadGuessULikeGoods() {
-          let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-77&pageSize=20&pageNum=1&source=applet&version=4.0.2'
-          util.wxRequest('/nsrfs-web/homepage/gussulike.do', data, 'POST').then(res => {
-            console.log(res)
+            loadGuessULikeGoods() {
+                let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-77&pageSize=20&pageNum=1&source=applet&version=4.0.2'
+                util.wxRequest('/nsrfs-web/homepage/gussulike.do', data, 'POST').then(res => {
+                    console.log(res)
             // if (res.result.data.length < res.result.per_page) {
             //   this.showSpin = false
             // }
-            this.guessULikeGoods = res.resultData.goodsList
-          })
-        },
+                    this.guessULikeGoods = res.resultData.goodsList
+                })
+            },
 
-        loadHotWordInfo() {
-          util.wxRequest('/hotWord/hotWordInfo/1057100075904731_99999965_applet_4.0.2_.html').then(res => {
-            console.log(res)
+            loadHotWordInfo() {
+                util.wxRequest('/hotWord/hotWordInfo/1057100075904731_99999965_applet_4.0.2_.html').then(res => {
+                    console.log(res)
             // if (res.result.data.length < res.result.per_page) {
             //   this.showSpin = false
             // }
             // this.guessULikeTabs = [{tabDesc: '猜你喜欢', tabName: '全部'}].concat(res.resultData.tabList)
-          })
-        }
-      },
+                })
+            }
+        },
 
-      onPageScroll(res) {
+        onPageScroll(res) {
         // 小于 this.scrollTop
-        if (res.scrollTop < 300) {
-          if (this.outOfStatusBar) {
-            this.outOfStatusBar = false
-          }
-        } else {
-          if (!this.outOfStatusBar) {
-            this.outOfStatusBar = true
-          }
-        }
-      },
+            if (res.scrollTop < 30) {
+                if (this.showVanNavBar && this.imgUrls.length > 0) {
+                    this.showVanNavBar = false
+                    wx.setNavigationBarColor({
+                        frontColor: '#ffffff',
+                        backgroundColor: 'transparent',
+                        animation: {
+                            duration: 50,
+                            timingFunc: 'easeIn'
+                        }
+                    })
+                }
+            } else {
+                if (!this.showVanNavBar) {
+                    this.showVanNavBar = true
+                    wx.setNavigationBarColor({
+                        frontColor: '#000000',
+                        backgroundColor: 'transparent',
+                        animation: {
+                            duration: 50,
+                            timingFunc: 'easeIn'
+                        }
+                    })
+                }
+            }
+        },
 
       /**
        * 页面相关事件处理函数--监听用户下拉动作
        */
-      onPullDownRefresh() {
-        console.log('onPullDownRefresh')
-      },
+        onPullDownRefresh() {
+            console.log('onPullDownRefresh')
+            setTimeout(() => {
+                wx.stopPullDownRefresh()
+            }, 2000)
+        },
 
       /**
        * 页面上拉触底事件的处理函数
        */
-      onReachBottom() {
-        console.log('onReachBottom')
-      },
+        onReachBottom() {
+            console.log('onReachBottom')
+        },
 
       /**
        * 用户点击右上角分享
        */
-      onShareAppMessage(res) {
-        if (res.from === 'button') {
+        onShareAppMessage(res) {
+            if (res.from === 'button') {
           // 来自页面内转发按钮
           // console.log(res.target)
+            }
+            return {
+                title: '我正在购买商品，你也来试试吧！',
+                path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
+            }
         }
-        return {
-          title: '我正在购买商品，你也来试试吧！',
-          path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
-        }
-      }
 })
 </script>
 
 <config>
 {
     navigationBarTitleText: '首页',
-    enablePullDownRefresh: false,
-    backgroundColorTop: '#79a98e',
+    backgroundColorTop: '#ffffff',
     navigationBarTextStyle: 'white',
     usingComponents: {
         'van-icon': 'module:vant-weapp/lib/icon/index',

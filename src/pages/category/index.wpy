@@ -120,49 +120,49 @@
 
   // import testMixin from '../../mixins/test'
 
-wepy.page ({
+wepy.page({
     // mixins = [testMixin]
 
-    data: {
-      currentTab: 0,  // 对应样式变化
-      scrollTop: 0,  // 用作跳转后右侧视图回到顶部
-      categoryId: '',  // 后台查询需要的字段
-      categoryArray: [], // 左侧导航栏内容
-      childrenArray: [] // 右侧内容
-    },
+      data: {
+          currentTab: 0,  // 对应样式变化
+          scrollTop: 0,  // 用作跳转后右侧视图回到顶部
+          categoryId: '',  // 后台查询需要的字段
+          categoryArray: [], // 左侧导航栏内容
+          childrenArray: [] // 右侧内容
+      },
 
-    onLoad() {
-      this.loadCategory()
-    },
+      onLoad() {
+          this.loadCategory()
+      },
 
-    onShow() {
+      onShow() {
       // this.userInfo = this.$parent.globalData.userInfo
       // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
-    },
+      },
 
     // 事件处理函数(集中保存在methods对象中)
-    methods: {
-      tapCategory(categoryId, index) {
+      methods: {
+          tapCategory(categoryId, index) {
         // 刷新右侧内容的数据
-        this.currentTab = index
-        this.loadCategoryChildren(categoryId)
-      },
-      loadCategory() {
-        util.wxRequest('/nssfs-web/category/collection/v1/1127100003696731_100____applet_4.0.2_.htm').then(res => {
-          this.categoryArray = res.resultData.categoryList
-          this.scrollTop = 0
-          this.loadCategoryChildren(this.categoryArray[0].categoryCode)
-        })
-      },
+              this.currentTab = index
+              this.loadCategoryChildren(categoryId)
+          },
+          loadCategory() {
+              util.wxRequest('/nssfs-web/category/collection/v1/1127100003696731_100____applet_4.0.2_.htm').then(res => {
+                  this.categoryArray = res.resultData.categoryList
+                  this.scrollTop = 0
+                  this.loadCategoryChildren(this.categoryArray[0].categoryCode)
+              })
+          },
 
-      loadCategoryChildren(categoryId) {
-        let url = '/nssfs-web/category/collection/v1/1057100075904731_011_' + categoryId + '__1_applet_4.0.2_.htm'
-        util.wxRequest(url).then(res => {
+          loadCategoryChildren(categoryId) {
+              let url = '/nssfs-web/category/collection/v1/1057100075904731_011_' + categoryId + '__1_applet_4.0.2_.htm'
+              util.wxRequest(url).then(res => {
           // console.log(res)
-          this.childrenArray = res.resultData.categoryList
-        })
-      },
-    }
+                  this.childrenArray = res.resultData.categoryList
+              })
+          }
+      }
   })
 </script>
 <config>

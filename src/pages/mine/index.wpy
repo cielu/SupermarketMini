@@ -127,70 +127,70 @@
       // components = {}
       // mixins = [testMixin]
 
-      data: {
-        userInfo: null,
-        avatar: null,
-        imgDomain: '',
-        tabs: [
-        ]
-      },
+        data: {
+            userInfo: null,
+            avatar: null,
+            imgDomain: '',
+            tabs: [
+            ]
+        },
 
-      onShow() {
-        this.userInfo = this.$parent.globalData.userInfo
-        this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
-      },
+        onShow() {
+            this.userInfo = this.$parent.globalData.userInfo
+            this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
+        },
 
       // 事件处理函数(集中保存在methods对象中)
-      methods: {
-        logout() {
-          util.wxRequest('/logout').then(loginRes => {
-            util.toast(loginRes.msg)
-          })
+        methods: {
+            logout() {
+                util.wxRequest('/logout').then(loginRes => {
+                    util.toast(loginRes.msg)
+                })
           // 移除用户信息
-          this.userInfo = null
-          this.$parent.globalData.userInfo = null
-          wepy.removeStorageSync('userInfo')
-          wepy.removeStorageSync('authorization')
+                this.userInfo = null
+                this.$parent.globalData.userInfo = null
+                wepy.removeStorageSync('userInfo')
+                wepy.removeStorageSync('authorization')
+            },
+            redirectTo(path) {
+                if (path === 'develop') {
+                    util.toast('开发中...'); return
+                }
+                if (this.userInfo) {
+                    wepy.navigateTo({url: path})
+                    return
+                }
+                wepy.navigateTo({url: '/pages/other/login'})
+            }
         },
-        redirectTo(path) {
-          if (path === 'develop') {
-            util.toast('开发中...'); return
-          }
-          if (this.userInfo) {
-            wepy.navigateTo({url: path})
-            return
-          }
-          wepy.navigateTo({url: '/pages/other/login'})
-        }
-      },
 
       /**
        * 页面相关事件处理函数--监听用户下拉动作
        */
-      onPullDownRefresh() {
-        console.log('onPullDownRefresh')
-      },
+        onPullDownRefresh() {
+            console.log('onPullDownRefresh')
+        },
 
       /**
        * 页面上拉触底事件的处理函数
        */
-      onReachBottom() {
-        console.log('onReachBottom')
-      },
+        onReachBottom() {
+            console.log('onReachBottom')
+        },
 
       /**
        * 用户点击右上角分享
        */
-      onShareAppMessage(res) {
-        if (res.from === 'button') {
+        onShareAppMessage(res) {
+            if (res.from === 'button') {
           // 来自页面内转发按钮
           // console.log(res.target)
+            }
+            return {
+                title: '我正在购买xxx！',
+                path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
+            }
         }
-        return {
-          title: '我正在购买xxx！',
-          path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
-        }
-      }
 })
 </script>
 <config>

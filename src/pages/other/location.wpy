@@ -107,77 +107,77 @@
       // 实例化API核心类
   let qqmapsdk
 
- wepy.page ({
+wepy.page({
     // mixins = [testMixin]
-    data: {
-      latitude: null,
-      longitude: null,
-      current_city: '长沙市',
-      current_area: {},
-      local_area: []
-    },
-    onLoad (options) {
-      qqmapsdk = new QQMapWX({
-        key: this.$parent.globalData.mapKey
-      })
-      this.getLocation()
-    },
-    getLocation() {
-      this.local_area = []
-      wepy.getLocation({type: 'gcj02', altitude: true}).then(res => {
+      data: {
+          latitude: null,
+          longitude: null,
+          current_city: '长沙市',
+          current_area: {},
+          local_area: []
+      },
+      onLoad (options) {
+          qqmapsdk = new QQMapWX({
+              key: this.$parent.globalData.mapKey
+          })
+          this.getLocation()
+      },
+      getLocation() {
+          this.local_area = []
+          wepy.getLocation({type: 'gcj02', altitude: true}).then(res => {
         // 获取附近位置信息
-        this.getLocalLocation(res.latitude, res.longitude)
-        this.latitude = res.latitude
-        this.longitude = res.longitude
-      })
-    },
-    getLocalLocation(latitude = null, longitude = null) {
-      if (latitude == null) {
-        latitude = this.latitude
-        longitude = this.longitude
-      }
-      let url = 'https://apis.map.qq.com/ws/geocoder/v1/?get_poi=1&key=' + this.$parent.globalData.mapKey
-      url += '&location=' + latitude + ',' + longitude
+              this.getLocalLocation(res.latitude, res.longitude)
+              this.latitude = res.latitude
+              this.longitude = res.longitude
+          })
+      },
+      getLocalLocation(latitude = null, longitude = null) {
+          if (latitude == null) {
+              latitude = this.latitude
+              longitude = this.longitude
+          }
+          let url = 'https://apis.map.qq.com/ws/geocoder/v1/?get_poi=1&key=' + this.$parent.globalData.mapKey
+          url += '&location=' + latitude + ',' + longitude
       // api根据经纬度查询附近地点
-      wepy.request({url}).then(res => {
-        this.current_city = res.data.result.ad_info.city
-        this.local_area = res.data.result.pois
-        this.current_area = this.local_area[0]
-        this.$parent.globalData.current_area = this.current_area
-        this.$apply()
-      }).catch(e => {
-        console.log(e)
-        util.toast('定位失败，请稍后再试')
-      })
-    },
+          wepy.request({url}).then(res => {
+              this.current_city = res.data.result.ad_info.city
+              this.local_area = res.data.result.pois
+              this.current_area = this.local_area[0]
+              this.$parent.globalData.current_area = this.current_area
+              this.$apply()
+          }).catch(e => {
+              console.log(e)
+              util.toast('定位失败，请稍后再试')
+          })
+      },
     // 触发关键词输入提示事件
-    getSuggest (e) {
-      let keyword = e.detail.value
-      if (keyword === '' || keyword.length === 0) {
-        this.getLocalLocation(); return
-      }
-      let _this = this
+      getSuggest (e) {
+          let keyword = e.detail.value
+          if (keyword === '' || keyword.length === 0) {
+              this.getLocalLocation(); return
+          }
+          let _this = this
       // 搜索附近地址
-      qqmapsdk.getSuggestion({
+          qqmapsdk.getSuggestion({
         // 获取输入框值并设置keyword参数
-        keyword, // 用户输入的关键词，可设置固定值,如keyword:'KFC'
-        region: this.current_city, // 设置城市名，限制关键词所示的地域范围，非必填参数
-        success: function (res) { // 搜索成功后的回调
-          _this.local_area = res.data
-          _this.$apply()
-        },
-        fail: function (error) {
-          console.error(error)
-        }
-      })
-    },
+              keyword, // 用户输入的关键词，可设置固定值,如keyword:'KFC'
+              region: this.current_city, // 设置城市名，限制关键词所示的地域范围，非必填参数
+              success: function (res) { // 搜索成功后的回调
+                  _this.local_area = res.data
+                  _this.$apply()
+              },
+              fail: function (error) {
+                  console.error(error)
+              }
+          })
+      },
     // 事件处理函数(集中保存在methods对象中)
-    methods: {
-      chooseLocation (location) {
-        this.$parent.globalData.current_area = location
-        wepy.navigateBack()
+      methods: {
+          chooseLocation (location) {
+              this.$parent.globalData.current_area = location
+              wepy.navigateBack()
+          }
       }
-    }
     //
   })
 </script>
