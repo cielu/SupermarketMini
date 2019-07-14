@@ -1,7 +1,5 @@
 <style lang="less" xmlns:wx="http://www.w3.org/1999/xhtml" xmlns:wx="http://www.w3.org/1999/xhtml">
     @import "../utils/colors";
-    @timeBox: #ff5622 ;
-    @vipColor: #fdb883 ;
     .goodsItems{
         width: 100%;
         padding:20rpx;
@@ -28,7 +26,7 @@
                 padding-left: 16rpx;
                 flex-direction: column;
                 align-items: flex-start;
-                justify-content: space-around;
+                justify-content: space-between;
                 .goodsTitle{
                     color: @black;
                     font-size:30rpx;
@@ -90,7 +88,7 @@
                         flex-direction: column;
                         justify-content: center;
                         .purchaseBtn{
-                            width:100rpx;
+                            width:110rpx;
                             height:40rpx;
                             font-size:20rpx;
                             color:@white;
@@ -100,7 +98,7 @@
                             border-radius:10rpx;
                         }
                         .hasSpellNum{
-                            font-size:20rpx;
+                            font-size:18rpx;
                             color: #9d9d9d;
                             margin-top:6rpx;
                         }

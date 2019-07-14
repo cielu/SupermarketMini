@@ -233,7 +233,8 @@ wepy.app({
             'name': 'packageGoods',
             'pages': [
                 'spellGroup/index',
-                'goodsList/index'
+                'goodsList/index',
+                'cateGoods/index'
             ]
         }
     ],

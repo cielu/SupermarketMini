@@ -53,7 +53,7 @@
                  title="小店拼团"
                  fixed="{{true}}"
                  border="{{false}}"
-                 bind:click-left="onClickLeft"
+                 v-on:click-left="onClickLeft"
     />
     <div class="loading" style="height:{{StatusBarHeight + 44 + 43}}px">
         <van-loading color="#9d9d9d" />
@@ -141,7 +141,9 @@
      * 页面相关事件处理函数--监听用户下拉动作
      */
       onPullDownRefresh() {
-          console.log('onPullDownRefresh')
+          setTimeout(() => {
+              wx.stopPullDownRefresh()
+          }, 2000)
       },
 
     /**

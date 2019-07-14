@@ -1,7 +1,5 @@
 <style lang="less" xmlns:wx="http://www.w3.org/1999/xhtml" xmlns:wx="http://www.w3.org/1999/xhtml">
     @import "../utils/colors";
-    @timeBox: #ff5622 ;
-    @vipColor: #fdb883 ;
     .goodsItems{
         width: 100%;
         font-size: 32rpx;
@@ -120,7 +118,7 @@
 </style>
 <template>
     <div class="goodsItems">
-        <div v-for="item,key,index in goodsList" class="goodsItem"  @tap="navigateTo('22')">
+        <div v-for="item,index in goodsList" class="goodsItem"  @tap="navigateTo('22')">
             <image src="{{item.pictureUrl}}" class="goodsPic" mode="aspectFill" >
                 <div class="timeBox">1小时达</div>
             </image>

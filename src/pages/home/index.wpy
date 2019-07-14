@@ -433,7 +433,8 @@
             tapGrids(item) {
                 // this.menuTabs[index]
                 console.log(item)
-                util.navigateTo('/packageGoods/spellGroup/index')
+                // util.navigateTo('/packageGoods/spellGroup/index')
+                util.navigateTo('/packageGoods/cateGoods/index')
             },
             redirectTo(path) {
                 util.navigateTo(path)
@@ -544,14 +545,7 @@
        * 用户点击右上角分享
        */
         onShareAppMessage(res) {
-            if (res.from === 'button') {
-          // 来自页面内转发按钮
-          // console.log(res.target)
-            }
-            return {
-                title: '我正在购买商品，你也来试试吧！',
-                path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
-            }
+
         }
 })
 </script>

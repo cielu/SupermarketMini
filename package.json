@@ -16,14 +16,14 @@
   "license": "MIT",
   "dependencies": {
     "@wepy/core": "^2.0.0-alpha.8",
-    "miniprogram-slide-view": "0.0.3",
+    "miniprogram-slide-view": "0.0.4",
     "vant-weapp": "^0.5.15"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
     "@wepy/babel-plugin-import-regenerator": "0.0.2",
-    "@wepy/cli": "^2.0.0-alpha.13",
+    "@wepy/cli": "^2.0.0-alpha.14",
     "@wepy/compiler-babel": "^2.0.1",
     "@wepy/compiler-less": "^2.0.1",
     "babel-eslint": "^7.2.1",
