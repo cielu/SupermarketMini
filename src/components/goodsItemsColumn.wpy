@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="less" xmlns:wx="http://www.w3.org/1999/xhtml" xmlns:wx="http://www.w3.org/1999/xhtml">
     @import "../utils/colors";
     @timeBox: #ff5622 ;
     @vipColor: #fdb883 ;
@@ -121,7 +121,7 @@
 <template>
     <div class="goodsItems">
         <div v-for="item,key,index in goodsList" class="goodsItem"  @tap="navigateTo('22')">
-            <image src="{{item.pictureUrl}}" class="goodsPic" mode="aspectFill">
+            <image src="{{item.pictureUrl}}" class="goodsPic" mode="aspectFill" >
                 <div class="timeBox">1小时达</div>
             </image>
             <div class="goodsBody">
@@ -140,7 +140,7 @@
                                 <text>¥{{item.goodsSalePrice}}</text>
                                 <div class="vipPriceBox">
                                     <div class="vipCrown">
-                                        <image src="/images/member/crown.png" mode="aspectFill"/>
+                                        <img src="/images/member/crown.png" mode="aspectFill"/>
                                     </div>
                                     <div style="flex:1;justify-content: center">
                                         会员价
@@ -152,7 +152,7 @@
                             ¥{{item.goodsSalePrice}}
                         </div>
                     </div>
-                    <image wx:if="{{item.isSpec == 1}}" src="/images/goods/shopping_cart.png" class="icon" mode="aspectFill" />
+                    <img wx:if="{{item.isSpec == 1}}" src="/images/goods/shopping_cart.png" class="icon" mode="aspectFill" />
                     <div wx:else class="purchaseBtn">
                         购买
                     </div>
@@ -165,33 +165,33 @@
   import wepy from '@wepy/core'
   import util from '../utils/util'
 
-wepy.component ({
-    props: {
-      goodsList: {
-        type: Array,
-        default: []
+wepy.component({
+      props: {
+          goodsList: {
+              type: Array,
+              default: []
+          },
+          index: {
+              type: Number
+          }
       },
-      index: {
-        type: Number
-      }
-    },
-    data: {
-      status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
-      userInfo: null,
-      chargeTypes: []
-    },
-    onLoad () {
+      data: {
+          status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
+          userInfo: null,
+          chargeTypes: []
+      },
+      onLoad () {
       // this.userInfo = this.$parent.$parent.globalData.userInfo
       // this.chargeTypes = this.$parent.$parent.globalData.chargeTypes
-    },
-    methods: {
-      itemDetailFunc(taskId) {
-        wepy.navigateTo({url: '/packageTask/task/detail?task_id=' + taskId})
       },
+      methods: {
+          itemDetailFunc(taskId) {
+              wepy.navigateTo({url: '/packageTask/task/detail?task_id=' + taskId})
+          },
       // 报名情况
-      signState(taskId) {
-        util.toast('开发中...' + taskId)
+          signState(taskId) {
+              util.toast('开发中...' + taskId)
+          }
       }
-    }
   })
 </script>

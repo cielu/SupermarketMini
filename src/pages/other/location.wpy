@@ -1,7 +1,7 @@
 <style lang="less">
     @import "../../utils/colors";
     page{
-        height: 100%;
+        background: @white;
     }
     .ac{
         align-items: center;
@@ -43,72 +43,91 @@
         }
         .location_item{
             height:100rpx;
-            flex-direction: column;
-            justify-content: flex-end;
+            align-items: center;
+            padding-right: 20rpx;
+            box-sizing: border-box;
+            justify-content: space-between;
             border-bottom: 1rpx solid @background;
+            .distance{
+                color: #696969;
+                font-size: 26rpx;
+                justify-content: center;
+            }
         }
     }
 </style>
 <template>
-    <view class="container">
+    <van-nav-bar
+        title="我的位置"
+        left-arrow="{{true}}"
+        fixed="{{true}}"
+        border="{{false}}"
+        v-on:click-left="onClickBack"
+    />
+    <div class="container">
+        <div style="margin-top: {{StatusBarHeight + 45}}px;"></div>
         <!--定位搜索-->
-        <view class="top">
-            <view class="input-box">
-                <view class="location">
+        <div class="top">
+            <div class="input-box">
+                <div class="location">
                     <text style="margin-right:14rpx;">{{current_city}}</text>
-                    <wux-icon type="ios-arrow-down" size="12" color="#595959" style="margin-bottom:2rpx;"/>
-                </view>
+                    <van-icon name="arrow-down" size="12px" color="#595959"/>
+                </div>
                 <text style="transform: scaleY(.8);color: #898989;">|</text>
                 <input style="height:70rpx;flex:1;margin-left:22rpx;" bindinput="getSuggest" placeholder="搜索该城市的地址"/>
-            </view>
-        </view>
-        <view class="location_city">
-            <view class="title ac">
-                <wux-icon type="ios-pin" size="12" color="#8d949f"/>
+            </div>
+        </div>
+        <div class="location_city">
+            <div class="title ac">
+                <van-icon name="location" size="12px" color="#8d949f"/>
                 <text style="margin-left:12rpx;">当前位置</text>
-            </view>
-            <view class="ac location">
+            </div>
+            <div class="ac location">
                 <text style="font-weight:500;font-size:32rpx;" @tap="chooseLocation(current_area)">{{current_area.title}}</text>
-                <view class="ac" style="margin-top:10rpx;" @tap="getLocation()">
-                    <wux-icon type="md-locate" size="15" color="#3788fb"/>
+                <div class="ac" style="margin-top:10rpx;" @tap="getLocation()">
+                    <van-icon name="aim" size="15px" color="#3788fb"/>
                     <text style="margin:0 12rpx;color:#595959;">重新定位</text>
-                </view>
-            </view>
-        </view>
-        <view class="location_city" style="margin-bottom:50rpx">
-            <view class="title ac">
-                <wux-icon type="ios-compass" size="12" color="#8d949f"/>
+                </div>
+            </div>
+        </div>
+        <div class="location_city" style="margin-bottom:50rpx">
+            <div class="title ac">
+                <van-icon name="ios-compass" size="12px" color="#8d949f"/>
                 <text style="margin-left:12rpx;">附近地址</text>
-            </view>
-            <view wx:if="{{local_area.length===0}}" style="justify-content: center">
-                <wux-spin wux-class="spin" size="large"/>
-            </view>
+            </div>
+            <div v-if="local_area.length===0" style="justify-content: center">
+                <van-loading color="#ccc"/>
+            </div>
             <!--关键词输入提示列表渲染-->
-            <view style="flex-direction: column;margin-left:28rpx;">
-                <repeat for="{{local_area}}" key="index" index="index">
-                    <!--绑定回填事件-->
-                    <view class="location_item" @tap="chooseLocation(item)">
+            <div style="flex-direction: column;margin-left:28rpx;">
+                <!--绑定回填事件-->
+                <div v-for="item,index in local_area" class="location_item" @tap="chooseLocation(item)">
+                    <div style="flex-direction: column;">
                         <!--渲染地址title-->
-                        <view bindtap="backfill" id="{{index}}">{{item.title}}</view>
+                        <div bindtap="backfill" id="{{index}}">{{item.title}}</div>
                         <!--渲染详细地址-->
-                        <view class="ellipsis" style="font-size:12px;color:#696969;margin:2rpx 0 8rpx;">{{item.address}}</view>
-                    </view>
-                </repeat>
-            </view>
-        </view>
-    </view>
+                        <div class="ellipsis" style="font-size:12px;color:#696969;margin:2rpx 0 8rpx;">{{item.address}}</div>
+                    </div>
+                    <div class="distance">{{item._distance || 0}}米</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
   import wepy from '@wepy/core'
   import util from '../../utils/util'
+  import globalData from '../../mixins/globalData'
 
   let QQMapWX = require('../../utils/qqmap-wx-jssdk.min.js')
       // 实例化API核心类
   let qqmapsdk
 
-wepy.page({
-    // mixins = [testMixin]
+  wepy.page({
+
+      mixins: [globalData],
+
       data: {
           latitude: null,
           longitude: null,
@@ -118,64 +137,72 @@ wepy.page({
       },
       onLoad (options) {
           qqmapsdk = new QQMapWX({
-              key: this.$parent.globalData.mapKey
+              key: this.$app.$options.globalData.mapKey
           })
           this.getLocation()
       },
-      getLocation() {
-          this.local_area = []
-          wepy.getLocation({type: 'gcj02', altitude: true}).then(res => {
-        // 获取附近位置信息
-              this.getLocalLocation(res.latitude, res.longitude)
-              this.latitude = res.latitude
-              this.longitude = res.longitude
-          })
-      },
-      getLocalLocation(latitude = null, longitude = null) {
-          if (latitude == null) {
-              latitude = this.latitude
-              longitude = this.longitude
-          }
-          let url = 'https://apis.map.qq.com/ws/geocoder/v1/?get_poi=1&key=' + this.$parent.globalData.mapKey
-          url += '&location=' + latitude + ',' + longitude
-      // api根据经纬度查询附近地点
-          wepy.request({url}).then(res => {
-              this.current_city = res.data.result.ad_info.city
-              this.local_area = res.data.result.pois
-              this.current_area = this.local_area[0]
-              this.$parent.globalData.current_area = this.current_area
-              this.$apply()
-          }).catch(e => {
-              console.log(e)
-              util.toast('定位失败，请稍后再试')
-          })
-      },
-    // 触发关键词输入提示事件
-      getSuggest (e) {
-          let keyword = e.detail.value
-          if (keyword === '' || keyword.length === 0) {
-              this.getLocalLocation(); return
-          }
-          let _this = this
-      // 搜索附近地址
-          qqmapsdk.getSuggestion({
-        // 获取输入框值并设置keyword参数
-              keyword, // 用户输入的关键词，可设置固定值,如keyword:'KFC'
-              region: this.current_city, // 设置城市名，限制关键词所示的地域范围，非必填参数
-              success: function (res) { // 搜索成功后的回调
-                  _this.local_area = res.data
-                  _this.$apply()
-              },
-              fail: function (error) {
-                  console.error(error)
-              }
-          })
-      },
-    // 事件处理函数(集中保存在methods对象中)
+        // 事件处理函数(集中保存在methods对象中)
       methods: {
+          onClickBack() {
+              console.log('on click left clicked')
+              wx.navigateBack()
+          },
           chooseLocation (location) {
-              this.$parent.globalData.current_area = location
-              wepy.navigateBack()
+              this.$app.$options.globalData.current_area = location
+              wx.navigateBack()
+          },
+          getLocation() {
+              let _this = this
+              this.local_area = []
+              wx.getLocation({
+                  type: 'gcj02',
+                  altitude: true,
+                  success(res) {
+                  // 获取附近位置信息
+                      _this.getLocalLocation(res.latitude, res.longitude)
+                      _this.latitude = res.latitude
+                      _this.longitude = res.longitude
+                  }
+              })
+          },
+          getLocalLocation(latitude = null, longitude = null) {
+              if (latitude == null) {
+                  latitude = this.latitude
+                  longitude = this.longitude
+              }
+              let url = 'https://apis.map.qq.com/ws/geocoder/v1/?get_poi=1&key=' + this.$app.$options.globalData.mapKey
+              url += '&location=' + latitude + ',' + longitude
+              // api根据经纬度查询附近地点
+              util.wxRequest(url).then(res => {
+                  // console.log(res)
+                  this.current_city = res.result.ad_info.city
+                  this.local_area = res.result.pois
+                  this.current_area = this.local_area[0]
+                  this.$app.$options.globalData.current_area = this.current_area
+              }).catch(e => {
+                  // console.log(e)
+                  util.toast('定位失败，请稍后再试')
+              })
+          },
+        // 触发关键词输入提示事件
+          getSuggest (e) {
+              let keyword = e.$wx.detail.value
+              if (keyword === '' || keyword.length === 0) {
+                  this.getLocalLocation(); return
+              }
+              let _this = this
+              // 搜索附近地址
+              qqmapsdk.getSuggestion({
+                  // 获取输入框值并设置keyword参数
+                  keyword, // 用户输入的关键词，可设置固定值,如keyword:'KFC'
+                  region: this.current_city, // 设置城市名，限制关键词所示的地域范围，非必填参数
+                  success: function (res) { // 搜索成功后的回调
+                      _this.local_area = res.data
+                  },
+                  fail: function (error) {
+                      console.error(error)
+                  }
+              })
           }
       }
     //
@@ -185,9 +212,10 @@ wepy.page({
 <config>
 {
     navigationBarTitleText: '我的位置',
+    backgroundColorBottom: '#ffffff',
     usingComponents: {
-<!--        'wux-icon': '../../../wux-ui/icon/index',-->
-<!--        'wux-spin': '../../../wux-ui/spin/index'-->
+        'van-icon': 'module:vant-weapp/lib/icon/index',
+        "van-loading": "module:vant-weapp/lib/loading/index"
     }
 }
 </config>

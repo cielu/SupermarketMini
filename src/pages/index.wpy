@@ -58,7 +58,7 @@ module.exports.getTime = getTime;
 <template>
   <div class="container">
     <div class="userinfo" @tap="handleViewTap">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
+      <img class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
       <div class="userinfo-nickname">{{ userInfo.nickName }}</div>
     </div>
 

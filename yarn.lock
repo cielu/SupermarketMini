@@ -625,10 +625,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@wepy/cli@^2.0.0-alpha.12":
-  version "2.0.0-alpha.12"
-  resolved "https://registry.npm.taobao.org/@wepy/cli/download/@wepy/cli-2.0.0-alpha.12.tgz#4264ac2931e0c87e73d60995b3a033dc42feb3fe"
-  integrity sha1-QmSsKTHgyH5z1gmVs6Az3EL+s/4=
+"@wepy/cli@^2.0.0-alpha.13":
+  version "2.0.0-alpha.13"
+  resolved "https://registry.yarnpkg.com/@wepy/cli/-/cli-2.0.0-alpha.13.tgz#3dd4186270d72589af16e764b0ed10574be25f30"
+  integrity sha512-G45cLdK9oVJkwO1wHZZg6gk/obq6PFJOl4i7NMg73IZcXdSGfzj63Ws5T0m3eKylJ452lagUzPmY/m2Gxc8OzQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     acorn "^5.4.1"

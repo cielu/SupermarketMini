@@ -39,13 +39,21 @@
         .swiper-banner{
             width:100%;
             margin-top: 20rpx;
-            padding:10rpx 24rpx;
+            padding:10rpx 0;
             box-sizing:border-box;
             background: -webkit-linear-gradient(top,#ffffff,#fefefe);
             .slide-image{
                 width: 100%;
                 height: 100%;
                 border-radius: 30rpx;
+            }
+            .active {
+                transform: scale(0.99);
+                transition: all 0.3s ease-in 0s;
+            }
+            .quiet {
+                transform: scale(0.88);
+                transition: all 0.3s ease-in 0s;
             }
             .wx-swiper-dot{
                 width:8rpx;
@@ -73,12 +81,12 @@
         }
         .grids-box {
             width: 100%;
-            height: 360rpx;
+            height: 380rpx;
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
             flex-direction: row;
-            padding: 10rpx 24rpx;
+            padding: 20rpx 24rpx;
             background: -webkit-linear-gradient(top,#fefefe,#fcfcfc);
             .grids{
                 //flex-wrap: wrap;
@@ -265,11 +273,11 @@
         <transition name="fade">
             <van-nav-bar border="{{false}}" fixed="{{true}}" title-class="van-nav-bar-title" v-if="showVanNavBar">
                 <div slot="title" class="van-title">
-                    <van-icon name="location" color="{{showVanNavBar ? '#333' : '#fff'}}" size="20px"/>
+                    <van-icon name="location" color="#333" size="20px" @tap="redirectTo('/pages/other/location')"/>
                     <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
                     <div style="flex-direction: column;align-items: center">
-                        <van-icon name="qr" color="{{showVanNavBar ? '#333' : '#fff'}}" size="20px"/>
-                        <text style="color:{{showVanNavBar ? '#333' : '#fff'}};line-height:16rpx;font-size:16rpx">会员码</text>
+                        <van-icon name="qr" color="#333" size="20px"/>
+                        <text style="color:#333;line-height:16rpx;font-size:16rpx">会员码</text>
                     </div>
                 </div>
             </van-nav-bar>
@@ -277,7 +285,7 @@
         <div class="fill-bg {{customNavClass}}" style="height:{{StatusBarHeight + 140}}px;{{customNavStyle}}">
             <div class="custom-nav" style="margin-top:{{StatusBarHeight}}px" v-show="!showVanNavBar">
                 <div slot="title" class="van-title" style="margin-left:30rpx">
-                    <van-icon name="location" color="#fff" size="20px"/>
+                    <van-icon name="location" color="#fff" size="20px" @tap="redirectTo('/pages/other/location')"/>
                     <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
                     <div style="flex-direction: column;align-items: center">
                         <van-icon name="qr" color="#fff" size="20px"/>
@@ -290,16 +298,19 @@
         <swiper wx:if="{{imgUrls.length>0}}"
                 autoplay="{{true}}"
                 circular="{{true}}"
+                skip-hidden-item-layout
                 indicator-active-color="rgba(255,255,255,.7)"
                 indicator-dots="{{imgUrls.length >1 ? true : false}}"
                 easing-function="easeOutCubic"
                 interval="{{5000}}"
                 duration="{{1000}}"
+                previous-margin="30rpx"
+                next-margin="30rpx"
                 bindchange="onBannerChange"
                 class="swiper-banner"
         >
             <swiper-item v-for="item,index in imgUrls" class="slide-image">
-                <image src="{{item.uri}}" class="slide-image" />
+                <img src="{{item.uri}}" class="slide-image {{curBannerIndex == index ? 'active' : 'quiet'}}" />
             </swiper-item>
         </swiper>
         <scroll-view scroll-x="true" class="grids-box" scroll-with-animation="true" v-if="menuTabs.length > 0" bindscroll="onGridsScroll">
@@ -307,7 +318,7 @@
             <div style="flex-wrap: nowrap;">
                 <div class="grids" v-for="grids,index in menuTabs">
                     <div v-for="grid,key,index in grids" class="grid">
-                        <image class="grid_icon" src="{{grid.imgUrl}}" />
+                        <img class="grid_icon" src="{{grid.imgUrl}}" />
                         <div class="label">{{grid.elementName}}</div>
                     </div>
                 </div>
@@ -315,14 +326,14 @@
         </scroll-view >
         <!--滚动条部分-->
         <view class="slide">
-            <view class='slide-bar' >
+            <view class="slide-bar" >
                 <view class="slide-show" style="margin-left:{{slideLeft <=1 ? 0 : slideLeft+'rpx'}};"></view>
             </view>
         </view>
         <!-- 广告 advertise -->
         <div class="advert">
-            <image src="http://cdn.linghui.co/temai.png" class="advert-img-left"></image>
-            <image src="http://cdn.linghui.co/bag.png" class="advert-img-right"></image>
+            <img src="http://cdn.linghui.co/temai.png" class="advert-img-left" />
+            <img src="http://cdn.linghui.co/bag.png" class="advert-img-right" />
         </div>
         <div class="group-box">
             <div class="group-title">
@@ -341,7 +352,7 @@
                 <scroll-view scroll-x="true" class="scroll-h">
                     <div style="flex-wrap: nowrap;">
                         <div v-for="item,index in groupGoods" class="group-goods">
-                            <image src="{{item.goodsPic}}" class="goodsPic" mode="aspectFill"/>
+                            <img src="{{item.goodsPic}}" class="goodsPic" mode="aspectFill"/>
                             <text class="title">{{item.goodsName}}</text>
                             <div class="group_nun">{{item.groupNum}}人团</div>
                             <div class="group_price">¥{{item.pgPrice}}</div>
@@ -360,7 +371,7 @@
                 </div>
             </scroll-view>
             <!-- guessList -->
-            <goodsItemsColumn :goodsList.sync="guessULikeGoods" />
+            <goodsItemsColumn :goodsList="guessULikeGoods" />
         </div>
     </div>
 </template>
@@ -370,13 +381,12 @@
     import util from '../../utils/util'
     import menus from '../../utils/menus'
     // import eventHub from '../../common/eventHub'
-    // import testMixin from '../../mixins/test'
+    import globalData from '../../mixins/globalData'
     wepy.page({
-      // mixins = [testMixin]
+
+        mixins: [globalData],
 
         data: {
-            userInfo: null,
-            avatar: null,
             customNavClass: '', // 自定义导航类
             customNavStyle: '', // 自定义导航style
             slideLeft: 0, // 滑块位置
@@ -391,7 +401,7 @@
                 {uri: 'http://cdn.linghui.co/618.png', style: 'background-image: linear-gradient(45deg, #7579ff 0%,#967cea 100%);', class: ''},
                 {uri: 'http://cdn.linghui.co/duanwu.png', style: '', class: 'bg-happy-holidays'}
             ],
-            StatusBarHeight: 50,
+            curBannerIndex: 0,
             showVanNavBar: true, // 是否展示有赞的导航栏
             menuTabs: [],
             groupGoods: [],
@@ -401,7 +411,6 @@
         },
 
         onLoad(options) {
-            this.StatusBarHeight = this.$app.$options.globalData.StatusBarHeight
             // if has banners
             if (this.imgUrls.length > 0) {
                 this.showVanNavBar = false
@@ -419,18 +428,14 @@
             this.loadGuessULikeGoods()
         },
 
-        onShow() {
-            this.userInfo = this.$app.$options.globalData.userInfo
-            this.avatar = this.$app.$options.globalData.imgDomain + 'avatar.png'
-        },
-
-      // 事件处理函数(集中保存在methods对象中)
+       // 事件处理函数(集中保存在methods对象中)
         methods: {
             redirectTo(path) {
-                console.log(path)
+                util.navigateTo(path)
             },
             onBannerChange(e) {
-                this.changeCustomNavStyle(e.$wx.detail.current)
+                this.curBannerIndex = e.$wx.detail.current
+                this.changeCustomNavStyle(this.curBannerIndex)
             },
             onGridsScroll(e) {
                 this.slideLeft = e.$wx.detail.scrollLeft * this.slideRatio

@@ -1,12 +1,15 @@
 <style lang="less">
     @import "../../utils/colors";
+    page{
+        background: #f7f7f7;
+    }
     .left-navbar {
         position: absolute;
         left: 0;
         width: 25%;
-        height: 90%;
-        background-color: @background;
+        height:100%;
         font-size: 26rpx;
+        background-color: @background;
         .category {
             height: 100rpx;
             align-items: center;
@@ -28,12 +31,11 @@
         }
     }
     #right {
-        color: #333333;
         right: 0;
         width: 75%;
-        height: 90%;
+        height:100%;
+        color: #333333;
         font-size: 24rpx;
-        padding: 0 20rpx;
         position: absolute;
         box-sizing: border-box;
         .categoryName {
@@ -78,23 +80,22 @@
     }
 </style>
 <template>
-    <van-nav-bar title="商品分类" customClass="bg-linear"/>
-    <div class="container">
+    <van-nav-bar title="商品分类" fixed="{{true}}"/>
+    <div class="container" style="padding-top: {{StatusBarHeight + 45}}px">
         <!--分类导航栏-->
-        <scroll-view class="left-navbar" scroll-y="true">
+        <scroll-view class="left-navbar" scroll-y="true" style="height:{{scrollHeight}}px">
             <div v-for="item,index in categoryArray"
-                  class="category {{ currentTab == index ? 'active' : '' }}"
-                  @tap="tapCategory(item.categoryCode,index)">
+                 class="category {{ currentTab == index ? 'active' : '' }}"
+                 @tap="tapCategory(item.categoryCode,index)">
                 {{item.categoryName}}
             </div>
         </scroll-view>
-
-        <scroll-view id="right" scroll-y="true" scroll-top="{{scrollTop}}">
+        <scroll-view id="right" scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px">
             <!--商品展示-->
-            <div style="flex-direction: column" v-for="item,key,index in childrenArray">
+            <div style="flex-direction: column;padding: 0 20rpx;" v-for="item,key,index in childrenArray">
                 <!--顶部图片-->
                 <div class="goods-banner" wx:if="{{item.categoryImg}}">
-                    <image class="img-banner" src="{{item.categoryImg}}" mode="scaleToFill"></image>
+                    <img class="img-banner" src="{{item.categoryImg}}" mode="scaleToFill" />
                 </div>
                 <div class="categoryName">{{item.categoryName}}</div>
                 <!--无类目的情况-->
@@ -102,9 +103,9 @@
                 <!--有类目的情况-->
                 <div wx:else class="categoryCard">
                     <div class="categoryItem" v-for="children,key,index in item.nextCategoryList">
-                        <image class="categoryImg"
+                        <img class="categoryImg"
                                src="{{children.categoryImg ? children.categoryImg : 'https://imgservice1.suning.cn/uimg1/pcms/newcatentriesuimg/OAU6ZK3atBHX0STs5sjSTA==.jpg'}}"
-                               mode="scaleToFill"></image>
+                               mode="scaleToFill" />
                         <div class="ellipsis">{{children.categoryName}}</div>
                     </div>
                 </div>
@@ -118,20 +119,23 @@
   import wepy from '@wepy/core'
   import util from '../../utils/util'
 
-  // import testMixin from '../../mixins/test'
+  import globalData from '../../mixins/globalData'
 
 wepy.page({
-    // mixins = [testMixin]
+
+      mixins: [globalData],
 
       data: {
           currentTab: 0,  // 对应样式变化
           scrollTop: 0,  // 用作跳转后右侧视图回到顶部
+          scrollHeight: 730,
           categoryId: '',  // 后台查询需要的字段
           categoryArray: [], // 左侧导航栏内容
           childrenArray: [] // 右侧内容
       },
 
       onLoad() {
+          this.scrollHeight = this.$app.$options.globalData.SystemInfo.windowHeight - 45 - this.StatusBarHeight
           this.loadCategory()
       },
 

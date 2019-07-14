@@ -1,157 +1,197 @@
-
 <style lang="less">
     @import "../../utils/colors";
     page{
-        height: 100%;
         background: @background;
     }
-    .container{
-        background: @white;
-    }
-    .header{
+    .topField{
+        height:300rpx;
         width: 100%;
-        height: 200rpx;
+        color:@white;
+        font-size:32rpx;
+        box-sizing: border-box;
         flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        .username{
-            color: @black;
-            font-size: 32rpx;
-            line-height: 1;
-        }
-        .login{
-            color: #55a8f4;
-        }
         .avatar{
-            height: 120rpx;
+            margin: 30rpx;
             width: 120rpx;
+            height: 120rpx;
             border-radius: 50%;
         }
-    }
-    .tabs {
-        height: 100rpx;
-        width: 100%;
-        margin-top:25rpx;
-        padding: 25rpx 0;
-        .tab{
-            width:25%;
-            height: 100%;
-            align-items: center;
+        .info{
+            flex:1;
+            height: 120rpx;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-around;
+            .vipCrown{
+                height: 40rpx;
+                width: 160rpx;
+                border-radius: 20rpx;
+                align-items: center;
+                padding-left:20rpx;
+                border: 1rpx solid @white;
+                box-sizing: border-box;
+            }
         }
-        .tab .title{
-            font-size: 26rpx;
-            color: @gray;
+        .member{
+            background: rgba(0,0,0,0.05);
+            height:50rpx;
+            width:120rpx;
+            border-radius: 25rpx;
+            justify-content: center;
+            align-items: center;
+            font-size:28rpx;
+        }
+        .renewBox{
+            width: 100%;
+            height:70rpx;
+            font-size:26rpx;
+            padding: 0 30rpx;
+            box-sizing: border-box;
+            background: rgba(0,0,0,0.04);
+            align-items: center;
+            justify-content: space-between;
+            .renewBtn{
+                height:40rpx;
+                width:120rpx;
+                border-radius: 20rpx;
+                border: 1rpx solid #ffffff;
+                align-items: center;
+                justify-content: center
+            }
         }
     }
-    .items{
-        flex:1;
+    .tool{
         width: 100%;
-        font-size:30rpx;
-        margin-top:60rpx;
-        padding-left:30rpx;
-        box-sizing:border-box;
+        padding: 0 20rpx;
         flex-direction: column;
-        .item{
-            height: 100rpx;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .description{
-            flex: 1;
-            height: 100%;
-            align-items: center;
-            margin-left: 30rpx;
-            padding-right: 30rpx;
-            justify-content:space-between;
-            border-bottom: 1rpx solid @background;
-            button{
-                margin:0;
-                padding:0;
-                font-size:30rpx;
-                width:100%;
-                border: none;
-                text-align:left;
-                background:transparent;
+        .card{
+            color:#33333;
+            font-size:30rpx;
+            margin: 50rpx 30rpx 0;
+            border-radius:30rpx;
+            flex-direction:column;
+            background: @white;
+            border-radius: 30rpx;
+            .cardTitle{
+                height: 100rpx;
+                padding: 0 30rpx;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1rpx solid #efefef;
+                .more{
+                    color: #999999;
+                    font-size: 26rpx;
+                    align-items: center;
+                }
             }
-            button::after{
-                border: none;
+            .cardBody{
+                height: 200rpx;
+                color: #696969;
+                font-size: 26rpx;
+                align-items: center;
+                justify-content: space-around;
+                .item{
+                    height: 140rpx;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+                }
             }
         }
-    }
-    .logout{
-        width: 100%;
-        height: 100rpx;
-        font-size:32rpx;
-        margin-top:80rpx;
-        background: @white;
-        align-items: center;
-        justify-content: center;
     }
 </style>
 <template>
-    <van-nav-bar bgColor="bg-theme" isBack="{{true}}">
-        <view slot="backText">返回</view>
+    <van-nav-bar title-class="white" custom-class="bg-linear" border="{{false}}" fixed="{{true}}">
         <view slot="title">我的</view>
     </van-nav-bar>
-    <view class="container">
-        <view class="items">
-            <view class="item">
-                <image src="/images/mine/recommend.png" class="icon"/>
-                <view class="description">
-                    <button open-type="share">推荐给好友</button>
-                    <image src="/images/arrow_right.png" class="icon-xs"/>
-                </view>
-            </view>
-            <view class="item">
-                <image src="/images/mine/contact.png" class="icon"/>
-                <view class="description">
-                    <button open-type="contact">联系客服</button>
-                    <image src="/images/arrow_right.png" class="icon-xs"/>
-                </view>
-            </view>
-        </view>
-    </view>
-    <view class="logout" wx:if="{{userInfo}}" @tap="logout()">
-        退出登录
-    </view>
+    <div class="container">
+        <div class="bg-linear" style="width:100%;height:{{StatusBarHeight + 44}}px;"></div>
+        <div class="bg-linear topField">
+            <div style="flex:1;align-items: center;padding: 0 20rpx;">
+                <img src="http://ww1.sinaimg.cn/large/0065oQSqly1g2pquqlp0nj30n00yiq8u.jpg" alt="" mode="aspectFill" class="avatar"/>
+                <div class="info">
+                    <text>185*****993</text>
+                    <div class="vipCrown">
+                        <img src="/images/member/crown_white.png" mode="aspectFill" style="height:20rpx;width:20rpx"/>
+                        <text style="font-size:20rpx;color: #ffffff;margin-left:20rpx">SUPER</text>
+                    </div>
+                </div>
+                <div class="member">
+                    会员
+                </div>
+            </div>
+            <div class="renewBox">
+                <text style="color:#ffffff;">SUPER会员小店版，将于3天后过期</text>
+                <div class="renewBtn">去续费</div>
+            </div>
+        </div>
+        <div class="tool">
+            <div class="card">
+                <div class="cardTitle">
+                    <text>我的订单</text>
+                    <div class="more">
+                        <text style="margin-right:10rpx">查看全部</text>
+                        <van-icon name="arrow" color="#999999" size="16px"/>
+                    </div>
+                </div>
+                <div class="cardBody">
+                    <div class="item">
+                        <img src="/images/order/wait_pay.png" mode="aspectFill" class="icon-l"/>
+                        <text>待支付</text>
+                    </div>
+                    <div class="item">
+                        <img src="/images/order/wait_receive.png" mode="aspectFill" class="icon-l"/>
+                        <text>待收货</text>
+                    </div>
+                    <div class="item">
+                        <img src="/images/order/has_finish.png" mode="aspectFill" class="icon-l"/>
+                        <text>已完成</text>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="cardTitle">
+                    <text>我的工具</text>
+                </div>
+                <div class="cardBody">
+                    <div class="item">
+                        <img src="/images/order/wait_pay.png" mode="aspectFill" class="icon-l"/>
+                        <text>帮助中心</text>
+                    </div>
+                    <div class="item">
+                        <img src="/images/order/wait_receive.png" mode="aspectFill" class="icon-l"/>
+                        <text>意见反馈</text>
+                    </div>
+                    <div class="item">
+                        <img src="/images/order/has_finish.png" mode="aspectFill" class="icon-l"/>
+                        <text>我的评价</text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
     import wepy from '@wepy/core'
     import util from '../../utils/util'
+    import globalData from '../../mixins/globalData'
 
-    // import testMixin from '../../mixins/test'
     wepy.page({
-      // components = {}
-      // mixins = [testMixin]
+        mixins: [globalData],
 
         data: {
             userInfo: null,
-            avatar: null,
             imgDomain: '',
             tabs: [
             ]
         },
 
         onShow() {
-            this.userInfo = this.$parent.globalData.userInfo
-            this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
+            this.userInfo = this.$app.$options.globalData.userInfo
         },
 
       // 事件处理函数(集中保存在methods对象中)
         methods: {
-            logout() {
-                util.wxRequest('/logout').then(loginRes => {
-                    util.toast(loginRes.msg)
-                })
-          // 移除用户信息
-                this.userInfo = null
-                this.$parent.globalData.userInfo = null
-                wepy.removeStorageSync('userInfo')
-                wepy.removeStorageSync('authorization')
-            },
             redirectTo(path) {
                 if (path === 'develop') {
                     util.toast('开发中...'); return
@@ -196,6 +236,12 @@
 <config>
 {
     navigationBarTitleText: '我的',
-    enablePullDownRefresh: false
+    enablePullDownRefresh: false,
+    backgroundColorTop: '#fa8129',
+    navigationBarTextStyle: 'white',
+    usingComponents: {
+        'van-icon': 'module:vant-weapp/lib/icon/index',
+        "van-loading": "module:vant-weapp/lib/loading/index",
+    }
 }
 </config>

@@ -23,7 +23,7 @@
     "@babel/core": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@wepy/babel-plugin-import-regenerator": "0.0.2",
-    "@wepy/cli": "^2.0.0-alpha.12",
+    "@wepy/cli": "^2.0.0-alpha.13",
     "@wepy/compiler-babel": "^2.0.1",
     "@wepy/compiler-less": "^2.0.1",
     "babel-eslint": "^7.2.1",

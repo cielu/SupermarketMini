@@ -62,7 +62,7 @@
             <view class="modal_body">
                 <view style="margin:5rpx;">为了提供更好的服务</view>
                 <view style="margin:5rpx;">请在稍后的提示框中点击"允许"</view>
-                <image src="/images/mine/scope.png" class="modal_scope" mode="aspectFit"></image>
+                <img src="/images/mine/scope.png" class="modal_scope" mode="aspectFit" />
                 <button class="modal_btn" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="getUserInfo">我知道了</button>
             </view>
         </view>

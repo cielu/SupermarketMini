@@ -1,14 +1,31 @@
 <style lang="less">
     page {
-        background: #f7f7f7;
+        /*background: #f7f7f7;*/
         /*font-family: -apple-system-font, "Helvetica Neue", SimSun;*/
         font-family: Helvetica Neue, Helvetica, sans-serif;
+    }
+    .white{
+        color: white;
+    }
+    .bg-linear{
+        background-image: linear-gradient(75deg, #f89218 0%, #ff760c 100%);
     }
     .fade-enter-active, .fade-leave-active {
         transition: opacity 1s;
     }
     .fade-enter, .fade-leave-to{
         opacity: 0;
+    }
+    .van-nav-bar__left{
+        height:44px;
+        align-items: center;
+    }
+    .van-icon-arrow-left{
+        color: #000!important;
+        font-size: 20px !important;
+    }
+    button::after{
+        border: none;
     }
     input{
         font-size:28rpx;
@@ -57,6 +74,7 @@
         display: none;
     }
     .van-icon,.van-icon:before{
+        justify-content: center;
         display:flex !important;
     }
     .container {
@@ -201,8 +219,9 @@ wepy.app({
 {
     pages: [
         'pages/home/index',
-        'pages/mine/index',
         'pages/category/index',
+        'pages/shoppingCart/index',
+        'pages/mine/index',
         'pages/other/login',
         'pages/other/protocol',
         'pages/other/location',
@@ -248,6 +267,11 @@ wepy.app({
             iconPath: '/images/tabBar/category.png',
             selectedIconPath: '/images/tabBar/category_active.png',
             text: '分类'
+        }, {
+            pagePath: 'pages/shoppingCart/index',
+            iconPath: '/images/tabBar/shopping_cart.png',
+            selectedIconPath: '/images/tabBar/shopping_cart_active.png',
+            text: '购物车'
         }, {
             pagePath: 'pages/mine/index',
             iconPath: '/images/tabBar/mine.png',

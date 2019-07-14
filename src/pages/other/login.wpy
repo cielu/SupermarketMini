@@ -87,7 +87,7 @@
         <text class="login-agreement">点击"登录"即同意 <text style="color: #55a8f4;">《xxx用户协议》</text></text>
         <view class="wechat-login">
             <button class="wechat-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
-                <image src="/images/tool/wechat.png" class="wechat"></image>
+                <img src="/images/tool/wechat.png" class="wechat" />
             </button>
             <text class="wechat-text">微信登录</text>
         </view>

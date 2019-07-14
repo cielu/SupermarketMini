@@ -27,7 +27,7 @@
             <repeat for="{{lists}}" key="this">
                 <view class="item" @tap="redirectTo('{{item.path}}')">
                     <text>{{item.name}}</text>
-                    <image src="/images/arrow_right.png" class="icon-sm"/>
+                    <img src="/images/arrow_right.png" class="icon-sm"/>
                 </view>
             </repeat>
         </view>

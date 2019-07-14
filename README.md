@@ -3,4 +3,4 @@
 
 ## 效果图如下
 
-<img src="https://user-images.githubusercontent.com/13715811/60734957-409c5f00-9f84-11e9-8749-285d649e1bd9.png" width="300">
+<img src="https://images.gitee.com/uploads/images/2019/0709/005539_4ce1a96d_1556241.png" width="300">
