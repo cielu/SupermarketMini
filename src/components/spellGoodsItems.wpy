@@ -1,0 +1,182 @@
+<style lang="less" xmlns:wx="http://www.w3.org/1999/xhtml" xmlns:wx="http://www.w3.org/1999/xhtml">
+    @import "../utils/colors";
+    @timeBox: #ff5622 ;
+    @vipColor: #fdb883 ;
+    .goodsItems{
+        width: 100%;
+        padding:20rpx;
+        box-sizing: border-box;
+        flex-direction: column;
+        justify-content: center;
+        .goodsItem{
+            height: 270rpx;
+            background: @white;
+            border-radius:20rpx;
+            margin: 0 10rpx 20rpx;
+            padding: 0 20rpx;
+            box-sizing: border-box;
+            align-items: center;
+            .goodsPic{
+                position: relative;
+                height: 200rpx;
+                width: 200rpx;
+            }
+            .goodsBody{
+                flex: 1;
+                width: 100%;
+                height: 200rpx;
+                padding-left: 16rpx;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-around;
+                .goodsTitle{
+                    color: @black;
+                    font-size:30rpx;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    text-overflow: ellipsis;
+                    word-wrap: break-word;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    white-space: normal !important;
+                }
+                .goodsDesc{
+                    color: #898989;
+                    font-size:24rpx;
+                    padding: 10rpx 0;
+                    overflow:hidden;
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
+                }
+                .goodsBottom{
+                    width: 100%;
+                    align-items: center;
+                    justify-content: space-between;
+                    .left{
+                        font-size:16rpx;
+                        flex-direction: column;
+                        .groupNumBox{
+                            height:20rpx;
+                            color: @price;
+                            margin-right: 10rpx;
+                            padding: 4rpx 10rpx;
+                            border-radius: 10rpx;
+                            align-items: center;
+                            justify-content: center;
+                            border:1rpx solid @price;
+                        }
+                        .preSaleNum{
+                            color: #62b743;
+                            height: 20rpx;
+                            padding: 4rpx 10rpx;
+                            border-radius: 20rpx;
+                            border: 1rpx solid #62b743;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        .salePrice{
+                            font-size: 30rpx;
+                            color: @price;
+                            height: 100%;
+                        }
+                        .price-discount{
+                            font-size:20rpx;
+                            color: #c9c9c9;
+                            margin-left:10rpx;
+                            text-decoration: line-through;
+                        }
+                    }
+                    .right{
+                        flex-direction: column;
+                        justify-content: center;
+                        .purchaseBtn{
+                            width:100rpx;
+                            height:40rpx;
+                            font-size:20rpx;
+                            color:@white;
+                            background: -webkit-linear-gradient(left, @themeColor, #ff8464);
+                            align-items:center;
+                            justify-content:center;
+                            border-radius:10rpx;
+                        }
+                        .hasSpellNum{
+                            font-size:20rpx;
+                            color: #9d9d9d;
+                            margin-top:6rpx;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+</style>
+<template>
+    <div class="goodsItems">
+        <div v-for="item,key,index in goodsList" class="goodsItem"  @tap="navigateTo('22')">
+            <img src="{{item.pictureUrl}}" class="goodsPic" mode="aspectFill" />
+            <div class="goodsBody">
+                <div>
+                    <text class="goodsTitle">{{item.goodsName}}</text>
+                </div>
+                <div>
+                    <text class="goodsDesc">拍两件合发一件，限拍两件，场地直发</text>
+                </div>
+                <div class="goodsBottom">
+                    <div class="left">
+                        <div style="align-items: center">
+                            <div class="groupNumBox">2人团</div>
+                            <div class="preSaleNum">2件起购</div>
+                        </div>
+                        <div style="align-items: center;margin-top:10rpx">
+                            <div class="salePrice">
+                                ¥{{item.goodsSalePrice}}
+                            </div>
+                            <div class="price-discount">
+                                ¥{{item.goodsSalePrice + 12}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="purchaseBtn">去开团</div>
+                        <text class="hasSpellNum">已拼168件</text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+  import wepy from '@wepy/core'
+  import util from '../utils/util'
+
+wepy.component({
+      props: {
+          goodsList: {
+              type: Array,
+              default: []
+          },
+          index: {
+              type: Number
+          }
+      },
+      data: {
+          status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
+          userInfo: null,
+          chargeTypes: []
+      },
+      onLoad () {
+      // this.userInfo = this.$parent.$parent.globalData.userInfo
+      // this.chargeTypes = this.$parent.$parent.globalData.chargeTypes
+      },
+      methods: {
+          itemDetailFunc(taskId) {
+              wepy.navigateTo({url: '/packageTask/task/detail?task_id=' + taskId})
+          },
+      // 报名情况
+          signState(taskId) {
+              util.toast('开发中...' + taskId)
+          }
+      }
+  })
+</script>

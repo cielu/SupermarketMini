@@ -1,182 +1,139 @@
 <style lang="less">
     @import "../../utils/colors";
     page{
-        height: 100%;
         background: @background;
     }
-    .container{
-        background: @white;
-    }
-    .header{
-        width: 100%;
-        height: 200rpx;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        .username{
-            color: @black;
-            font-size: 32rpx;
-            line-height: 1;
-        }
-        .login{
-            color: #55a8f4;
-        }
-        .avatar{
-            height: 120rpx;
-            width: 120rpx;
-            border-radius: 50%;
-        }
-    }
-    .items{
-        flex:1;
-        width: 100%;
-        font-size:30rpx;
-        margin-top:60rpx;
-        padding-left:30rpx;
-        box-sizing:border-box;
-        flex-direction: column;
-        .item{
-            height: 100rpx;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .description{
-            flex: 1;
-            height: 100%;
-            align-items: center;
-            margin-left: 30rpx;
-            padding-right: 30rpx;
-            justify-content:space-between;
-            border-bottom: 1rpx solid @background;
-            button{
-                margin:0;
-                padding:0;
-                font-size:30rpx;
-                width:100%;
-                border: none;
-                text-align:left;
-                background:transparent;
-            }
-            button::after{
-                border: none;
-            }
-        }
-    }
-    .logout{
-        width: 100%;
-        height: 100rpx;
-        font-size:32rpx;
-        margin-top:80rpx;
-        background: @white;
-        align-items: center;
+    .loading{
+        width:100%;
+        padding-bottom: 36rpx;
+        align-items: flex-end;
         justify-content: center;
+        box-sizing: border-box;
+        background: #ffffff;
+    }
+    .vanTabs{
+        width: 750rpx;
+        .vanTab{
+            width: 20%;
+            color: #333333;
+            justify-content: center;
+        }
+        .vanTabActive{
+            color: #fa881c;
+        }
+    }
+    .childrenCategories{
+        width: 100%;
+        font-size:22rpx;
+        color: #333333;
+        overflow: hidden;
+        white-space: nowrap;
+        box-sizing: border-box;
+        flex-direction: row;
+        background: @white;
+        padding: 0 20rpx;
+        .category{
+            height: 130rpx;
+            min-width: 116rpx;
+            margin-right: 20rpx;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 10rpx;
+            justify-content: space-around;
+            background: @background;
+        }
+        .activeCate{
+            background: #fff2e6;
+            border: 1rpx solid #fa881c;
+        }
     }
 </style>
 <template>
-    <van-nav-bar bgColor="bg-theme" isBack="{{true}}">
-        <view slot="backText">返回</view>
-        <view slot="title">我的</view>
-    </van-nav-bar>
-    <view class="container">
-        <view class="header">
-            <img src="{{userInfo.avatar || avatar}}" class="avatar" mode="aspectFill" />
-            <text class="username {{userInfo ? '' : 'login'}}" @tap="redirectTo('/packageMine/mine/baseProfile')">
-                {{userInfo ? userInfo.nickname || userInfo.phone : '登录/注册'}}
-            </text>
-        </view>
-        <view class="items">
-            <view class="item" @tap="redirectTo('develop')">
-                <img src="/images/mine/wallet.png" class="icon"/>
-                <view class="description">
-                    <text>我的钱包</text>
-                    <view style="align-items: center">
-                        <text style="margin-right:10rpx;">{{userInfo.money || '0.00'}}</text>
-                        <img src="/images/arrow_right.png" class="icon-xs"/>
-                    </view>
-                </view>
-            </view>
-            <view class="item" @tap="redirectTo('/pages/other/partner')">
-                <img src="/images/mine/partner.png" class="icon"/>
-                <view class="description">
-                    <text>合伙人计划</text>
-                    <img src="/images/arrow_right.png" class="icon-xs"/>
-                </view>
-            </view>
-            <view class="item" @tap="redirectTo('/pages/other/protocol')">
-                <img src="/images/mine/protocol.png" class="icon"/>
-                <view class="description">
-                    <text>协议及说明</text>
-                    <img src="/images/arrow_right.png" class="icon-xs"/>
-                </view>
-            </view>
-            <view class="item">
-                <img src="/images/mine/recommend.png" class="icon"/>
-                <view class="description">
-                    <button open-type="share">推荐给好友</button>
-                    <img src="/images/arrow_right.png" class="icon-xs"/>
-                </view>
-            </view>
-            <view class="item">
-                <img src="/images/mine/contact.png" class="icon"/>
-                <view class="description">
-                    <button open-type="contact">联系客服</button>
-                    <img src="/images/arrow_right.png" class="icon-xs"/>
-                </view>
-            </view>
-        </view>
-    </view>
-    <view class="logout" wx:if="{{userInfo}}" @tap="logout()">
-        退出登录
-    </view>
+    <van-nav-bar left-arrow="{{true}}"
+                 title="小店拼团"
+                 fixed="{{true}}"
+                 border="{{false}}"
+                 bind:click-left="onClickLeft"
+    />
+    <div class="loading" style="height:{{StatusBarHeight + 44 + 43}}px">
+        <van-loading color="#9d9d9d" />
+    </div>
+    <div class="container">
+        <div style="position: fixed;top: {{StatusBarHeight + 43}}px;background: white;z-index: 99">
+            <van-tabs active="{{ activeTab }}"
+                      border="{{false}}"
+                      color="#fa881c"
+                      customClass="vanTabs"
+                      tabClass="vanTab"
+                      swipe-threshold="6"
+                      tabActiveClass="vanTabActive"
+                      swipeable="{{true}}"
+            >
+                <van-tab title="热卖" />
+                <van-tab title="生鲜" />
+                <van-tab title="食品" />
+                <van-tab title="家居" />
+                <van-tab title="粮油" />
+                <van-tab title="美妆" />
+            </van-tabs>
+        </div>
+        <scroll-view scroll-x="{{true}}" scroll-with-animation="{{true}}" v-if="childrenCategories.length > 0" class="childrenCategories">
+            <div style="flex-wrap: nowrap;height:170rpx;align-items: center;">
+                <div class="category {{activeChildrenCate == index ? 'activeCate' : ''}}" v-for="category,index in childrenCategories">
+                    <img src="/images/goods/purchase.png" alt="" mode="aspectFill" class="icon-lg" />
+                    <text class="ellipsis">新鲜水果</text>
+                </div>
+            </div>
+        </scroll-view>
+        <!-- guessList -->
+        <spellGoodsItems :goodsList="spellGoodsList" />
+    </div>
 </template>
 
 <script>
   import wepy from '@wepy/core'
   import util from '../../utils/util'
 
-  // import testMixin from '../../mixins/test'
+  import globalData from '../../mixins/globalData'
 
   wepy.page({
-      config: {
-          navigationBarTitleText: '我的',
-          enablePullDownRefresh: false
-      },
-    // mixins = [testMixin]
+      mixins: [globalData],
 
       data: {
           userInfo: null,
-          avatar: null,
-          imgDomain: '',
+          activeTab: 1,
+          activeChildrenCate: 1,
           tabs: [
-          ]
+          ],
+          childrenCategories: [1, 2, 3, 4, 5, 6, 7, 8],
+          spellGoodsList: []
+      },
+
+      onLoad() {
+          this.loadSpellGoods()
       },
 
       onShow() {
-          this.userInfo = this.$parent.globalData.userInfo
-          this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
+          this.userInfo = this.$app.$options.globalData.userInfo
       },
 
     // 事件处理函数(集中保存在methods对象中)
       methods: {
-          logout() {
-              util.wxRequest('/logout').then(loginRes => {
-                  util.toast(loginRes.msg)
-              })
-        // 移除用户信息
-              this.userInfo = null
-              this.$parent.globalData.userInfo = null
-              wepy.removeStorageSync('userInfo')
-              wepy.removeStorageSync('authorization')
-          },
           redirectTo(path) {
-              if (path === 'develop') {
-                  util.toast('开发中...'); return
-              }
-              if (this.userInfo) {
-                  wepy.navigateTo({url: path})
-                  return
-              }
-              wepy.navigateTo({url: '/pages/other/login'})
+              util.navigateTo(path)
+          },
+          onClickLeft() {
+              console.log('wwww')
+          },
+          loadSpellGoods() {
+              let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-77&pageSize=20&pageNum=1&source=applet&version=4.0.2'
+              util.wxRequest('/nsrfs-web/homepage/gussulike.do', data, 'POST').then(res => {
+                  console.log(res)
+                // if (res.result.data.length < res.result.per_page) {
+                //   this.showSpin = false
+                // }
+                  this.spellGoodsList = res.resultData.goodsList
+              })
           }
       },
 
@@ -192,20 +149,21 @@
      */
       onReachBottom() {
           console.log('onReachBottom')
-      },
-
-    /**
-     * 用户点击右上角分享
-     */
-      onShareAppMessage(res) {
-          if (res.from === 'button') {
-        // 来自页面内转发按钮
-        // console.log(res.target)
-          }
-          return {
-              title: '我正在购买xxx',
-              path: '/pages/home/index?inviteCode=' + this.userInfo.invite_code
-          }
       }
   })
 </script>
+<config>
+{
+    navigationBarTitleText: '小店拼团',
+    enablePullDownRefresh: true,
+    backgroundColorTop: '#ffffff',
+    navigationBarTextStyle: 'black',
+    usingComponents: {
+        "spellGoodsItems": "~@/components/spellGoodsItems",
+        "van-icon": "module:vant-weapp/lib/icon/index",
+        "van-loading": "module:vant-weapp/lib/loading/index",
+        "van-tab": "module:vant-weapp/lib/tab/index",
+        "van-tabs": "module:vant-weapp/lib/tabs/index"
+    }
+}
+</config>

@@ -100,7 +100,7 @@
     }
 </style>
 <template>
-    <van-nav-bar title-class="white" custom-class="bg-linear" border="{{false}}" fixed="{{true}}">
+    <van-nav-bar titleClass="white" customClass="bg-linear" border="{{false}}" fixed="{{true}}">
         <view slot="title">我的</view>
     </van-nav-bar>
     <div class="container">

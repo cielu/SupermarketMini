@@ -271,7 +271,7 @@
 <template>
     <div class="container">
         <transition name="fade">
-            <van-nav-bar border="{{false}}" fixed="{{true}}" title-class="van-nav-bar-title" v-if="showVanNavBar">
+            <van-nav-bar border="{{false}}" fixed="{{true}}" titleClass="van-nav-bar-title" v-if="showVanNavBar">
                 <div slot="title" class="van-title">
                     <van-icon name="location" color="#333" size="20px" @tap="redirectTo('/pages/other/location')"/>
                     <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
@@ -317,7 +317,7 @@
             <!--内容区域-->
             <div style="flex-wrap: nowrap;">
                 <div class="grids" v-for="grids,index in menuTabs">
-                    <div v-for="grid,key,index in grids" class="grid">
+                    <div v-for="grid,index in grids" class="grid" @tap="tapGrids(grid)">
                         <img class="grid_icon" src="{{grid.imgUrl}}" />
                         <div class="label">{{grid.elementName}}</div>
                     </div>
@@ -430,6 +430,11 @@
 
        // 事件处理函数(集中保存在methods对象中)
         methods: {
+            tapGrids(item) {
+                // this.menuTabs[index]
+                console.log(item)
+                util.navigateTo('/packageGoods/spellGroup/index')
+            },
             redirectTo(path) {
                 util.navigateTo(path)
             },

@@ -34,63 +34,63 @@
 
   // import testMixin from '../../mixins/test'
 
-  wepy.page ({
-    config: {
-      navigationBarTitleText: '商品列表',
-      enablePullDownRefresh: false,
-      backgroundColorTop: '#fc571f',
-      navigationBarTextStyle: 'white',
-      usingComponents: {
-        'van-icon': '/vant/icon/index',
-        'van-search': '/vant/search/index',
-        'van-tab': '/vant/tab/index',
-        'van-tabs': '/vant/tabs/index'
-      }
-    },
+  wepy.page({
+      config: {
+          navigationBarTitleText: '商品列表',
+          enablePullDownRefresh: false,
+          backgroundColorTop: '#fc571f',
+          navigationBarTextStyle: 'white',
+          usingComponents: {
+              'van-icon': '/vant/icon/index',
+              'van-search': '/vant/search/index',
+              'van-tab': '/vant/tab/index',
+              'van-tabs': '/vant/tabs/index'
+          }
+      },
 
     // mixins = [testMixin]
 
-    data: {
-      pageTitle: '商品列表',
-      currentTab: 0,  // 对应样式变化
-      categoryId: '',  // 后台查询需要的字段
-      categoryArray: [], // 分类数组
-      goodsList: [] // 商品列表
-    },
+      data: {
+          pageTitle: '商品列表',
+          currentTab: 0,  // 对应样式变化
+          categoryId: '',  // 后台查询需要的字段
+          categoryArray: [], // 分类数组
+          goodsList: [] // 商品列表
+      },
 
-    onLoad(options) {
-      this.loadGoodsList(options.categoryId)
+      onLoad(options) {
+          this.loadGoodsList(options.categoryId)
       // this.loadCategory()
-    },
+      },
 
-    onShow() {
+      onShow() {
       // this.userInfo = this.$parent.globalData.userInfo
       // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
-    },
+      },
 
-    loadGoodsList(categoryId = null) {
-      if (categoryId == null) {
-        categoryId = this.categoryId
-      }
-      util.wxRequest('/nssfs-web/channel/goodslist/1057100075904731_' + categoryId + '_0_1_10_1_2_1_applet_4.0.2_.htm').then(res => {
-        this.goodsList = res.resultData.goodsList
-      })
-    },
+      loadGoodsList(categoryId = null) {
+          if (categoryId == null) {
+              categoryId = this.categoryId
+          }
+          util.wxRequest('/nssfs-web/channel/goodslist/1057100075904731_' + categoryId + '_0_1_10_1_2_1_applet_4.0.2_.htm').then(res => {
+              this.goodsList = res.resultData.goodsList
+          })
+      },
 
-    loadCategory(categoryId) {
-      let url = '/nssfs-web/category/collection/v1/1057100075904731_011_' + categoryId + '__1_applet_4.0.2_.htm'
-      util.wxRequest(url).then(res => {
+      loadCategory(categoryId) {
+          let url = '/nssfs-web/category/collection/v1/1057100075904731_011_' + categoryId + '__1_applet_4.0.2_.htm'
+          util.wxRequest(url).then(res => {
         // console.log(res)
-        this.childrenArray = res.resultData.categoryList
-        this.$apply()
-      })
-    },
+              this.childrenArray = res.resultData.categoryList
+              this.$apply()
+          })
+      },
 
     // 事件处理函数(集中保存在methods对象中)
-    methods: {
-      clickLeft() {
-        console.log('-===== click left')
+      methods: {
+          clickLeft() {
+              console.log('-===== click left')
+          }
       }
-    }
   })
 </script>
