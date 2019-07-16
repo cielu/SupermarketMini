@@ -4,6 +4,9 @@
         /*font-family: -apple-system-font, "Helvetica Neue", SimSun;*/
         font-family: Helvetica Neue, Helvetica, sans-serif;
     }
+    .ac{
+        align-items: center;
+    }
     .white{
         color: white;
     }
@@ -23,6 +26,9 @@
     .van-icon-arrow-left{
         color: #000!important;
         font-size: 20px !important;
+    }
+    .van-stepper{
+        align-items: center;
     }
     button::after{
         border: none;
@@ -144,6 +150,7 @@ wepy.app({
         mapKey: 'F5XBZ-PFWRK-DFZJJ-AOK7V-HPAEF-ELBZM',
         current_area: null,
         SystemInfo: null,
+        isIPhoneX: false,
         StatusBarHeight: 50
     },
 
@@ -180,6 +187,8 @@ wepy.app({
         let systemInfo = wx.getSystemInfoSync()
         this.$options.globalData.SystemInfo = systemInfo
         this.$options.globalData.StatusBarHeight = systemInfo.statusBarHeight
+        let iphoneNew = /iPhone11/i.test(systemInfo.model) && systemInfo.screenHeight === 812
+        this.$options.globalData.isIPhoneX = /iphone x/i.test(systemInfo.model) || iphoneNew
     },
 
     methods: {
@@ -188,7 +197,7 @@ wepy.app({
             let _this = this
             let timestamp = Math.ceil((new Date()).valueOf() / 1000)
             let currentArea = wx.getStorageSync('current_area')
-      // 已存储位置，并且存储的位置1天内有效
+            // 已存储位置，并且存储的位置1天内有效
             if (currentArea && currentArea.timestamp > timestamp - 60 * 60 * 24) {
                 this.$options.globalData.current_area = currentArea; return
             }
@@ -197,9 +206,9 @@ wepy.app({
                 type: 'gcj02',
                 altitude: true,
                 success(res) {
-          // 获取附近位置信息
+                    // 获取附近位置信息
                     url += '&location=' + res.latitude + ',' + res.longitude
-          // api根据经纬度查询附近地点
+                    // api根据经纬度查询附近地点
                     util.wxRequest(url).then(res => {
                         currentArea = res.result.pois[0]
                         currentArea = {...currentArea, timestamp}
@@ -232,9 +241,11 @@ wepy.app({
             'root': 'packageGoods',
             'name': 'packageGoods',
             'pages': [
-                'spellGroup/index',
+                'cateGoods/index',
+                'goods/detail',
                 'goodsList/index',
-                'cateGoods/index'
+                'preSaleGoods/index',
+                'spellGroup/index'
             ]
         }
     ],

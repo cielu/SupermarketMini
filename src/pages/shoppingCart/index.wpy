@@ -102,7 +102,6 @@
                     .shopImg{
                         width: 160rpx;
                         height: 160rpx;
-                        margin:0 20rpx;
                     }
                     .goodsInfo{
                         flex:1;
@@ -195,7 +194,9 @@
                 <div class="shopGoods">
                     <div class="goods" v-for="item,index in cartList">
                         <van-checkbox value="{{ shopChecked }}" checked-color="#f89218" bind:change="onShopCheckBoxChange"/>
-                        <img src="//imgservice.suning.cn/uimg1/b2c/image/zt41ba2tPg9nX_G0D3q8Kg.jpg" alt="" class="shopImg" mode="aspectFill" />
+                        <div style="background: #f7f7f7;margin:20rpx">
+                            <img src="//imgservice.suning.cn/uimg1/b2c/image/zt41ba2tPg9nX_G0D3q8Kg.jpg" alt="" class="shopImg" mode="aspectFill" />
+                        </div>
                         <div class="goodsInfo">
                             <text class="title">三只松鼠 坚果 开心果 三只松鼠 坚果 开心果 三只松鼠 坚果 开心果</text>
                             <div class="purchase">

@@ -3,9 +3,6 @@
     page{
         background: @white;
     }
-    .ac{
-        align-items: center;
-    }
     .title{
         color: #78828f;
         font-size: 28rpx;
@@ -51,6 +48,7 @@
             .distance{
                 color: #696969;
                 font-size: 26rpx;
+                min-width: 100rpx;
                 justify-content: center;
             }
         }
@@ -104,7 +102,7 @@
                 <div v-for="item,index in local_area" class="location_item" @tap="chooseLocation(item)">
                     <div style="flex-direction: column;">
                         <!--渲染地址title-->
-                        <div bindtap="backfill" id="{{index}}">{{item.title}}</div>
+                        <div >{{item.title}}</div>
                         <!--渲染详细地址-->
                         <div class="ellipsis" style="font-size:12px;color:#696969;margin:2rpx 0 8rpx;">{{item.address}}</div>
                     </div>

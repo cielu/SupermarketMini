@@ -279,7 +279,6 @@
     backgroundColorTop: '#ffffff',
     navigationBarTextStyle: 'black',
     usingComponents: {
-<!--        "cateGoodsItems": "~@/components/cateGoodsItems",-->
         "van-icon": "module:vant-weapp/lib/icon/index",
         "van-loading": "module:vant-weapp/lib/loading/index",
         "van-tab": "module:vant-weapp/lib/tab/index",

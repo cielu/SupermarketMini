@@ -27,9 +27,6 @@
     .van-cell{
         padding:6rpx 10rpx !important;
     }
-    .ac{
-        align-items: center;
-    }
     .container{
         .fill-bg{
             width:100%;
@@ -434,7 +431,8 @@
                 // this.menuTabs[index]
                 console.log(item)
                 // util.navigateTo('/packageGoods/spellGroup/index')
-                util.navigateTo('/packageGoods/cateGoods/index')
+                // util.navigateTo('/packageGoods/cateGoods/index')
+                util.navigateTo('/packageGoods/preSaleGoods/index')
             },
             redirectTo(path) {
                 util.navigateTo(path)

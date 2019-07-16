@@ -118,7 +118,7 @@
 </style>
 <template>
     <div class="goodsItems">
-        <div v-for="item,index in goodsList" class="goodsItem"  @tap="navigateTo('22')">
+        <div v-for="item,index in goodsList" class="goodsItem"  @tap="redirectToGoodsDetail(index)">
             <image src="{{item.pictureUrl}}" class="goodsPic" mode="aspectFill" >
                 <div class="timeBox">1小时达</div>
             </image>
@@ -174,7 +174,7 @@ wepy.component({
           }
       },
       data: {
-          status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
+          // status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
           userInfo: null,
           chargeTypes: []
       },
@@ -183,12 +183,8 @@ wepy.component({
       // this.chargeTypes = this.$parent.$parent.globalData.chargeTypes
       },
       methods: {
-          itemDetailFunc(taskId) {
-              wepy.navigateTo({url: '/packageTask/task/detail?task_id=' + taskId})
-          },
-      // 报名情况
-          signState(taskId) {
-              util.toast('开发中...' + taskId)
+          redirectToGoodsDetail(goodsId) {
+              util.navigateTo('/packageGoods/goods/detail?goods_id=' + goodsId)
           }
       }
   })
