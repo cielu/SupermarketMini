@@ -11,7 +11,15 @@
         color: white;
     }
     .bg-linear{
-        background-image: linear-gradient(75deg, #f89218 0%, #ff760c 100%);
+        background-image: linear-gradient(75deg, #f89218 0%, #ff760c 100%) !important;
+    }
+    .loading{
+        width:100%;
+        padding-bottom: 36rpx;
+        align-items: flex-end;
+        justify-content: center;
+        box-sizing: border-box;
+        background: #ffffff;
     }
     .fade-enter-active, .fade-leave-active {
         transition: opacity 1s;
@@ -244,6 +252,8 @@ wepy.app({
                 'cateGoods/index',
                 'goods/detail',
                 'goodsList/index',
+                'order/confirm',
+                'order/detail',
                 'preSaleGoods/index',
                 'spellGroup/index'
             ]

@@ -340,7 +340,7 @@
                     <text style="color:#feab43;margin:0 10rpx;">•</text>
                     <text style="font-size:12px;color: #939393;">拼出实惠、省钱省心</text>
                 </div>
-                <div class="ac" style="color:#939393;">
+                <div class="ac" style="color:#939393;" v-on:click="redirectTo('/packageGoods/spellGroup/index')">
                     <text style="font-size:13px">更多</text>
                     <van-icon name="arrow" color="#939393" size="14px"/>
                 </div>

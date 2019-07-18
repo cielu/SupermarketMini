@@ -32,8 +32,9 @@
         padding: 0 60rpx !important;
     }
     .vanCell{
-        padding: 12px 15px;
         background: @white;
+        padding: 12px 15px !important;
+        line-height: normal !important;
         .minWidth120{
             min-width: 120rpx;
         }
@@ -267,11 +268,31 @@
             }
             .content{
                 color: @black;
-                padding: 20rpx;
                 font-size: 30rpx;
                 line-height: 1.4;
                 letter-spacing: 2rpx;
                 margin-bottom: 20rpx;
+                flex-direction: column;
+                padding: 10rpx 30rpx 30rpx;
+                .shopName{
+                    font-size: 28rpx;
+                    padding: 10rpx 0 20rpx;
+                }
+                .serveInfo{
+                    padding:16rpx 0 ;
+                    .shopServe{
+                        color: @dark;
+                        width: 160rpx;
+                        font-size: 22rpx;
+                    }
+                    .serveContent{
+                        flex: 1;
+                        font-size: 22rpx;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        word-wrap: break-word;
+                    }
+                }
             }
         }
         .purchase{
@@ -293,7 +314,8 @@
             }
         }
         .title{
-            color: @black;
+            color: #333333;
+            font-size:36rpx;
             padding-top: 10rpx;
             margin: 20rpx auto;
         }
@@ -421,13 +443,13 @@
                 <div class="shopBox">
                     <div class="shopProvider">此商品由涉外二店提供服务</div>
                     <div class="ac">
-                        <div class="shopAbout">
+                        <div class="shopAbout" v-on:click="contactSell">
                             <van-icon name="phone-o" color="#696969" size="16px" />
                             <text style="margin-left:10rpx">联系商家</text>
                         </div>
-                        <div class="shopAbout">
+                        <div class="shopAbout" v-on:click="showShopInfoModal">
                             <van-icon name="info-o" color="#696969" size="16px" />
-                            <text style="margin-left:10rpx">关于小店</text>
+                            <text style="margin-left:10rpx">店铺信息</text>
                         </div>
                     </div>
                 </div>
@@ -435,11 +457,53 @@
         </div>
         <div class="submitAction" style="padding-bottom: {{isIPhoneX ? 20 : 0}}px;">
             <van-icon name="shopping-cart-o" color="#636d89" info="99+" size="28px" style="margin-left:30rpx;"/>
-            <van-button type="warning" round="{{true}}">加入购物车</van-button>
-            <van-button type="danger" round="{{true}}">立即购买</van-button>
+            <van-button type="warning" round="{{true}}" customClass="bg-linear" >加入购物车</van-button>
+            <van-button type="danger" round="{{true}}" bind:click="purchaseAtOnce">立即购买</van-button>
         </div>
     </div>
 
+    <van-popup
+            show="{{ isShowShopInfoModal }}"
+            position="bottom"
+            customClass="vanPopup"
+            safe-area-inset-bottom="{{false}}"
+            overlay-style="background-color:rgba(0,0,0,0.7);"
+            bind:close="showShopInfoModal"
+    >
+        <div class="attributeBox">
+            <div class="title">店铺信息</div>
+            <div class="attribute">
+                <div class="content">
+                    <div class="shopName">优两库二店</div>
+                    <div class="ac serveInfo">
+                        <div class="shopServe">配送时间</div>
+                        <div class="serveContent">08:00 ~ 21:00</div>
+                    </div>
+                    <div class="ac serveInfo">
+                        <div class="shopServe">配送服务</div>
+                        <div class="serveContent">达达快送</div>
+                    </div>
+                    <div class="ac serveInfo">
+                        <div class="shopServe">门店地址</div>
+                        <div class="serveContent">鲁谷街道文轩路128号天元涉外景园C区</div>
+                    </div>
+                    <map id="map"
+                         scale="18"
+                         longitude="113.324520"
+                         latitude="23.099994"
+                         show-location="{{true}}"
+                         controls="{{controls}}"
+                         bindcontroltap="mapControlTap"
+                         markers="{{markers}}"
+                         bindmarkertap="mapMarkerTap"
+                         polyline="{{polyline}}"
+                         bindregionchange="mapRegionChange"
+                         style="width: 100%; height: 250px;margin-top:40rpx"
+                    />
+                </div>
+            </div>
+        </div>
+    </van-popup>
     <van-popup
             show="{{ isShowExplainModal }}"
             position="bottom"
@@ -513,7 +577,7 @@
                 />
             </div>
             <div class="finishBox">
-                <div class="finishBtn bg-linear white" v-on:click="showChooseModal">
+                <div class="finishBtn bg-linear white" v-on:click="purchaseAtOnce">
                     立即购买
                 </div>
             </div>
@@ -560,9 +624,9 @@
       mixins: [globalData],
 
       data: {
-          isIPhoneX: false,
           screenHeight: 600,
           isShowAttrModal: false,
+          isShowShopInfoModal: false,
           isShowChooseModal: false,
           isShowExplainModal: false,
           userInfo: null,
@@ -571,11 +635,41 @@
               'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/132/772baf87-019d-4fb9-96c3-427c55baf75f.jpg',
               'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/37/f3f7e4e5-190d-4324-abef-92fdd24e776c.jpg',
               'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/102/97b8e218-14e0-4f90-b993-bae586ca40c8.jpg'
-          ]
+          ],
+          markers: [{
+              iconPath: '/images/shop/marker.png',
+              id: 0,
+              latitude: 23.099994,
+              longitude: 113.324520,
+              width: 30,
+              height: 30
+          }],
+          polyline: [{
+              points: [{
+                  longitude: 113.3245211,
+                  latitude: 23.10229
+              }, {
+                  longitude: 113.324520,
+                  latitude: 23.21229
+              }],
+              color: '#FF0000DD',
+              width: 2,
+              dottedLine: true
+          }],
+          controls: [{
+              id: 1,
+              iconPath: '/images/shop/location_pin.png',
+              position: {
+                  left: 10,
+                  top: 210,
+                  width: 30,
+                  height: 30
+              },
+              clickable: true
+          }]
       },
 
       onLoad() {
-          this.isIPhoneX = this.$app.$options.globalData.isIPhoneX
           this.screenHeight = this.$app.$options.globalData.SystemInfo.screenHeight
       },
 
@@ -589,7 +683,7 @@
               util.navigateTo(path)
           },
           onClickLeft() {
-              console.log('wwww')
+              console.log('on click left')
           },
           showChooseModal() {
               this.isShowChooseModal = !this.isShowChooseModal
@@ -600,6 +694,12 @@
           showExplainModal() {
               this.isShowExplainModal = !this.isShowExplainModal
           },
+          showShopInfoModal() {
+              this.isShowShopInfoModal = !this.isShowShopInfoModal
+          },
+          purchaseAtOnce() {
+              this.redirectTo('/packageGoods/order/confirm')
+          },
           onPlusGoodsNum (e) {
               console.log(e)
               util.toast('增加购物车值')
@@ -607,6 +707,18 @@
           onMinusGoodsNum (e) {
               console.log(e)
               util.toast('减少购物车值')
+          },
+          contactSell () {
+              wx.makePhoneCall({phoneNumber: '18569401993'})
+          },
+          mapRegionChange(e) {
+              console.log(e)
+          },
+          mapMarkerTap(e) {
+              console.log(e)
+          },
+          mapControlTap(e) {
+              console.log(e)
           }
       },
 
