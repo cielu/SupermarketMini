@@ -116,7 +116,7 @@
         left-arrow="{{true}}"
         fixed="{{true}}"
         border="{{false}}"
-        bind:click-left="onClickBack"
+        bind:clickLeft="onClickBack"
     />
     <div class="loading" style="height:{{StatusBarHeight + 44}}px">
         <van-loading color="#9d9d9d" />

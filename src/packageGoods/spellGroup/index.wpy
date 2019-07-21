@@ -109,13 +109,13 @@
           this.userInfo = this.$app.$options.globalData.userInfo
       },
 
-    // 事件处理函数(集中保存在methods对象中)
+      // 事件处理函数(集中保存在methods对象中)
       methods: {
           redirectTo(path) {
               util.navigateTo(path)
           },
           onClickLeft() {
-              console.log('wwww')
+              wx.navigateBack({delta: 1})
           },
           loadSpellGoods() {
               let data = 'poiCode=1057100075904731&cookieId=&channelId=57&sceneId=21-77&pageSize=20&pageNum=1&source=applet&version=4.0.2'

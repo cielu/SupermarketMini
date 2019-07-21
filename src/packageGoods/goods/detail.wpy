@@ -683,7 +683,7 @@
               util.navigateTo(path)
           },
           onClickLeft() {
-              console.log('on click left')
+              wx.navigateBack({delta: 1})
           },
           showChooseModal() {
               this.isShowChooseModal = !this.isShowChooseModal

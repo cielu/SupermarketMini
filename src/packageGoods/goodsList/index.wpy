@@ -89,7 +89,7 @@
     // 事件处理函数(集中保存在methods对象中)
       methods: {
           clickLeft() {
-              console.log('-===== click left')
+              wx.navigateBack({delta: 1})
           }
       }
   })

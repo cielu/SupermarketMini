@@ -200,8 +200,7 @@
         // 事件处理函数(集中保存在methods对象中)
       methods: {
           onClickBack() {
-              console.log('on click left clicked')
-              wx.navigateBack()
+              wx.navigateBack({delta: 1})
           },
           chooseArriveTime() {
               console.log('arrive time')

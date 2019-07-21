@@ -29,8 +29,10 @@
     }
     .container{
         .fill-bg{
+            top: 0;
+            left: 0;
             width:100%;
-            position:absolute;
+            position:fixed;
             border-radius:0 0 50rpx 50rpx;
         }
         .swiper-banner{
@@ -278,20 +280,20 @@
                     </div>
                 </div>
             </van-nav-bar>
-        </transition>
-        <div class="fill-bg {{customNavClass}}" style="height:{{StatusBarHeight + 140}}px;{{customNavStyle}}">
-            <div class="custom-nav" style="margin-top:{{StatusBarHeight}}px" v-show="!showVanNavBar">
-                <div slot="title" class="van-title" style="margin-left:30rpx">
-                    <van-icon name="location" color="#fff" size="20px" @tap="redirectTo('/pages/other/location')"/>
-                    <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
-                    <div style="flex-direction: column;align-items: center">
-                        <van-icon name="qr" color="#fff" size="20px"/>
-                        <text style="color:#fff;line-height:16rpx;font-size:16rpx">会员码</text>
+            <div class="fill-bg {{customNavClass}}" style="height:{{StatusBarHeight + 140}}px;{{customNavStyle}}" v-else>
+                <div class="custom-nav" style="margin-top:{{StatusBarHeight}}px" v-show="!showVanNavBar">
+                    <div slot="title" class="van-title" style="margin-left:30rpx">
+                        <van-icon name="location" color="#fff" size="20px" @tap="redirectTo('/pages/other/location')"/>
+                        <van-search readonly="true" shape="round" placeholder="请输入搜索关键词" @tap="redirectTo('/pages/home/index')" />
+                        <div style="flex-direction: column;align-items: center">
+                            <van-icon name="qr" color="#fff" size="20px"/>
+                            <text style="color:#fff;line-height:16rpx;font-size:16rpx">会员码</text>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="padding-top: {{StatusBarHeight + 45}}px;"></div>
+        </transition>
+        <div style="padding-top:{{StatusBarHeight + 44}}px;" />
         <swiper wx:if="{{imgUrls.length>0}}"
                 autoplay="{{true}}"
                 circular="{{true}}"
@@ -556,6 +558,7 @@
     usingComponents: {
         'van-icon': 'module:vant-weapp/lib/icon/index',
         'van-search': 'module:vant-weapp/lib/search/index',
+        'van-loading': 'module:vant-weapp/lib/loading/index',
         'goodsItemsColumn': '~@/components/goodsItemsColumn'
     }
 }

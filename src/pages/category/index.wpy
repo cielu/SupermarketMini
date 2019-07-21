@@ -102,7 +102,7 @@
                 <div wx:if="{{item.nextCategoryList.length==0}}" class="noneCategory"> ──── 暂无分类 ────</div>
                 <!--有类目的情况-->
                 <div wx:else class="categoryCard">
-                    <div class="categoryItem" v-for="children,key,index in item.nextCategoryList">
+                    <div class="categoryItem" v-for="children,key,index in item.nextCategoryList" v-on:click="redirectTo">
                         <img class="categoryImg"
                                src="{{children.categoryImg ? children.categoryImg : 'https://imgservice1.suning.cn/uimg1/pcms/newcatentriesuimg/OAU6ZK3atBHX0STs5sjSTA==.jpg'}}"
                                mode="scaleToFill" />
@@ -146,6 +146,9 @@ wepy.page({
 
     // 事件处理函数(集中保存在methods对象中)
       methods: {
+          redirectTo() {
+              util.navigateTo('/packageGoods/cateGoods/index')
+          },
           tapCategory(categoryId, index) {
         // 刷新右侧内容的数据
               this.currentTab = index
