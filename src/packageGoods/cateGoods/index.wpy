@@ -166,7 +166,7 @@
                 <img src="http://cdn.linghui.co/shengxianguoshu.jpg" alt="" class="banner" mode="aspectFill" />
             </div>
             <div class="goodsList">
-                <div class="goodsItem" v-for="goods,index in cateGoodsList">
+                <div class="goodsItem" v-for="goods,index in cateGoodsList" v-on:click="redirectTo('/packageGoods/goods/detail')">
                     <img class="goodsImg" src="{{goods.pictureUrl}}" alt="{{goods.goodsName}}" mode="aspectFill" />
                     <div class="goodsBody">
                         <div class="goodsTitle">{{goods.goodsName}}</div>

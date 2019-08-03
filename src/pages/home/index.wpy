@@ -331,8 +331,8 @@
         </view>
         <!-- 广告 advertise -->
         <div class="advert">
-            <img src="http://cdn.linghui.co/temai.png" class="advert-img-left" />
-            <img src="http://cdn.linghui.co/bag.png" class="advert-img-right" />
+            <img src="http://cdn.linghui.co/temai.png" class="advert-img-left" v-on:click="redirectTo('/packageGoods/cateGoods/index')"/>
+            <img src="http://cdn.linghui.co/bag.png" class="advert-img-right" v-on:click="redirectTo('/packageGoods/goods/detail')" />
         </div>
         <div class="group-box">
             <div class="group-title">
@@ -350,7 +350,7 @@
             <div class="group-body">
                 <scroll-view scroll-x="true" class="scroll-h">
                     <div style="flex-wrap: nowrap;">
-                        <div v-for="item,index in groupGoods" class="group-goods">
+                        <div v-for="item,index in groupGoods" class="group-goods" v-on:click="redirectTo('/packageGoods/goods/detail')">
                             <img src="{{item.goodsPic}}" class="goodsPic" mode="aspectFill"/>
                             <text class="title">{{item.goodsName}}</text>
                             <div class="group_nun">{{item.groupNum}}人团</div>

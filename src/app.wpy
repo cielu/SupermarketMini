@@ -261,7 +261,7 @@ wepy.app({
     ],
     permission: {
         'scope.userLocation': {
-            'desc': '您的位置信息将用于获取附近任务或服务'
+            'desc': '您的位置信息将用于获取门店'
         }
     },
     window: {
