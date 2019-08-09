@@ -8,6 +8,5 @@
     <img src="https://images.gitee.com/uploads/images/2019/0809/210624_90decc40_1556241.png" width="300">
 </div>
 
-<div align="center">
-    <img src="https://images.gitee.com/uploads/images/2019/0809/210637_10127f38_1556241.png" width="300">
-</div>
+<img src="https://images.gitee.com/uploads/images/2019/0809/210637_10127f38_1556241.png" width="300">
+
