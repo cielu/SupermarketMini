@@ -30,6 +30,7 @@ module.exports = {
         }
     },
     plugins: [],
+    static: ['./src/images'],
     appConfig: {
         noPromiseAPI: ['createSelectorQuery']
     }
