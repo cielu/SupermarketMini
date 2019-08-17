@@ -2,3 +2,7 @@ node_modules
 weapp
 .DS_Store
 .idea
+# yarn
+yarn-error.log
+# wepy
+.wepycache
