@@ -714,10 +714,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@wepy/cli@^2.0.0-alpha.14":
-  version "2.0.0-alpha.14"
-  resolved "https://registry.yarnpkg.com/@wepy/cli/-/cli-2.0.0-alpha.14.tgz#e483e5d5adb840139dfdf690a5340697e904cecd"
-  integrity sha512-cqlEXxBbiwJyIq9kLScWnrjw22ePvZSdZlaxdDTYh1+oazPiaeFQl30qDSw4K6Tb9DXGAeme53dHYdBUtpkYKg==
+"@wepy/cli@^2.0.0-alpha.17":
+  version "2.0.0-alpha.17"
+  resolved "https://registry.yarnpkg.com/@wepy/cli/-/cli-2.0.0-alpha.17.tgz#92c2f84a9bb5fb70e223bd82b9c65a35cc0791f5"
+  integrity sha512-330ThPKdaLKVi9GKe8ikl5E2I/ox98gFZ2Bl1E6fEeq53FaXYnPxbdo8fXv4K54txOirZD++czoumeGwv+FdXQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     acorn "^5.4.1"
@@ -775,10 +775,10 @@
   dependencies:
     loader-utils "^1.1.0"
 
-"@wepy/core@^2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.npm.taobao.org/@wepy/core/download/@wepy/core-2.0.0-alpha.8.tgz#1b09870d88719b1ea66704da603af38fc7a0eeaa"
-  integrity sha1-GwmHDYhxmx6mZwTaYDrzj8eg7qo=
+"@wepy/core@^2.0.0-alpha.9":
+  version "2.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@wepy/core/-/core-2.0.0-alpha.9.tgz#a8a0bc6aed69223f97fd318c97a95adde37ae5ca"
+  integrity sha512-eRj+20xKDtop6QLPL1K0q1seH13XYM6WvUjxFba9RdBFjItQ0vTzwCCFMX5N/cPEUGk3QmVizlsFNVo0cQk89A==
 
 absolute@0.0.1:
   version "0.0.1"
@@ -4583,10 +4583,10 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-vant-weapp@^0.5.15:
-  version "0.5.15"
-  resolved "https://registry.npm.taobao.org/vant-weapp/download/vant-weapp-0.5.15.tgz#77804676d665701c37bf8b737ddf28643e62bd9b"
-  integrity sha1-d4BGdtZlcBw3v4tzfd8oZD5ivZs=
+vant-weapp@^0.5.19:
+  version "0.5.19"
+  resolved "https://registry.yarnpkg.com/vant-weapp/-/vant-weapp-0.5.19.tgz#80960529a5985af3f418a063e8b25f1757710912"
+  integrity sha512-/ixRsmyPgghw7qFghC/uBih62SK/GJRWxhCvvbnRt/M9w7gCAGS73KPReaQ2vFSqmNqn50gqWb/IpSDP9pYxMQ==
 
 verror@1.10.0:
   version "1.10.0"
