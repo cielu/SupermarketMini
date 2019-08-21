@@ -1,191 +1,206 @@
 <style lang="less" xmlns:wx="http://www.w3.org/1999/xhtml" xmlns:wx="http://www.w3.org/1999/xhtml">
-    @import "../utils/colors";
-    .goodsItems{
-        width: 100%;
-        font-size: 32rpx;
-        flex-wrap: wrap;
-        padding:0 20rpx 20rpx;
-        box-sizing: border-box;
-        justify-content:space-between;
-        .goodsItem{
-            width: 336rpx;
-            height: 500rpx;
-            background: @white;
-            border-radius:20rpx;
-            margin: 0 8rpx 14rpx;
-            padding: 0 20rpx;
-            box-sizing: border-box;
-            align-items: center;
-            flex-direction: column;
-            .goodsPic{
-                position: relative;
-                height: 300rpx;
-                width: 300rpx;
-                .timeBox{
-                    bottom: 0;
-                    position: absolute;
-                    font-size: 14rpx;
-                    color: @white;
-                    background: @timeBox;
-                    margin:4rpx;
-                    padding: 2rpx 6rpx;
-                    border-radius: 6rpx;
-                }
-            }
-            .goodsBody{
-                flex: 1;
-                width: 100%;
-                flex-direction: column;
-                align-items: flex-start;
-                .goodsTitle{
-                    color: @black;
-                    font-size:24rpx;
-                    overflow: hidden;
-                    display: -webkit-box;
-                    text-overflow: ellipsis;
-                    word-wrap: break-word;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    white-space: normal !important;
-                }
-                .goodsBottom{
-                    flex: 1;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-between;
-                    .showPrice{
-                        color: @price;
-                        height: 100%;
-                        flex-direction: column;
-                        .salePrice{
-                            font-size: 36rpx;
-                        }
-                        .preSale{
-                            font-size:12rpx;
-                            color: #47c62c;
-                            height: 20rpx;
-                            width: 40rpx;
-                            margin: 10rpx 0;
-                            border-radius: 20rpx;
-                            border: 1rpx solid #47c62c;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        .vipPrice{
-                            color: @golden;
-                            font-size:32rpx;
-                            margin-top: 4rpx;
-                            align-items: center;
-                            .vipPriceBox{
-                                color: @black;
-                                height: 20rpx;
-                                width: 78rpx;
-                                font-size: 12rpx;
-                                margin-left: 10rpx;
-                                border-radius: 20rpx;
-                                background: @vipColor;
-                                align-items: center;
-                                .vipCrown{
-                                    width: 26rpx;
-                                    height: 20rpx;
-                                    align-items: center;
-                                    justify-content: center;
-                                    background: #333333;
-                                    border-radius: 20rpx 0 0 20rpx;
-                                    image{
-                                        width: 16rpx;
-                                        height: 16rpx;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .purchaseBtn{
-                        width:80rpx;
-                        height:40rpx;
-                        font-size:20rpx;
-                        color:@white;
-                        background: -webkit-linear-gradient(left, @themeColor, #ff8464);
-                        align-items:center;
-                        justify-content:center;
-                        border-radius:10rpx;
-                    }
-                }
-            }
+  @import "../utils/colors";
+
+  .goodsItems {
+    width: 100%;
+    font-size: 32rpx;
+    flex-wrap: wrap;
+    padding: 0 20rpx 20rpx;
+    box-sizing: border-box;
+    justify-content: space-between;
+
+    .goodsItem {
+      width: 336rpx;
+      height: 500rpx;
+      background: @white;
+      border-radius: 20rpx;
+      margin: 0 8rpx 14rpx;
+      padding: 0 20rpx;
+      box-sizing: border-box;
+      align-items: center;
+      flex-direction: column;
+
+      .goodsPic {
+        position: relative;
+        height: 300rpx;
+        width: 300rpx;
+
+        .timeBox {
+          bottom: 0;
+          position: absolute;
+          font-size: 14rpx;
+          color: @white;
+          background: @timeBox;
+          margin: 4rpx;
+          padding: 2rpx 6rpx;
+          border-radius: 6rpx;
         }
+      }
+
+      .goodsBody {
+        flex: 1;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .goodsTitle {
+          color: @black;
+          font-size: 24rpx;
+          overflow: hidden;
+          display: -webkit-box;
+          text-overflow: ellipsis;
+          word-wrap: break-word;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          white-space: normal !important;
+        }
+
+        .goodsBottom {
+          flex: 1;
+          width: 100%;
+          align-items: center;
+          justify-content: space-between;
+
+          .showPrice {
+            color: @price;
+            height: 100%;
+            flex-direction: column;
+
+            .salePrice {
+              font-size: 36rpx;
+            }
+
+            .preSale {
+              font-size: 12rpx;
+              color: #47c62c;
+              height: 20rpx;
+              width: 40rpx;
+              margin: 10rpx 0;
+              border-radius: 20rpx;
+              border: 1rpx solid #47c62c;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .vipPrice {
+              color: @golden;
+              font-size: 32rpx;
+              margin-top: 4rpx;
+              align-items: center;
+
+              .vipPriceBox {
+                color: @black;
+                height: 20rpx;
+                width: 78rpx;
+                font-size: 12rpx;
+                margin-left: 10rpx;
+                border-radius: 20rpx;
+                background: @vipColor;
+                align-items: center;
+
+                .vipCrown {
+                  width: 26rpx;
+                  height: 20rpx;
+                  align-items: center;
+                  justify-content: center;
+                  background: #333333;
+                  border-radius: 20rpx 0 0 20rpx;
+
+                  image {
+                    width: 16rpx;
+                    height: 16rpx;
+                  }
+                }
+              }
+            }
+          }
+
+          .purchaseBtn {
+            width: 80rpx;
+            height: 40rpx;
+            font-size: 20rpx;
+            color: @white;
+            background: -webkit-linear-gradient(left, @themeColor, #ff8464);
+            align-items: center;
+            justify-content: center;
+            border-radius: 10rpx;
+          }
+        }
+      }
     }
+  }
 
 </style>
 <template>
-    <div class="goodsItems">
-        <div v-for="item,index in goodsList" class="goodsItem"  @tap="redirectToGoodsDetail(index)">
-            <image src="{{item.pictureUrl}}" class="goodsPic" mode="aspectFill" >
-                <div class="timeBox">1小时达</div>
-            </image>
-            <div class="goodsBody">
-                <div class="goodsTitle">{{item.goodsName}}</div>
-                <div class="goodsBottom">
-                    <div class="showPrice">
-                        <div wx:if="{{item.isSpec}}" class="preSale">
-                            预售
-                        </div>
-                        <div wx:else style="height: 20rpx;"></div>
-                        <div wx:if="{{1}}" style="flex-direction: column">
-                            <div style="font-size:24rpx;">
-                                ¥{{item.goodsSalePrice}}
-                            </div>
-                            <div class="vipPrice">
-                                <text>¥{{item.goodsSalePrice}}</text>
-                                <div class="vipPriceBox">
-                                    <div class="vipCrown">
-                                        <img src="/images/member/crown.png" mode="aspectFill"/>
-                                    </div>
-                                    <div style="flex:1;justify-content: center">
-                                        会员价
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div wx:else class="salePrice">
-                            ¥{{item.goodsSalePrice}}
-                        </div>
-                    </div>
-                    <img wx:if="{{item.isSpec == 1}}" src="/images/goods/shopping_cart.png" class="icon" mode="aspectFill" />
-                    <div wx:else class="purchaseBtn">
-                        购买
-                    </div>
-                </div>
+  <div class="goodsItems">
+    <div v-for="item,index in goodsList" class="goodsItem" @tap="redirectToGoodsDetail(index)">
+      <image src="{{item.goodsCoverUrl}}" class="goodsPic" mode="aspectFill">
+        <div class="timeBox">1小时达</div>
+      </image>
+      <div class="goodsBody">
+        <div class="goodsTitle">{{item.goodsName}}</div>
+        <div class="goodsBottom">
+          <div class="showPrice">
+            <div wx:if="{{item.isSpec}}" class="preSale">
+              预售
             </div>
+            <div wx:else style="height: 20rpx;"></div>
+            <div wx:if="{{1}}" style="flex-direction: column">
+              <div style="font-size:24rpx;">
+                ¥{{item.goodsSalePrice}}
+              </div>
+              <div class="vipPrice">
+                <text>¥{{item.goodsSalePrice}}</text>
+                <div class="vipPriceBox">
+                  <div class="vipCrown">
+                    <img src="/images/member/crown.png" mode="aspectFill"/>
+                  </div>
+                  <div style="flex:1;justify-content: center">
+                    会员价
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div wx:else class="salePrice">
+              ¥{{item.goodsSalePrice}}
+            </div>
+          </div>
+          <img wx:if="{{item.isSpec == 1}}" src="/images/goods/shopping_cart.png" class="icon" mode="aspectFill"/>
+          <div wx:else class="purchaseBtn">
+            购买
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
-  import wepy from '@wepy/core'
-  import util from '../utils/util'
+    import wepy from '@wepy/core'
+    import util from '../utils/util'
 
-wepy.component({
-      props: {
-          goodsList: {
-              type: Array,
-              default: []
-          },
-          index: {
-              type: Number
-          }
-      },
-      data: {
-          // status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
-          userInfo: null,
-          chargeTypes: []
-      },
-      onLoad () {
-      // this.userInfo = this.$parent.$parent.globalData.userInfo
-      // this.chargeTypes = this.$parent.$parent.globalData.chargeTypes
-      },
-      methods: {
-          redirectToGoodsDetail(goodsId) {
-              util.navigateTo('/packageGoods/goods/detail?goods_id=' + goodsId)
-          }
-      }
-  })
+    wepy.component({
+        props: {
+            goodsList: {
+                type: Array,
+                default: []
+            },
+            index: {
+                type: Number
+            }
+        },
+        data: {
+            // status: [ '未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成' ],
+            userInfo: null,
+            chargeTypes: []
+        },
+        onLoad() {
+            // this.userInfo = this.$parent.$parent.globalData.userInfo
+            // this.chargeTypes = this.$parent.$parent.globalData.chargeTypes
+        },
+        methods: {
+            redirectToGoodsDetail(goodsId) {
+                util.navigateTo('/packageGoods/goods/detail?goods_id=' + goodsId)
+            }
+        }
+    })
 </script>

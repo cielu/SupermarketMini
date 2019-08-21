@@ -1,6 +1,6 @@
 // import wepy from '@wx/core'
-// const HOST = 'https://app.jiehuo.site/api'
-const HOST = 'https://ns.suning.com'
+// const HOST = 'https://ns.suning.com'
+const HOST = 'https://market.linghui.co/api'
 // const HOST = 'http://ciel.s1.natapp.cc'
 // 封装微信请求
 const wxRequest = async function (url, data = {}, method = 'GET', showLoading = true) {
@@ -18,7 +18,7 @@ const wxRequest = async function (url, data = {}, method = 'GET', showLoading = 
             data,
             header: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-                'Cookie': 'tradeMA=249;custLevel=161000000110;TGC=TGT5065336B43C85A6FBA3B8C2EF019ADAC983057D7;tradeLdc=NJYH;ids_r_me=NzEyOTg3MTg2NV9BUFBfMTU2MDA2OTI5NjM2N18xNTYwMDY5Mjk2MzY3XzBfOGJiMmIzN2MyMTc4YjRmNzlkNTZhNmMzMTE4MjE1OTU=;idsLoginUserIdLastTime=18569401993;logonStatus=0;nick=185******93;authId=si46BC748DF3D9F820A4A5F95DEBE690B9;route=9ddb31cae800f7b5c6ef2cadbb3169b6;custno=7129871865;secureToken=41B7BB74D452F70CE065477AA022C89D;sncnstr=OpHwepxRLTEuaRrN9Irk1w==;nick2=185******93\n',
+                // 'Cookie': '',
                 'authorization': authorization
             },
             method: method,
@@ -32,9 +32,15 @@ const wxRequest = async function (url, data = {}, method = 'GET', showLoading = 
                     navigateTo('/pages/other/login')
                     return false
                 case 500 :
+                case 501 :
+                case 502 :
                     toast('操作失败，请稍后再试!')
                     return false
                 default:
+                    if (res.data.status === 'error') {
+                        toast(res.data.msg)
+                        return false
+                    }
                     resolve(res.data)
                 }
             },
@@ -48,28 +54,6 @@ const wxRequest = async function (url, data = {}, method = 'GET', showLoading = 
             }
         })
     })
-}
-// 判断用户是否实名认证 1 实名认证|2商户认证
-const isCertification = async function (type = 1) {
-    // 获取用户信息
-    let res = await wxRequest('/mine/information')
-    switch (type) {
-    case 1 :
-        if (!res.result.is_certification) {
-            toast('请先实名认证')
-            wx.redirectTo({url: '/packageMine/mine/auth/idCard'})
-            return false
-        }
-        break
-    case 2 :
-        if (!res.result.is_merchant) {
-            toast('请先商户认证')
-            wx.redirectTo({url: '/packageMine/mine/auth/merchant'})
-            return false
-        }
-        break
-    }
-    return res.result
 }
 
 // toast
@@ -91,6 +75,5 @@ function navigateTo (path, param = '') {
 module.exports = {
     toast,
     navigateTo,
-    wxRequest,
-    isCertification
+    wxRequest
 }

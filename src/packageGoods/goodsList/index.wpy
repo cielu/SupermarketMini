@@ -72,8 +72,8 @@
           if (categoryId == null) {
               categoryId = this.categoryId
           }
-          util.wxRequest('/nssfs-web/channel/goodslist/1057100075904731_' + categoryId + '_0_1_10_1_2_1_applet_4.0.2_.htm').then(res => {
-              this.goodsList = res.resultData.goodsList
+          util.wxRequest('/guss_u_like_goods').then(res => {
+              this.goodsList = res.data.data
           })
       },
 

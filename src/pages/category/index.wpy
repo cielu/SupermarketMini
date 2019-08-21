@@ -1,182 +1,191 @@
 <style lang="less">
-    @import "../../utils/colors";
-    page{
-        background: #f7f7f7;
+  @import "../../utils/colors";
+
+  page {
+    background: #f7f7f7;
+  }
+
+  .left-navbar {
+    position: absolute;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    font-size: 26rpx;
+    background-color: @background;
+
+    .category {
+      height: 100rpx;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+      white-space: normal !important;
+      background: @white;
     }
-    .left-navbar {
-        position: absolute;
-        left: 0;
-        width: 25%;
-        height:100%;
-        font-size: 26rpx;
-        background-color: @background;
-        .category {
-            height: 100rpx;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            word-wrap: break-word;
-            text-overflow: ellipsis;
-            white-space: normal !important;
-            background: @white;
-        }
-        .active {
-            height: 60rpx;
-            margin: 20rpx 0;
-            font-size: 30rpx;
-            color: #f95a2d;
-            box-sizing: border-box;
-            background-color: @background;
-            border-left: 8rpx solid #ff4141;
-        }
+
+    .active {
+      height: 60rpx;
+      margin: 20rpx 0;
+      font-size: 30rpx;
+      color: #f95a2d;
+      box-sizing: border-box;
+      background-color: @background;
+      border-left: 8rpx solid #ff4141;
     }
-    #right {
-        right: 0;
-        width: 75%;
-        height:100%;
-        color: #333333;
-        font-size: 24rpx;
-        position: absolute;
-        box-sizing: border-box;
-        .categoryName {
-            color: #212121;
-            font-size: 28rpx;
-            margin: 30rpx 0;
-        }
-        .goods-banner{
-            margin: 20rpx 0;
-            .img-banner{
-                width:100%;
-                height:200rpx;
-            }
-        }
-        .noneCategory {
-            justify-content: center;
-        }
-        .categoryCard {
-            background: @white;
-            border-radius: 20rpx;
-            flex-wrap: wrap;
-            padding: 10rpx;
-            box-sizing: border-box;
-            .categoryItem {
-                width: 33.33%;
-                height: 180rpx;
-                align-items: center;
-                justify-content: space-around;
-                flex-direction: column;
-                .categoryImg {
-                    width: 120rpx;
-                    height: 120rpx;
-                }
-            }
-        }
-        .touchBottom {
-            color: #c7c7c7;
-            font-size: 24rpx;
-            margin: 30rpx 0;
-            justify-content: center
-        }
+  }
+
+  #right {
+    right: 0;
+    width: 75%;
+    height: 100%;
+    color: #333333;
+    font-size: 24rpx;
+    position: absolute;
+    box-sizing: border-box;
+
+    .categoryName {
+      color: #212121;
+      font-size: 28rpx;
+      margin: 30rpx 0;
     }
+
+    .goods-banner {
+      margin: 20rpx 0;
+
+      .img-banner {
+        width: 100%;
+        height: 200rpx;
+      }
+    }
+
+    .noneCategory {
+      justify-content: center;
+    }
+
+    .categoryCard {
+      background: @white;
+      border-radius: 20rpx;
+      flex-wrap: wrap;
+      padding: 10rpx;
+      box-sizing: border-box;
+
+      .categoryItem {
+        width: 33.33%;
+        height: 180rpx;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+
+        .categoryImg {
+          width: 120rpx;
+          height: 120rpx;
+        }
+      }
+    }
+
+    .touchBottom {
+      color: #c7c7c7;
+      font-size: 24rpx;
+      margin: 30rpx 0;
+      justify-content: center
+    }
+  }
 </style>
 <template>
-    <van-nav-bar title="商品分类" fixed="{{true}}"/>
-    <div class="container" style="padding-top: {{StatusBarHeight + 45}}px">
-        <!--分类导航栏-->
-        <scroll-view class="left-navbar" scroll-y="true" style="height:{{scrollHeight}}px">
-            <div v-for="item,index in categoryArray"
-                 class="category {{ currentTab == index ? 'active' : '' }}"
-                 @tap="tapCategory(item.categoryCode,index)">
-                {{item.categoryName}}
-            </div>
-        </scroll-view>
-        <scroll-view id="right" scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px">
-            <!--商品展示-->
-            <div style="flex-direction: column;padding: 0 20rpx;" v-for="item,key,index in childrenArray">
-                <!--顶部图片-->
-                <div class="goods-banner" wx:if="{{item.categoryImg}}">
-                    <img class="img-banner" src="{{item.categoryImg}}" mode="scaleToFill" />
-                </div>
-                <div class="categoryName">{{item.categoryName}}</div>
-                <!--无类目的情况-->
-                <div wx:if="{{item.nextCategoryList.length==0}}" class="noneCategory"> ──── 暂无分类 ────</div>
-                <!--有类目的情况-->
-                <div wx:else class="categoryCard">
-                    <div class="categoryItem" v-for="children,key,index in item.nextCategoryList" v-on:click="redirectTo">
-                        <img class="categoryImg"
-                               src="{{children.categoryImg ? children.categoryImg : 'https://imgservice1.suning.cn/uimg1/pcms/newcatentriesuimg/OAU6ZK3atBHX0STs5sjSTA==.jpg'}}"
-                               mode="scaleToFill" />
-                        <div class="ellipsis">{{children.categoryName}}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="touchBottom">─── 到底啦 ───</div>
-        </scroll-view>
-    </div>
+  <van-nav-bar title="商品分类" fixed="{{true}}"/>
+  <div class="container" style="padding-top: {{StatusBarHeight + 45}}px">
+    <!--分类导航栏-->
+    <scroll-view class="left-navbar" scroll-y="true" style="height:{{scrollHeight}}px">
+      <div v-for="item,index in categoryArray"
+           class="category {{ currentTab == index ? 'active' : '' }}"
+           @tap="tapCategory(item.cateId,index)">
+        {{item.cateName}}
+      </div>
+    </scroll-view>
+    <scroll-view id="right" scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px">
+      <!--商品展示-->
+      <div style="flex-direction: column;padding: 0 20rpx;" v-for="item,key,index in childrenArray">
+        <!--顶部图片-->
+        <div class="goods-banner" wx:if="{{item.cateIcon}}">
+          <img class="img-banner" src="{{item.cateIcon}}" mode="scaleToFill"/>
+        </div>
+        <div class="categoryName">{{item.cateName}}</div>
+        <!--无类目的情况-->
+        <div wx:if="{{item.childCate.length==0}}" class="noneCategory"> ──── 暂无分类 ────</div>
+        <!--有类目的情况-->
+        <div wx:else class="categoryCard">
+          <div class="categoryItem" v-for="children,key,index in item.childCate" v-on:click="redirectTo">
+            <img class="categoryImg"
+                 src="{{children.cateIcon ? children.cateIcon : 'https://imgservice1.suning.cn/uimg1/pcms/newcatentriesuimg/OAU6ZK3atBHX0STs5sjSTA==.jpg'}}"
+                 mode="scaleToFill"/>
+            <div class="ellipsis">{{children.cateName}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="touchBottom">─── 到底啦 ───</div>
+    </scroll-view>
+  </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import util from '../../utils/util'
+    import wepy from '@wepy/core'
+    import util from '../../utils/util'
 
-  import globalData from '../../mixins/globalData'
+    import globalData from '../../mixins/globalData'
 
-wepy.page({
+    wepy.page({
 
-      mixins: [globalData],
+        mixins: [globalData],
 
-      data: {
-          currentTab: 0,  // 对应样式变化
-          scrollTop: 0,  // 用作跳转后右侧视图回到顶部
-          scrollHeight: 730,
-          categoryId: '',  // 后台查询需要的字段
-          categoryArray: [], // 左侧导航栏内容
-          childrenArray: [] // 右侧内容
-      },
+        data: {
+            currentTab: 0,  // 对应样式变化
+            scrollTop: 0,  // 用作跳转后右侧视图回到顶部
+            scrollHeight: 730,
+            categoryId: '',  // 后台查询需要的字段
+            categoryArray: [], // 左侧导航栏内容
+            childrenArray: [] // 右侧内容
+        },
 
-      onLoad() {
-          this.scrollHeight = this.$app.$options.globalData.SystemInfo.windowHeight - 45 - this.StatusBarHeight
-          this.loadCategory()
-      },
+        onLoad() {
+            this.scrollHeight = this.$app.$options.globalData.SystemInfo.windowHeight - 45 - this.StatusBarHeight
+            this.loadCategory()
+        },
 
-      onShow() {
-      // this.userInfo = this.$parent.globalData.userInfo
-      // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
-      },
+        onShow() {
+            // this.userInfo = this.$parent.globalData.userInfo
+            // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
+        },
 
-    // 事件处理函数(集中保存在methods对象中)
-      methods: {
-          redirectTo() {
-              util.navigateTo('/packageGoods/cateGoods/index')
-          },
-          tapCategory(categoryId, index) {
-        // 刷新右侧内容的数据
-              this.currentTab = index
-              this.loadCategoryChildren(categoryId)
-          },
-          loadCategory() {
-              util.wxRequest('/nssfs-web/category/collection/v1/1127100003696731_100____applet_4.0.2_.htm').then(res => {
-                  this.categoryArray = res.resultData.categoryList
-                  this.scrollTop = 0
-                  this.loadCategoryChildren(this.categoryArray[0].categoryCode)
-              })
-          },
-
-          loadCategoryChildren(categoryId) {
-              let url = '/nssfs-web/category/collection/v1/1057100075904731_011_' + categoryId + '__1_applet_4.0.2_.htm'
-              util.wxRequest(url).then(res => {
-          // console.log(res)
-                  this.childrenArray = res.resultData.categoryList
-              })
-          }
-      }
-  })
+        // 事件处理函数(集中保存在methods对象中)
+        methods: {
+            redirectTo() {
+                util.navigateTo('/packageGoods/cateGoods/index')
+            },
+            tapCategory(categoryId, index) {
+                // 刷新右侧内容的数据
+                this.currentTab = index
+                this.loadCategory(categoryId)
+            },
+            loadCategory(path = 0) {
+                this.scrollTop = 0
+                util.wxRequest('/category?path=' + path).then(res => {
+                    if (path === 0) {
+                        this.categoryArray = res.data
+                        this.loadCategory(this.categoryArray[0].cateId)
+                    } else {
+                        this.childrenArray = res.data
+                    }
+                })
+            }
+        }
+    })
 </script>
 <config>
-{
+  {
     navigationBarTitleText: '商品分类',
     enablePullDownRefresh: false,
     backgroundColorTop: '#f1f1f1',
     usingComponents: {}
-}
+  }
 </config>
