@@ -239,50 +239,50 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import util from '../../utils/util'
+import wepy from '@wepy/core'
+import util from '../../utils/util'
 
-  import globalData from '../../mixins/globalData'
+import globalData from '../../mixins/globalData'
 
 wepy.page({
-      mixins: [globalData],
+  mixins: [globalData],
 
-      data: {
-          shopChecked: true,
-          cartList: [1, 2, 3, 4, 5]
-      },
+  data: {
+    shopChecked: true,
+    cartList: [1, 2, 3, 4, 5]
+  },
 
-      onLoad() {
-      },
+  onLoad() {
+  },
 
-      onShow() {
+  onShow() {
       // this.userInfo = this.$parent.globalData.userInfo
       // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
-      },
-      onPullDownRefresh() {
-          setTimeout(() => {
-              wx.stopPullDownRefresh()
-          }, 2000)
-      },
+  },
+  onPullDownRefresh() {
+    setTimeout(() => {
+      wx.stopPullDownRefresh()
+    }, 2000)
+  },
 
     // 事件处理函数(集中保存在methods对象中)
-      methods: {
-          redirectTo(path) {
-              util.navigateTo(path)
-          },
-          onShopCheckBoxChange (e) {
-              this.shopChecked = e.$wx.detail
-          },
-          onPlusGoodsNum (e) {
-              console.log(e)
-              util.toast('增加购物车值')
-          },
-          onMinusGoodsNum (e) {
-              console.log(e)
-              util.toast('减少购物车值')
-          }
-      }
-  })
+  methods: {
+    redirectTo(path) {
+      util.navigateTo(path)
+    },
+    onShopCheckBoxChange (e) {
+      this.shopChecked = e.$wx.detail
+    },
+    onPlusGoodsNum (e) {
+      console.log(e)
+      util.toast('增加购物车值')
+    },
+    onMinusGoodsNum (e) {
+      console.log(e)
+      util.toast('减少购物车值')
+    }
+  }
+})
 </script>
 <config>
 {

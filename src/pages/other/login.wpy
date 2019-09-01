@@ -1,68 +1,77 @@
 <style lang="less">
-    @import "../../utils/colors";
-    .login-box{
-        width:80%;
-        color: @gray;
-        font-size:28rpx;
-        margin-top:100rpx;
-        flex-direction: column;
-        .input-box{
-            height: 90rpx;
-            padding:0 40rpx;
-            margin-top: 38rpx;
-            align-items: center;
-            border-radius: 45rpx;
-            box-sizing: border-box;
-            border: 1rpx solid @default;
-            .input{
-                flex: 1;
-                height: 60rpx;
-                margin: 0 20rpx;
-            }
-        }
-        .login-btn{
-            color: @white;
-            height: 90rpx;
-            font-size:36rpx;
-            margin-top: 60rpx;
-            border-radius: 45rpx;
-            align-items: center;
-            justify-content: center;
-            background: @themeColor;
-        }
-    }
-    .login-agreement{
-        color: @gray;
-        width: 100%;
-        font-size:24rpx;
-        text-align:center;
-        margin:100rpx 0;
-    }
-    .wechat-login{
-        margin-top: 50rpx;
-        flex-direction: column;
+@import "../../utils/colors";
+
+.login-box {
+    width: 80%;
+    color: @gray;
+    font-size: 28rpx;
+    margin-top: 100rpx;
+    flex-direction: column;
+    
+    .input-box {
+        height: 90rpx;
+        padding: 0 40rpx;
+        margin-top: 38rpx;
         align-items: center;
-        .wechat-text{
-            color: @gray;
-            font-size:24rpx;
-            margin-left:6rpx;
-            margin-top: 28rpx;
-        }
-        .wechat-btn{
-            padding:0;
-            height:110rpx;
-            width:110rpx;
-            margin:0 auto;
-            background:@white;
-            border-radius:50%;
-            border:1rpx solid #51c332;
-            .wechat{
-                width: 50rpx;
-                height: 50rpx;
-                margin: 28rpx 0;
-            }
+        border-radius: 45rpx;
+        box-sizing: border-box;
+        border: 1rpx solid @default;
+        
+        .input {
+            flex: 1;
+            height: 60rpx;
+            margin: 0 20rpx;
         }
     }
+    
+    .login-btn {
+        color: @white;
+        height: 90rpx;
+        font-size: 36rpx;
+        margin-top: 60rpx;
+        border-radius: 45rpx;
+        align-items: center;
+        justify-content: center;
+        background: @themeColor;
+    }
+}
+
+.login-agreement {
+    color: @gray;
+    width: 100%;
+    font-size: 24rpx;
+    text-align: center;
+    margin: 100rpx 0;
+}
+
+.wechat-login {
+    margin-top: 50rpx;
+    flex-direction: column;
+    align-items: center;
+    
+    .wechat-text {
+        color: @gray;
+        font-size: 24rpx;
+        margin-left: 6rpx;
+        margin-top: 28rpx;
+    }
+    
+    .wechat-btn {
+        padding: 0;
+        height: 110rpx;
+        width: 110rpx;
+        margin: 0 auto;
+        background: @white;
+        border-radius: 50%;
+        border: 1rpx solid #51c332;
+        
+        .wechat {
+            width: 50rpx;
+            height: 50rpx;
+            margin: 28rpx 0;
+        }
+    }
+}
 </style>
 <template>
     <van-nav-bar bgColor="bg-theme" isBack="{{true}}">
@@ -72,11 +81,11 @@
     <view class="container">
         <view class="login-box">
             <view class="input-box">
-                <wux-icon type="ios-phone-portrait" size="16" color="#797979"/>
+                <wux-icon type="ios-phone-portrait" size="16" color="#797979" />
                 <input type="number" placeholder="请输入手机号" class="input" maxlength="11" bindinput="phoneInput" />
             </view>
             <view class="input-box">
-                <wux-icon type="ios-flame" size="16" color="#797979"/>
+                <wux-icon type="ios-flame" size="16" color="#797979" />
                 <input type="number" placeholder="验证码" class="input" maxlength="5" bindinput="verifyInput" />
                 <text style="color: #55a8f4;" @tap="getVerifyCode()">{{verify_txt}}</text>
             </view>
@@ -84,7 +93,9 @@
                 登录
             </view>
         </view>
-        <text class="login-agreement">点击"登录"即同意 <text style="color: #55a8f4;">《xxx用户协议》</text></text>
+        <text class="login-agreement">点击"登录"即同意
+            <text style="color: #55a8f4;">《xxx用户协议》</text>
+        </text>
         <view class="wechat-login">
             <button class="wechat-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
                 <img src="/images/tool/wechat.png" class="wechat" />
@@ -96,139 +107,143 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import util from '../../utils/util'
-  import { $wuxCountDown } from '../../utils/Countdown'
+import wepy from '@wepy/core'
+import util from '../../utils/util'
+import {$wuxCountDown} from '../../utils/Countdown'
 
-  wepy.page({
-      data: {
-          isShowScopeModal: false,
-          countDown: null,
-          userInfo: {},
-          code: null,
-          phone: '',
-          verify_code: '',
-          verify_txt: '获取验证码'
-      },
+wepy.page({
+  data: {
+    isShowScopeModal: false,
+    countDown: null,
+    userInfo: {},
+    code: null,
+    phone: '',
+    verify_code: '',
+    verify_txt: '获取验证码'
+  },
 
-      onLoad(options) {
-          wepy.login().then(login => {
-              this.code = login.code
-          })
-     // 判断授权
-          wepy.getSetting().then(res => {
-        // 判断用户授权情况
-              if (!res.authSetting['scope.userInfo']) {
-                  this.isShowScopeModal = true
-                  this.$apply()
-              } else {
-                  wepy.getUserInfo().then(res => {
-                      this.userInfo = res.userInfo
-                      this.$apply()
-                  })
-              }
-          })
-      },
-    // 事件处理函数(集中保存在methods对象中)
-      methods: {
-          phoneInput(e) {
-              this.phone = e.detail.value
-          },
-          verifyInput(e) {
-              this.verify_code = e.detail.value
-          },
-          getVerifyCode() {
-        // 验证手机号
-              if (!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone)) {
-                  util.toast('请输入正确的手机号'); return
-              }
-        // console.log('获取验证码')
-              let _this = this
-              if (this.countDown && this.countDown.interval) return !1
-              let form = {}
-              form.phone = this.phone
-              form.type = 'login'
-        // 获取验证码
-              util.wxRequest('/send-sms', form, 'POST').then(res => {
-          // set the third session
-                  util.toast(res.msg)
-              })
-        // 计数
-              this.countDown = new $wuxCountDown({
-                  date: +(new Date()) + 60000,
-                  onEnd() {
-                      _this.verify_txt = '重新发送'
-                      _this.$apply()
-                  },
-                  render(date) {
-                      const sec = this.leadingZeros(date.sec, 2) + ' 秒 '
-                      if (date.sec !== 0) {
-                          _this.verify_txt = sec
-                          _this.$apply()
-                      }
-                  }
-              })
-          },
-          getUserInfo(userInfo) {
-              this.userInfo = userInfo
-          },
-          login() {
-        // 验证手机号
-              if (!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone)) {
-                  util.toast('请输入正确的手机号'); return
-              }
-              if (this.verify_code.length !== 5) {
-                  util.toast('请输入正确的验证码'); return
-              }
-              let form = this.formatForm()
-              form.phone = this.phone
-              form.verify_code = this.verify_code
-              form['code'] = this.code
-        // 手机号登录
-              this.loginForm(form, '/login-phone')
-          },
-          getPhoneNumber(e) {
-              if (e.detail.errMsg === 'getPhoneNumber:ok') {
-          // login
-                  let form = this.formatForm()
-                  form.type = 'phone'
-                  form.code = this.code
-                  form.encryptedData = e.detail.encryptedData
-                  form.iv = e.detail.iv
-          // 小程序登录
-                  this.loginForm(form, '/login-mini-app')
-              } else {
-                  util.toast('获取手机号失败!')
-              }
-          }
-      },
-      formatForm() {
-          let form = {}
-          form.province = this.userInfo.province
-          form.city = this.userInfo.city
-          form.nickname = this.userInfo.nickName
-          form.avatar = this.userInfo.avatarUrl
-          form.gender = this.userInfo.gender
-          return form
-      },
-      loginForm(data, type) {
-      // 获取用户信息
-          util.wxRequest(type, data, 'POST').then(loginRes => {
-              if (loginRes.status === 'error') {
-                  util.toast(loginRes.msg); return
-              }
-        // set the third session
-              this.$parent.globalData.userInfo = loginRes.result.user
-              wepy.setStorageSync('userInfo', loginRes.result.user)
-              wepy.setStorageSync('authorization', 'Bearer ' + loginRes.result.token)
-        //  login success
-              util.toast('登录成功!')
-              setTimeout(function() {
-                  wepy.navigateBack()
-              }, 1500)
-          })
+  onLoad(options) {
+    wepy.login().then(login => {
+      this.code = login.code
+    })
+        // 判断授权
+    wepy.getSetting().then(res => {
+            // 判断用户授权情况
+      if (!res.authSetting['scope.userInfo']) {
+        this.isShowScopeModal = true
+        this.$apply()
+      } else {
+        wepy.getUserInfo().then(res => {
+          this.userInfo = res.userInfo
+          this.$apply()
+        })
       }
-  })
+    })
+  },
+    // 事件处理函数(集中保存在methods对象中)
+  methods: {
+    phoneInput(e) {
+      this.phone = e.detail.value
+    },
+    verifyInput(e) {
+      this.verify_code = e.detail.value
+    },
+    getVerifyCode() {
+            // 验证手机号
+      if (!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone)) {
+        util.toast('请输入正确的手机号')
+        return
+      }
+            // console.log('获取验证码')
+      let _this = this
+      if (this.countDown && this.countDown.interval) return !1
+      let form = {}
+      form.phone = this.phone
+      form.type = 'login'
+            // 获取验证码
+      util.wxRequest('/send-sms', form, 'POST').then(res => {
+                // set the third session
+        util.toast(res.msg)
+      })
+            // 计数
+      this.countDown = new $wuxCountDown({
+        date: +(new Date()) + 60000,
+        onEnd() {
+          _this.verify_txt = '重新发送'
+          _this.$apply()
+        },
+        render(date) {
+          const sec = this.leadingZeros(date.sec, 2) + ' 秒 '
+          if (date.sec !== 0) {
+            _this.verify_txt = sec
+            _this.$apply()
+          }
+        }
+      })
+    },
+    getUserInfo(userInfo) {
+      this.userInfo = userInfo
+    },
+    login() {
+            // 验证手机号
+      if (!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone)) {
+        util.toast('请输入正确的手机号')
+        return
+      }
+      if (this.verify_code.length !== 5) {
+        util.toast('请输入正确的验证码')
+        return
+      }
+      let form = this.formatForm()
+      form.phone = this.phone
+      form.verify_code = this.verify_code
+      form['code'] = this.code
+            // 手机号登录
+      this.loginForm(form, '/login-phone')
+    },
+    getPhoneNumber(e) {
+      if (e.detail.errMsg === 'getPhoneNumber:ok') {
+                // login
+        let form = this.formatForm()
+        form.type = 'phone'
+        form.code = this.code
+        form.encryptedData = e.detail.encryptedData
+        form.iv = e.detail.iv
+                // 小程序登录
+        this.loginForm(form, '/login-mini-app')
+      } else {
+        util.toast('获取手机号失败!')
+      }
+    }
+  },
+  formatForm() {
+    let form = {}
+    form.province = this.userInfo.province
+    form.city = this.userInfo.city
+    form.nickname = this.userInfo.nickName
+    form.avatar = this.userInfo.avatarUrl
+    form.gender = this.userInfo.gender
+    return form
+  },
+  loginForm(data, type) {
+        // 获取用户信息
+    util.wxRequest(type, data, 'POST').then(loginRes => {
+      if (loginRes.status === 'error') {
+        util.toast(loginRes.msg)
+        return
+      }
+            // set the third session
+      this.$parent.globalData.userInfo = loginRes.result.user
+      wepy.setStorageSync('userInfo', loginRes.result.user)
+      wepy.setStorageSync('authorization', 'Bearer ' + loginRes.result.token)
+            //  login success
+      util.toast('登录成功!')
+      setTimeout(function () {
+        wepy.navigateBack()
+      }, 1500)
+    })
+  }
+})
 </script>
 <config>
 {
@@ -236,7 +251,7 @@
     enablePullDownRefresh: false,
     usingComponents: {
         'scopeModal': '../../components/scopeModal'
-    // 'wux-icon': '../../../wux-ui/icon/index'
+        // 'wux-icon': '../../../wux-ui/icon/index'
     }
 }
 </config>

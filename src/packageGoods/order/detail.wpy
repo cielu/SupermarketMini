@@ -202,30 +202,30 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  // import util from '../../utils/util'
-  import globalData from '../../mixins/globalData'
+import wepy from '@wepy/core'
+// import util from '../../utils/util'
+import globalData from '../../mixins/globalData'
 
-  wepy.page({
+wepy.page({
 
-      mixins: [globalData],
+  mixins: [globalData],
 
-      data: {
-          goodsList: [1, 2, 3],
-          StatusBarHeight: 50
-      },
-      onLoad (options) {
-      },
-        // 事件处理函数(集中保存在methods对象中)
-      methods: {
-          onClickBack() {
-              console.log('on click left clicked')
-              wx.navigateBack()
-          }
-          // 触发关键词输入提示事件
-      }
-    //
-  })
+  data: {
+    goodsList: [1, 2, 3],
+    StatusBarHeight: 50
+  },
+  onLoad (options) {
+  },
+    // 事件处理函数(集中保存在methods对象中)
+  methods: {
+    onClickBack() {
+      console.log('on click left clicked')
+      wx.navigateBack()
+    }
+      // 触发关键词输入提示事件
+  }
+//
+})
 </script>
 
 <config>

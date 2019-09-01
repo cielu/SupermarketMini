@@ -1,114 +1,114 @@
 <style lang="less">
-    @import "../../utils/colors";
-    page{
-        background: @background;
+@import "../../utils/colors";
+page{
+    background: @background;
+}
+.vanSubmitBar{
+    flex-direction: column;
+}
+.vanCell{
+    background: @white;
+    padding: 13px !important;
+    line-height: normal !important;
+    .minWidth120{
+        min-width: 120rpx;
     }
-    .vanSubmitBar{
-        flex-direction: column;
+    .vanCellTitle{
+        flex: none;
+        color: #393939;
+        font-size: 26rpx;
+        min-width: 160rpx;
     }
-    .vanCell{
+    .vanCellValue{
+        color: #393939;
+        font-size: 28rpx;
+        justify-content: flex-end;
+    }
+    .vanCellValueCustom{
+        color: #666666;
+        font-size:26rpx;
+        flex-direction:column;
+        align-items: flex-start;
+    }
+}
+.container{
+    color: @black;
+    font-size: 30rpx;
+    padding: 0 24rpx;
+    .addressBox{
+        width: 100%;
+        height: 150rpx;
+        margin-top: 24rpx;
         background: @white;
-        padding: 13px !important;
-        line-height: normal !important;
-        .minWidth120{
-            min-width: 120rpx;
+        border-radius: 20rpx;
+        flex-direction: column;
+        .addressInfo{
+            flex: 1;
+            padding: 28rpx 20rpx 20rpx;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            .addressType{
+                height: 24rpx;
+                color: #47bf27;
+                font-size: 18rpx;
+                padding: 0 10rpx;
+                border-radius: 20rpx;
+                border: 1rpx solid #47bf27;
+                align-items: center;
+                justify-content: center;
+            }
         }
-        .vanCellTitle{
-            flex: none;
-            color: #393939;
-            font-size: 26rpx;
-            min-width: 160rpx;
-        }
-        .vanCellValue{
-            color: #393939;
-            font-size: 28rpx;
-            justify-content: flex-end;
-        }
-        .vanCellValueCustom{
-            color: #666666;
-            font-size:26rpx;
-            flex-direction:column;
-            align-items: flex-start;
+        .addressBorder{
+            width: 96%;
+            height: 10rpx;
+            margin: 0 auto;
         }
     }
-    .container{
-        color: @black;
-        font-size: 30rpx;
-        padding: 0 24rpx;
-        .addressBox{
-            width: 100%;
-            height: 150rpx;
-            margin-top: 24rpx;
-            background: @white;
-            border-radius: 20rpx;
-            flex-direction: column;
-            .addressInfo{
-                flex: 1;
-                padding: 28rpx 20rpx 20rpx;
+    .card{
+        width:100%;
+        margin-top: 20rpx;
+        background: @white;
+        border-radius: 20rpx;
+        box-sizing: border-box;
+        flex-direction: column;
+        .cardTitle{
+            padding: 20rpx 0;
+            margin: 0 20rpx;
+            align-items:center;
+            border-bottom: 1rpx solid @light;
+            .shopLogo{
+                height: 50rpx;
+                width: 50rpx;
+                border-radius:50%;
+            }
+            .hourArrive{
+                height: 24rpx;
+                width:70rpx;
+                border-radius: 6rpx;
+            }
+        }
+        .goodsList{
+            margin: 20rpx;
+            color: #696969;
+            font-size: 26rpx;
+            box-sizing: border-box;
+            .goodsItem{
+                padding: 14rpx;
+                margin-right: 10rpx;
+                border-radius: 10rpx;
+                box-sizing: border-box;
                 align-items: center;
                 justify-content: space-between;
-                box-sizing: border-box;
-                .addressType{
-                    height: 24rpx;
-                    color: #47bf27;
-                    font-size: 18rpx;
-                    padding: 0 10rpx;
-                    border-radius: 20rpx;
-                    border: 1rpx solid #47bf27;
-                    align-items: center;
-                    justify-content: center;
-                }
-            }
-            .addressBorder{
-                width: 96%;
-                height: 10rpx;
-                margin: 0 auto;
-            }
-        }
-        .card{
-            width:100%;
-            margin-top: 20rpx;
-            background: @white;
-            border-radius: 20rpx;
-            box-sizing: border-box;
-            flex-direction: column;
-            .cardTitle{
-                padding: 20rpx 0;
-                margin: 0 20rpx;
-                align-items:center;
-                border-bottom: 1rpx solid @light;
-                .shopLogo{
-                    height: 50rpx;
-                    width: 50rpx;
-                    border-radius:50%;
-                }
-                .hourArrive{
-                    height: 24rpx;
-                    width:70rpx;
-                    border-radius: 6rpx;
-                }
-            }
-            .goodsList{
-                margin: 20rpx;
-                color: #696969;
-                font-size: 26rpx;
-                box-sizing: border-box;
-                .goodsItem{
-                    padding: 14rpx;
-                    margin-right: 10rpx;
-                    border-radius: 10rpx;
-                    box-sizing: border-box;
-                    align-items: center;
-                    justify-content: space-between;
-                    background: @background;
-                    .goodsImg{
-                        height: 100rpx;
-                        width: 100rpx;
-                    }
+                background: @background;
+                .goodsImg{
+                    height: 100rpx;
+                    width: 100rpx;
                 }
             }
         }
     }
+}
 </style>
 <template>
     <van-nav-bar
@@ -183,34 +183,34 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import util from '../../utils/util'
-  import globalData from '../../mixins/globalData'
+import wepy from '@wepy/core'
+import util from '../../utils/util'
+import globalData from '../../mixins/globalData'
 
-  wepy.page({
+wepy.page({
 
-      mixins: [globalData],
+  mixins: [globalData],
 
-      data: {
-          goodsList: [1, 2, 3, 4],
-          StatusBarHeight: 50
-      },
-      onLoad (options) {
-      },
-        // 事件处理函数(集中保存在methods对象中)
-      methods: {
-          onClickBack() {
-              wx.navigateBack({delta: 1})
-          },
-          chooseArriveTime() {
-              console.log('arrive time')
-          },
-          onClickSubmitBtn() {
-              util.navigateTo('/packageGoods/order/detail')
-          }
-      }
-    //
-  })
+  data: {
+    goodsList: [1, 2, 3, 4],
+    StatusBarHeight: 50
+  },
+  onLoad (options) {
+  },
+    // 事件处理函数(集中保存在methods对象中)
+  methods: {
+    onClickBack() {
+      wx.navigateBack({delta: 1})
+    },
+    chooseArriveTime() {
+      console.log('arrive time')
+    },
+    onClickSubmitBtn() {
+      util.navigateTo('/packageGoods/order/detail')
+    }
+  }
+//
+})
 </script>
 
 <config>

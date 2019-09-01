@@ -92,66 +92,66 @@
 </template>
 
 <script>
-    import wepy from '@wepy/core'
-    import util from '../../utils/util'
+  import wepy from '@wepy/core'
+  import util from '../../utils/util'
 
-    import globalData from '../../mixins/globalData'
+  import globalData from '../../mixins/globalData'
 
-    wepy.page({
-        mixins: [globalData],
+  wepy.page({
+    mixins: [globalData],
 
-        data: {
-            userInfo: null,
-            activeTab: 1,
-            activeChildrenCate: 1,
-            tabs: [],
-            childrenCategories: [1, 2, 3, 4, 5, 6, 7, 8],
-            spellGoodsList: []
-        },
+    data: {
+      userInfo: null,
+      activeTab: 1,
+      activeChildrenCate: 1,
+      tabs: [],
+      childrenCategories: [1, 2, 3, 4, 5, 6, 7, 8],
+      spellGoodsList: []
+    },
 
-        onLoad() {
-            this.loadSpellGoods()
-        },
+    onLoad() {
+      this.loadSpellGoods()
+    },
 
-        onShow() {
-            this.userInfo = this.$app.$options.globalData.userInfo
-        },
+    onShow() {
+      this.userInfo = this.$app.$options.globalData.userInfo
+    },
 
-        // 事件处理函数(集中保存在methods对象中)
-        methods: {
-            redirectTo(path) {
-                util.navigateTo(path)
-            },
-            onClickLeft() {
-                wx.navigateBack({delta: 1})
-            },
-            loadSpellGoods() {
-                util.wxRequest('/guss_u_like_goods').then(res => {
-                    console.log(res)
-                    // if (res.result.data.length < res.result.per_page) {
-                    //   this.showSpin = false
-                    // }
-                    this.spellGoodsList = res.data.data
-                })
-            }
-        },
+    // 事件处理函数(集中保存在methods对象中)
+    methods: {
+      redirectTo(path) {
+        util.navigateTo(path)
+      },
+      onClickLeft() {
+        wx.navigateBack({delta: 1})
+      },
+      loadSpellGoods() {
+        util.wxRequest('/guss_u_like_goods').then(res => {
+          console.log(res)
+          // if (res.result.data.length < res.result.per_page) {
+          //   this.showSpin = false
+          // }
+          this.spellGoodsList = res.data.data
+        })
+      }
+    },
 
-        /**
-         * 页面相关事件处理函数--监听用户下拉动作
-         */
-        onPullDownRefresh() {
-            setTimeout(() => {
-                wx.stopPullDownRefresh()
-            }, 2000)
-        },
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {
+      setTimeout(() => {
+        wx.stopPullDownRefresh()
+      }, 2000)
+    },
 
-        /**
-         * 页面上拉触底事件的处理函数
-         */
-        onReachBottom() {
-            console.log('onReachBottom')
-        }
-    })
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
+      console.log('onReachBottom')
+    }
+  })
 </script>
 <config>
   {

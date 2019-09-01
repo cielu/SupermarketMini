@@ -679,129 +679,129 @@
 </template>
 
 <script>
-    import wepy from '@wepy/core'
-    import util from '../../utils/util'
+  import wepy from '@wepy/core'
+  import util from '../../utils/util'
 
-    import globalData from '../../mixins/globalData'
+  import globalData from '../../mixins/globalData'
 
-    wepy.page({
-        mixins: [globalData],
+  wepy.page({
+    mixins: [globalData],
 
-        data: {
-            screenHeight: 600,
-            isShowAttrModal: false,
-            isShowShopInfoModal: false,
-            isShowChooseModal: false,
-            isShowExplainModal: false,
-            userInfo: null,
-            images: [
-                'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/133/87551b11-2f1d-4bd9-bbda-acf0b45a956f.jpg',
-                'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/132/772baf87-019d-4fb9-96c3-427c55baf75f.jpg',
-                'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/37/f3f7e4e5-190d-4324-abef-92fdd24e776c.jpg',
-                'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/102/97b8e218-14e0-4f90-b993-bae586ca40c8.jpg'
-            ],
-            markers: [{
-                iconPath: '/images/shop/marker.png',
-                id: 0,
-                latitude: 23.099994,
-                longitude: 113.324520,
-                width: 30,
-                height: 30
-            }],
-            polyline: [{
-                points: [{
-                    longitude: 113.3245211,
-                    latitude: 23.10229
-                }, {
-                    longitude: 113.324520,
-                    latitude: 23.21229
-                }],
-                color: '#FF0000DD',
-                width: 2,
-                dottedLine: true
-            }],
-            controls: [{
-                id: 1,
-                iconPath: '/images/shop/location_pin.png',
-                position: {
-                    left: 10,
-                    top: 210,
-                    width: 30,
-                    height: 30
-                },
-                clickable: true
-            }]
+    data: {
+      screenHeight: 600,
+      isShowAttrModal: false,
+      isShowShopInfoModal: false,
+      isShowChooseModal: false,
+      isShowExplainModal: false,
+      userInfo: null,
+      images: [
+        'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/133/87551b11-2f1d-4bd9-bbda-acf0b45a956f.jpg',
+        'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/132/772baf87-019d-4fb9-96c3-427c55baf75f.jpg',
+        'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/37/f3f7e4e5-190d-4324-abef-92fdd24e776c.jpg',
+        'https://a.vpimg2.com/upload/merchandise/pdcvis/2018/11/29/102/97b8e218-14e0-4f90-b993-bae586ca40c8.jpg'
+      ],
+      markers: [{
+        iconPath: '/images/shop/marker.png',
+        id: 0,
+        latitude: 23.099994,
+        longitude: 113.324520,
+        width: 30,
+        height: 30
+      }],
+      polyline: [{
+        points: [{
+          longitude: 113.3245211,
+          latitude: 23.10229
+        }, {
+          longitude: 113.324520,
+          latitude: 23.21229
+        }],
+        color: '#FF0000DD',
+        width: 2,
+        dottedLine: true
+      }],
+      controls: [{
+        id: 1,
+        iconPath: '/images/shop/location_pin.png',
+        position: {
+          left: 10,
+          top: 210,
+          width: 30,
+          height: 30
         },
+        clickable: true
+      }]
+    },
 
-        onLoad() {
-            this.screenHeight = this.$app.$options.globalData.SystemInfo.screenHeight
-        },
+    onLoad() {
+      this.screenHeight = this.$app.$options.globalData.SystemInfo.screenHeight
+    },
 
-        onShow() {
-            this.userInfo = this.$app.$options.globalData.userInfo
-        },
+    onShow() {
+      this.userInfo = this.$app.$options.globalData.userInfo
+    },
 
-        // 事件处理函数(集中保存在methods对象中)
-        methods: {
-            redirectTo(path) {
-                util.navigateTo(path)
-            },
-            onClickLeft() {
-                wx.navigateBack({delta: 1})
-            },
-            showChooseModal() {
-                this.isShowChooseModal = !this.isShowChooseModal
-            },
-            showAttrModal() {
-                this.isShowAttrModal = !this.isShowAttrModal
-            },
-            showExplainModal() {
-                this.isShowExplainModal = !this.isShowExplainModal
-            },
-            showShopInfoModal() {
-                this.isShowShopInfoModal = !this.isShowShopInfoModal
-            },
-            purchaseAtOnce() {
-                this.redirectTo('/packageGoods/order/confirm')
-            },
-            onPlusGoodsNum(e) {
-                console.log(e)
-                util.toast('增加购物车值')
-            },
-            onMinusGoodsNum(e) {
-                console.log(e)
-                util.toast('减少购物车值')
-            },
-            contactSell() {
-                wx.makePhoneCall({phoneNumber: '18569401993'})
-            },
-            mapRegionChange(e) {
-                console.log(e)
-            },
-            mapMarkerTap(e) {
-                console.log(e)
-            },
-            mapControlTap(e) {
-                console.log(e)
-            }
-        },
+    // 事件处理函数(集中保存在methods对象中)
+    methods: {
+      redirectTo(path) {
+        util.navigateTo(path)
+      },
+      onClickLeft() {
+        wx.navigateBack({delta: 1})
+      },
+      showChooseModal() {
+        this.isShowChooseModal = !this.isShowChooseModal
+      },
+      showAttrModal() {
+        this.isShowAttrModal = !this.isShowAttrModal
+      },
+      showExplainModal() {
+        this.isShowExplainModal = !this.isShowExplainModal
+      },
+      showShopInfoModal() {
+        this.isShowShopInfoModal = !this.isShowShopInfoModal
+      },
+      purchaseAtOnce() {
+        this.redirectTo('/packageGoods/order/confirm')
+      },
+      onPlusGoodsNum(e) {
+        console.log(e)
+        util.toast('增加购物车值')
+      },
+      onMinusGoodsNum(e) {
+        console.log(e)
+        util.toast('减少购物车值')
+      },
+      contactSell() {
+        wx.makePhoneCall({phoneNumber: '18569401993'})
+      },
+      mapRegionChange(e) {
+        console.log(e)
+      },
+      mapMarkerTap(e) {
+        console.log(e)
+      },
+      mapControlTap(e) {
+        console.log(e)
+      }
+    },
 
-        /**
-         * 页面相关事件处理函数--监听用户下拉动作
-         */
-        onPullDownRefresh() {
-            setTimeout(() => {
-                wx.stopPullDownRefresh()
-            }, 2000)
-        },
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {
+      setTimeout(() => {
+        wx.stopPullDownRefresh()
+      }, 2000)
+    },
 
-        /**
-         * 页面上拉触底事件的处理函数
-         */
-        onReachBottom() {
-            console.log('onReachBottom')
-        }
-    })
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
+      console.log('onReachBottom')
+    }
+  })
 </script>
 <config>
   {

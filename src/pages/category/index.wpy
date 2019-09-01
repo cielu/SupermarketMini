@@ -1,96 +1,89 @@
 <style lang="less">
-  @import "../../utils/colors";
+@import "../../utils/colors";
+page {
+  background: #f7f7f7;
+}
+.left-navbar {
+  position: absolute;
+  left: 0;
+  width: 25%;
+  height: 100%;
+  font-size: 26rpx;
+  background-color: @background;
 
-  page {
-    background: #f7f7f7;
+  .category {
+    height: 100rpx;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: normal !important;
+    background: @white;
   }
-
-  .left-navbar {
-    position: absolute;
-    left: 0;
-    width: 25%;
-    height: 100%;
-    font-size: 26rpx;
+  .active {
+    height: 60rpx;
+    margin: 20rpx 0;
+    font-size: 30rpx;
+    color: #f95a2d;
+    box-sizing: border-box;
     background-color: @background;
+    border-left: 8rpx solid #ff4141;
+  }
+}
+#right {
+  right: 0;
+  width: 75%;
+  height: 100%;
+  color: #333333;
+  font-size: 24rpx;
+  position: absolute;
+  box-sizing: border-box;
 
-    .category {
-      height: 100rpx;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      word-wrap: break-word;
-      text-overflow: ellipsis;
-      white-space: normal !important;
-      background: @white;
-    }
-
-    .active {
-      height: 60rpx;
-      margin: 20rpx 0;
-      font-size: 30rpx;
-      color: #f95a2d;
-      box-sizing: border-box;
-      background-color: @background;
-      border-left: 8rpx solid #ff4141;
-    }
+  .categoryName {
+    color: #212121;
+    font-size: 28rpx;
+    margin: 30rpx 0;
   }
 
-  #right {
-    right: 0;
-    width: 75%;
-    height: 100%;
-    color: #333333;
-    font-size: 24rpx;
-    position: absolute;
+  .goods-banner {
+    margin: 20rpx 0;
+
+    .img-banner {
+      width: 100%;
+      height: 200rpx;
+    }
+  }
+  .noneCategory {
+    justify-content: center;
+  }
+  .categoryCard {
+    background: @white;
+    border-radius: 20rpx;
+    flex-wrap: wrap;
+    padding: 10rpx;
     box-sizing: border-box;
 
-    .categoryName {
-      color: #212121;
-      font-size: 28rpx;
-      margin: 30rpx 0;
-    }
+    .categoryItem {
+      width: 33.33%;
+      height: 180rpx;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: column;
 
-    .goods-banner {
-      margin: 20rpx 0;
-
-      .img-banner {
-        width: 100%;
-        height: 200rpx;
+      .categoryImg {
+        width: 120rpx;
+        height: 120rpx;
       }
-    }
-
-    .noneCategory {
-      justify-content: center;
-    }
-
-    .categoryCard {
-      background: @white;
-      border-radius: 20rpx;
-      flex-wrap: wrap;
-      padding: 10rpx;
-      box-sizing: border-box;
-
-      .categoryItem {
-        width: 33.33%;
-        height: 180rpx;
-        align-items: center;
-        justify-content: space-around;
-        flex-direction: column;
-
-        .categoryImg {
-          width: 120rpx;
-          height: 120rpx;
-        }
-      }
-    }
-
-    .touchBottom {
-      color: #c7c7c7;
-      font-size: 24rpx;
-      margin: 30rpx 0;
-      justify-content: center
     }
   }
+  .touchBottom {
+    color: #c7c7c7;
+    font-size: 24rpx;
+    margin: 30rpx 0;
+    justify-content: center
+  }
+}
 </style>
 <template>
   <van-nav-bar title="商品分类" fixed="{{true}}"/>
@@ -129,57 +122,57 @@
 </template>
 
 <script>
-    import wepy from '@wepy/core'
-    import util from '../../utils/util'
+  import wepy from '@wepy/core'
+  import util from '../../utils/util'
 
-    import globalData from '../../mixins/globalData'
+  import globalData from '../../mixins/globalData'
 
-    wepy.page({
+  wepy.page({
 
-        mixins: [globalData],
+    mixins: [globalData],
 
-        data: {
-            currentTab: 0,  // 对应样式变化
-            scrollTop: 0,  // 用作跳转后右侧视图回到顶部
-            scrollHeight: 730,
-            categoryId: '',  // 后台查询需要的字段
-            categoryArray: [], // 左侧导航栏内容
-            childrenArray: [] // 右侧内容
-        },
+    data: {
+      currentTab: 0,  // 对应样式变化
+      scrollTop: 0,  // 用作跳转后右侧视图回到顶部
+      scrollHeight: 730,
+      categoryId: '',  // 后台查询需要的字段
+      categoryArray: [], // 左侧导航栏内容
+      childrenArray: [] // 右侧内容
+    },
 
-        onLoad() {
-            this.scrollHeight = this.$app.$options.globalData.SystemInfo.windowHeight - 45 - this.StatusBarHeight
-            this.loadCategory()
-        },
+    onLoad() {
+      this.scrollHeight = this.$app.$options.globalData.SystemInfo.windowHeight - 45 - this.StatusBarHeight
+      this.loadCategory()
+    },
 
-        onShow() {
-            // this.userInfo = this.$parent.globalData.userInfo
-            // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
-        },
+    onShow() {
+      // this.userInfo = this.$parent.globalData.userInfo
+      // this.avatar = this.$parent.globalData.imgDomain + 'avatar.png'
+    },
 
-        // 事件处理函数(集中保存在methods对象中)
-        methods: {
-            redirectTo() {
-                util.navigateTo('/packageGoods/cateGoods/index')
-            },
-            tapCategory(categoryId, index) {
-                // 刷新右侧内容的数据
-                this.currentTab = index
-                this.loadCategory(categoryId)
-            },
-            loadCategory(path = 0) {
-                this.scrollTop = 0
-                util.wxRequest('/category?path=' + path).then(res => {
-                    if (path === 0) {
-                        this.categoryArray = res.data
-                        this.loadCategory(this.categoryArray[0].cateId)
-                    } else {
-                        this.childrenArray = res.data
-                    }
-                })
-            }
-        }
-    })
+    // 事件处理函数(集中保存在methods对象中)
+    methods: {
+      redirectTo() {
+        util.navigateTo('/packageGoods/cateGoods/index')
+      },
+      tapCategory(categoryId, index) {
+        // 刷新右侧内容的数据
+        this.currentTab = index
+        this.loadCategory(categoryId)
+      },
+      loadCategory(path = 0) {
+        this.scrollTop = 0
+        util.wxRequest('/category?path=' + path).then(res => {
+          if (path === 0) {
+            this.categoryArray = res.data
+            this.loadCategory(this.categoryArray[0].cateId)
+          } else {
+            this.childrenArray = res.data
+          }
+        })
+      }
+    }
+  })
 </script>
 <config>
   {
