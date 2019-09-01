@@ -40,6 +40,7 @@
       .goodsBody {
         flex: 1;
         width: 100%;
+        margin-top: 18rpx;
         flex-direction: column;
         align-items: flex-start;
 
@@ -133,7 +134,7 @@
 </style>
 <template>
   <div class="goodsItems">
-    <div v-for="item,index in goodsList" class="goodsItem" @tap="redirectToGoodsDetail(index)">
+    <div v-for="(item,index) in goodsList" class="goodsItem" @tap="redirectToGoodsDetail(index)">
       <image src="{{item.goodsCoverUrl}}" class="goodsPic" mode="aspectFill">
         <div class="timeBox">1小时达</div>
       </image>
@@ -141,16 +142,16 @@
         <div class="goodsTitle">{{item.goodsName}}</div>
         <div class="goodsBottom">
           <div class="showPrice">
-            <div wx:if="{{item.isSpec}}" class="preSale">
+            <div wx:if="{{item.isPreSale}}" class="preSale">
               预售
             </div>
             <div wx:else style="height: 20rpx;"></div>
-            <div wx:if="{{1}}" style="flex-direction: column">
+            <div wx:if="{{item.isVipGoods}}" style="flex-direction: column">
               <div style="font-size:24rpx;">
-                ¥{{item.goodsSalePrice}}
+                ¥{{item.vipPrice}}
               </div>
               <div class="vipPrice">
-                <text>¥{{item.goodsSalePrice}}</text>
+                <text>¥{{item.vipPrice}}</text>
                 <div class="vipPriceBox">
                   <div class="vipCrown">
                     <img src="/images/member/crown.png" mode="aspectFill"/>
@@ -162,10 +163,10 @@
               </div>
             </div>
             <div wx:else class="salePrice">
-              ¥{{item.goodsSalePrice}}
+              ¥{{item.salePrice}}
             </div>
           </div>
-          <img wx:if="{{item.isSpec == 1}}" src="/images/goods/shopping_cart.png" class="icon" mode="aspectFill"/>
+          <img wx:if="{{item.attrType == 'single'}}" src="/images/goods/shopping_cart.png" class="icon" mode="aspectFill"/>
           <div wx:else class="purchaseBtn">
             购买
           </div>

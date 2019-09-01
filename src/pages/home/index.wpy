@@ -4,9 +4,9 @@
 
   .custom-nav {
     width: 100%;
-    position: relative;
     height: 44px;
     line-height: 44px;
+    position: relative;
     text-align: center;
     -webkit-user-select: none;
     user-select: none;
