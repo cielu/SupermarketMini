@@ -1,4 +1,5 @@
 node_modules
+src/app.wpy
 weapp
 .DS_Store
 .idea
