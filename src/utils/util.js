@@ -18,7 +18,7 @@ const wxRequest = async function (url, data = {}, method = 'GET', showLoading = 
       data,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-                // 'Cookie': '',
+        // 'Cookie': '',
         'authorization': authorization
       },
       method: method,
@@ -50,7 +50,6 @@ const wxRequest = async function (url, data = {}, method = 'GET', showLoading = 
       complete(res) {
         wx.hideToast()
         wx.stopPullDownRefresh()
-            // wx.hideNavigationBarLoading()
       }
     })
   })

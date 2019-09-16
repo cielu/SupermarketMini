@@ -27,7 +27,7 @@
     ],
     permission: {
       'scope.userLocation': {
-        'desc': '您的位置信息将用于获取门店'
+        'desc': '您的位置信息将用于获取附近门店'
       }
     },
     window: {
@@ -68,7 +68,7 @@
       }]
     },
     usingComponents: {
-      'van-nav-bar': 'module:vant-weapp/lib/nav-bar/index'
+      'van-nav-bar': 'module:vant-weapp/lib/nav-bar'
     },
     networkTimeout: {
       'request': 10000,
