@@ -22,13 +22,7 @@
 
 <div align="center">
     <img src="https://images.gitee.com/uploads/images/2020/0212/115338_0e71dbe6_1556241.png" width="33%">
-    <img src="https://images.gitee.com/uploads/images/2020/0212/115322_0d008948_1556241.png" width="33%">
-    <img src="https://images.gitee.com/uploads/images/2020/0212/115534_0db561da_1556241.png" width="33%">
-</div>
-
-<div align="center">
     <img src="https://images.gitee.com/uploads/images/2019/0809/210538_5af8cde2_1556241.png" width="33%">
     <img src="https://images.gitee.com/uploads/images/2020/0212/115506_11245c7a_1556241.png" width="33%">
-    <img src="https://images.gitee.com/uploads/images/2020/0212/115448_c7ba7556_1556241.png" width="33%">
 </div>
 
