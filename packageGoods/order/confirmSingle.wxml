@@ -1,0 +1,119 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="_initComponent" title="确认订单" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="31-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight+44}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="addressLinear"></view>
+  <view class="addressBox">
+    <view data-wpy-evt="31-1" bindtap="_proxy" class="addressInfo">
+      <view wx:if="{{ form.addressId != 0 }}" style="flex-direction:column;height: 100%;justify-content: space-around;">
+        <view class="ac">
+          <view class="addressType">{{address.tag}}</view>
+          <text class="phone">{{address.linkMan}}（{{genders[address.gender]}}）{{address.linkPhone}}</text>
+        </view>
+        <text style="font-weight: 500;" class="ellipsis">{{address.addressDetail + ' ' + address.roomNum}}</text>
+      </view>
+      <text wx:else class="chooseText">请选择收货地址</text>
+      <van-icon bind_init="_initComponent" name="arrow" color="#999" size="16px"></van-icon>
+    </view>
+    <view class="addressInfo sendTime">
+      <text style="font-size: 30rpx;font-weight: 500;">送达时间</text>
+      <view data-wpy-evt="31-2" bindtap="_proxy" style="justify-content: flex-end;flex:1;" class="ac">
+        <view style="color: #f89218;margin-right:8rpx;font-size: 26rpx;">{{form.sendTime}}</view>
+        <van-icon bind_init="_initComponent" name="arrow" color="#999" size="16px"></van-icon>
+      </view>
+    </view>
+  </view>
+  <view class="card">
+    <view class="cardTitle">
+      <image src="{{store.logoUrl ? store.logoUrl : '/images/shop/shop_logo.png'}}" alt class="shopLogo"></image>
+      <text style="margin:0 20rpx;font-size:30rpx;">{{store.storeName}}</text>
+    </view>
+    <view class="goodsList">
+      <view class="goodsItem">
+        <image src="{{goods.goodsCoverUrl}}" alt class="goodsImg"></image>
+        <view class="goodsInfo">
+          <view class="title">{{form.type === 'group' ? goods.groupName : goods.goodsName}}</view>
+          <view class="groupNum">
+            <view class="item start">{{goods.saleStartNum}}件起购</view>
+          </view>
+          <view class="purchaseInfo">
+            <view wx:if="{{ form.type === 'group' }}" class="price">¥{{goods.groupPrice}}</view>
+            <view wx:else class="price">¥{{goods.discountPrice > 0 ? goods.discountPrice : goods.salePrice}}</view>
+            <van-stepper bind_init="_initComponent" value="{{ form.goodsNum }}" mim="{{ goods.saleStartNum }}" disable-input="{{true}}" async-change="{{true}}" custom-class="stepper" plus-class="circleBtn plusBtn" minus-class="circleBtn" input-class="inputBox" data-wpy-evt="31-3" bindminus="_proxy" bindplus="_proxy"></van-stepper>
+          </view>
+        </view>
+      </view>
+    </view>
+    <van-cell bind_init="_initComponent" title="商品金额" value="¥{{settle.subtotalPrice}}" custom-class="vanCell ac" title-class="vanCellTitle" value-class="vanCellValue"></van-cell>
+    <van-cell bind_init="_initComponent" title="配送费" value="¥{{settle.sendFee}}" custom-class="vanCell ac" title-class="vanCellTitle" value-class="vanCellValue"></van-cell>
+    
+    <van-cell bind_init="_initComponent" wx:if="{{ form.type !== 'group' }}" title="红包" value="-¥18" is-link="{{true}}" custom-class="vanCell ac" title-class="vanCellTitle" value-class="vanCellValue red-pack-none"></van-cell>
+  </view>
+  <view style="padding: 14rpx 0;" class="card">
+    <van-cell bind_init="_initComponent" title="备注" custom-class="vanCell ac" title-class="vanCellTitle" border="{{false}}">
+      <input type="text" placeholder="请输入您要备注的内容（限30字以内）" data-wpy-evt="31-5" bindinput="_proxy" style="flex:1;"></input>
+    </van-cell>
+  </view>
+  <view style="height:{{statusBarHeight + 44}}px;"></view>
+  <view style="{{isIPhoneX ? 'height: 150rpx;' : ''}};" class="submitBox">
+    <view style="font-size:32rpx;margin-right:30rpx;font-weight:500;">
+      实付：<text style="color: #f55644;"><text style="font-size:28rpx;">¥</text>{{settle.totalPrice}}</text>
+    </view>
+    <view data-wpy-evt="31-6" bindtap="_proxy" class="submitBtn">
+      立即支付
+    </view>
+  </view>
+</view>
+
+<van-popup bind_init="_initComponent" show="{{ isShowTimeModal }}" position="bottom" custom-style="height:40%" safe-area-inset-bottom="{{false}}" data-wpy-evt="31-7" bindclose="_proxy">
+  <view data-wpy-evt="31-8" catchtouchmove="_proxy" class="sendTimeBox">
+    <view class="header">
+      <van-icon bind_init="_initComponent" name="cross" size="18" data-wpy-evt="31-9" bindtap="_proxy"></van-icon>
+      <view>选择送达时间</view>
+      <label></label>
+    </view>
+    <view style="height: 100%;width: 100%;">
+      <scroll-view scroll-y="{{true}}" class="leftNav">
+        <view wx:for="{{ dateItems }}" wx:for-index="idx" wx:for-item="date" wx:key="idx" data-wpy-evt="31-10" bindtap="_proxy" data-wpytap-a="{{ idx }}" class="navItem {{idx === acDateIdx ? 'navActive' : ''}}">
+          {{date.text}}
+        </view>
+      </scroll-view>
+      <scroll-view scroll-y="{{true}}" scroll-top="{{scrollTop}}" class="timeList">
+        <view wx:for="{{ dateItems[acDateIdx].children }}" wx:for-index="index" wx:for-item="time" wx:key="index" data-wpy-evt="31-11" bindtap="_proxy" data-wpytap-a="{{ index }}" class="timeItem {{index === acHourIdx ? 'timeActive' : ''}}">
+          <text>{{time}}</text>
+          <van-icon bind_init="_initComponent" wx:if="{{ index === acHourIdx }}" name="success" size="16"></van-icon>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</van-popup>
+<van-popup bind_init="_initComponent" show="{{ isShowAddressModal }}" position="bottom" custom-style="height:55%" data-wpy-evt="31-12" catchtouchmove="_proxy" bindclose="_proxy">
+  <view data-wpy-evt="31-14" catchtouchmove="_proxy" class="addressModal">
+    <view class="header">
+      <van-icon bind_init="_initComponent" name="cross" size="18" data-wpy-evt="31-15" bindtap="_proxy"></van-icon>
+      <view class="title">选择收获地址</view>
+      <view data-wpy-evt="31-16" bindtap="_proxy" class="new">新增</view>
+    </view>
+    <view wx:if="{{ addressList.length === 0 }}" class="addrEmpty">
+      还没有地址，赶快去添加吧！
+    </view>
+    <scroll-view wx:else scroll-y="{{true}}" class="addressList">
+      <view wx:for="{{ addressList }}" wx:for-index="index" wx:for-item="item" wx:key="index" class="addressItem">
+        <view style="width: 40rpx;justify-content: center;">
+          <van-icon bind_init="_initComponent" wx:if="{{ form.addressId === item.addressId }}" name="checked" size="17" color="#FF8800"></van-icon>
+        </view>
+        <view data-wpy-evt="31-17" bindtap="_proxy" data-wpytap-a="{{ index }}" class="addressInfo">
+          <view class="phone"><view class="addressType">{{item.tag}}</view>
+            <text style="margin-left: 10rpx;">{{item.linkMan}} {{genders[item.gender]}} {{item.linkPhone}}</text>
+          </view>
+          <view class="address">{{item.addressDetail + ' ' + item.roomNum}}</view>
+        </view>
+        <van-icon bind_init="_initComponent" name="edit" size="18" color="#9d9d9d" data-wpy-evt="31-18" bindtap="_proxy" data-wpytap-a="{{ item }}"></van-icon>
+      </view>
+    </scroll-view>
+  </view>
+</van-popup>

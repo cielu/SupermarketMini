@@ -1,0 +1,10 @@
+<!----------   wxs start ----------->
+<wxs module="utils" src="../wxs/utils.wxs"></wxs>
+<!----------   wxs end   ----------->
+
+
+<van-overlay wx:if="{{ overlay }}" show="{{ show }}" z-index="{{ zIndex }}" custom-style="{{ overlayStyle }}" duration="{{ duration }}" bind:click="onClickOverlay"></van-overlay>
+<view wx:if="{{ inited }}" class="custom-class {{ classes }} {{ utils.bem('popup', [position, { round, safe: safeAreaInsetBottom, safeTop: safeAreaInsetTop }]) }}" style="z-index: {{ zIndex }}; -webkit-transition-duration:{{ currentDuration }}ms; transition-duration:{{ currentDuration }}ms; {{ display ? '' : 'display: none;' }};{{ customStyle }}" bind:transitionend="onTransitionEnd">
+  <slot></slot>
+  <van-icon wx:if="{{ closeable }}" name="{{ closeIcon }}" class="van-popup__close-icon van-popup__close-icon--{{ closeIconPosition }}" bind:tap="onClickCloseIcon"></van-icon>
+</view>

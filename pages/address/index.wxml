@@ -1,0 +1,24 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="_initComponent" title="收货地址管理" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="15-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight+44}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view wx:if="{{ addressList.length === 0 }}" class="addrEmpty">还没有地址，赶快去添加吧！</view>
+  <view wx:else class="addressList">
+    <view wx:for="{{ addressList }}" wx:for-index="index" wx:for-item="item" wx:key="index" class="addressItem">
+      <view class="addressInfo">
+        <view class="phone"><view class="addressType">{{item.tag}}</view>
+          <text style="margin-left: 10rpx;">{{item.linkMan}} {{genders[item.gender]}} {{item.linkPhone}}</text>
+        </view>
+        <view class="address">{{item.addressDetail + item.roomNum}}</view>
+      </view>
+      <van-icon bind_init="_initComponent" name="edit" size="18" color="#9d9d9d" data-wpy-evt="15-1" bindtap="_proxy" data-wpytap-a="{{ item }}"></van-icon>
+    </view>
+  </view>
+</view>
+<view class="newAddressBox">
+  <view data-wpy-evt="15-2" bindtap="_proxy" class="newBtn">新增地址</view>
+</view>

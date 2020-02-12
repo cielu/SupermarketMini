@@ -1,0 +1,18 @@
+{
+    "navigationBarTitleText": "小店拼团",
+    "enablePullDownRefresh": true,
+    "backgroundColorTop": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "component": true,
+    "usingComponents": {
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "van-tabs": "./../../$vendor/@vant/weapp/dist/tabs/index",
+        "van-tab": "./../../$vendor/@vant/weapp/dist/tab/index",
+        "vip-price-box": "./../../components/vipPriceBox",
+        "fly-into-cart": "./../../components/flyIntoCart",
+        "purchase-btn": "./../../components/purchaseBtn",
+        "end-line": "./../../components/endLine",
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index"
+    }
+}

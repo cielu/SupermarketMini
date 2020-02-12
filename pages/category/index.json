@@ -1,0 +1,19 @@
+{
+    "navigationBarTitleText": "商品分类",
+    "enablePullDownRefresh": false,
+    "backgroundColorTop": "#FF7700",
+    "backgroundColorBottom": "#ffffff",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-search": "./../../$vendor/@vant/weapp/dist/search/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "van-transition": "./../../$vendor/@vant/weapp/dist/transition/index",
+        "van-overlay": "./../../$vendor/@vant/weapp/dist/overlay/index",
+        "van-stepper": "./../../$vendor/@vant/weapp/dist/stepper/index",
+        "coming-soon": "./../../components/comingSoon",
+        "vip-price-box": "./../../components/vipPriceBox",
+        "store-list-modal": "./../../components/storeListModal"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "navigationBarTitleText": "登录",
+    "enablePullDownRefresh": false,
+    "navigationBarTextStyle": "black",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "scope-modal": "./../../components/scopeModal"
+    }
+}

@@ -1,0 +1,10 @@
+
+<view class="vipPriceBox">
+  
+  <view class="vipCrown">
+    <image src="/images/member/crown.png" mode="aspectFill" class="crownImg"></image>
+  </view>
+  <view style="padding: 0 6rpx;">
+    会员价
+  </view>
+</view>

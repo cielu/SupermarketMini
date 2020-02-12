@@ -1,0 +1,36 @@
+
+<view class="goodsItems">
+  <view wx:for="{{ goodsList }}" wx:for-index="key" wx:for-item="item" wx:key="index" data-wpy-evt="69-0" bindtap="_proxy" class="goodsItem">
+    <image src="{{item.goodsCoverUrl}}" mode="aspectFill" class="goodsPic"></image>
+    <view class="goodsBody">
+      <text class="goodsTitle">{{item.groupName}}</text>
+      <text class="goodsDesc">{{item.groupContent}}</text>
+      <view class="goodsBottom">
+        <view class="upper">
+          <view style="align-items: center;">
+            <view class="groupNumBox">{{item.groupNum}}人团</view>
+            <view class="preSaleNum">{{item.saleStartNum}}件起购</view>
+          </view>
+          <view class="purchaseBtn">去开团</view>
+        </view>
+        <view class="under">
+          <view style="align-items:center;">
+            <view class="salePrice">
+              ¥{{item.groupPrice}}
+            </view>
+            <view class="price-discount">
+              ¥{{item.goodsPrice}}
+            </view>
+          </view>
+          <text class="hasSpellNum">已拼{{item.salesNum}}件</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{ goodsList.length == 0 }}" class="emptyGroup">
+    <text>暂时没有团购 😕</text>
+    <text class="desc">我们正在为您准备优质的团购</text>
+  </view>
+  
+  <end-line bind_init="_initComponent" wx:if="{{ goodsList.length > 5 }}"></end-line>
+</view>

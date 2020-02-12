@@ -1,0 +1,6 @@
+{
+    "component": true,
+    "usingComponents": {
+        "cant-send-tip": "./cantSendTip"
+    }
+}

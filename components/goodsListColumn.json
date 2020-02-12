@@ -1,0 +1,8 @@
+{
+    "component": true,
+    "usingComponents": {
+        "end-line": "./endLine",
+        "vip-price-box": "./vipPriceBox",
+        "purchase-btn": "./purchaseBtn"
+    }
+}

@@ -1,0 +1,6 @@
+
+<view wx:if="{{ isSingle }}" class="plusBtn">
+  <text wx:if="{{ buyNum }}" class="number">{{buyNum}}</text>
+  <image src="/images/goods/purchase.png" mode="aspectFill" class="purchaseImg"></image>
+</view>
+<view wx:else class="purchaseBtn">选择</view>

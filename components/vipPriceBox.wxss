@@ -1,0 +1,1 @@
+.vipPriceBox{color:#333333;height:20rpx;font-size:12rpx;border-radius:20rpx;background:#fdb883;align-items:center}.vipPriceBox .vipCrown{width:26rpx;height:20rpx;align-items:center;justify-content:center;background:#333333;border-radius:20rpx 0 0 20rpx}.vipPriceBox .vipCrown .crownImg{width:16rpx;height:16rpx}

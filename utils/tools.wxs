@@ -1,0 +1,7 @@
+function toDecimal(number) {
+  return Math.round((number * 100).toPrecision(12)) / 100
+}
+
+module.exports = {
+  toDecimal: toDecimal
+}

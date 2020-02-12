@@ -1,0 +1,6 @@
+{
+    "component": true,
+    "usingComponents": {
+        "van-icon": "./../$vendor/@vant/weapp/dist/icon/index"
+    }
+}

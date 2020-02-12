@@ -1,0 +1,11 @@
+
+<view class="container">
+    <view class="content">
+        <repeat for="{{lists}}" key="this">
+            <view data-wpy-evt="20-0" bindtap="_proxy" class="item">
+                <text>{{item.name}}</text>
+                <image src="/images/arrow_right.png" class="icon-sm"></image>
+            </view>
+        </repeat>
+    </view>
+</view>

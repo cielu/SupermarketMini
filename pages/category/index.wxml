@@ -1,0 +1,99 @@
+
+  <wxs module="tools" src="../../utils/tools.wxs"></wxs>
+  <view style="padding-top:{{statusBarHeight}}px;" class="header bgLinear">
+    <view class="navName">商品分类</view>
+    <view class="search-box">
+      <view data-wpy-evt="10-0" bindtap="_proxy" class="store-name">
+        <van-icon bind_init="_initComponent" name="shop-o" size="20" color="#FFFFFF"></van-icon>
+        <view style="padding:0 18rpx;">{{storeInfo.shortName || '一号小店'}}</view>
+        <van-icon bind_init="_initComponent" name="arrow-down" size="18"></van-icon>
+      </view>
+      <van-search bind_init="_initComponent" shape="round" readonly="{{true}}" custom-class="search" background="transparent" placeholder="请输入搜索关键词" style="flex: 1;"></van-search>
+    </view>
+  </view>
+  <view wx:if="{{ storeList.length > 0 }}" class="container">
+    <view style=" {{ 'height:' + (scrollHeight + \'px\') + ';' + 'top:' + ((statusBarHeight + 90) + \'px\') + ';' }}" class="scroll-box">
+      
+      <view style="width: 22%;">
+        <scroll-view wx:if="{{ categories.length > 0 }}" scroll-y="{{true}}" scroll-with-animation="{{true}}" scroll-into-view="rootCate{{curRootIdx-1 < 0 ? 0 : curRootIdx-1}}" class="left-navbar">
+          <view wx:for="{{ categories }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" id="rootCate{{index}}" data-wpy-evt="10-1" bindtap="_proxy" data-wpytap-a="{{ index }}" class="category {{ curRootIdx == index ? 'active' : '' }}">
+            {{item.cateName}}
+          </view>
+        </scroll-view>
+      </view>
+      <view class="right-cates">
+        
+        <view wx:if="{{ showCatePopup }}" style="height:{{scrollHeight - 45}}px;" class="popCate">
+          
+          <view class="childTabs">
+            <view wx:for="{{ categories[curRootIdx].subCategory }}" wx:for-index="idx" wx:for-item="category" wx:key="idx" key="{{ idx }}" data-wpy-evt="10-2" catchtap="_proxy" data-wpytap-a="{{ idx }}" class="category {{curChildIdx == idx ? 'activeCate' : ''}}">
+              {{category.cateName}}
+            </view>
+          </view>
+          <view data-wpy-evt="10-3" bindtap="_proxy" style="height:100%;width: 100%;background:rgba(0,0,0,.7);"></view>
+        </view>
+        
+        <view style="height:{{categories[curRootIdx].subCategory.length == 0 ? '40px' : '85px'}};" class="top-field">
+          <view wx:if="{{ categories[curRootIdx].subCategory.length > 0 }}" class="scroll-cate-box">
+            <scroll-view scroll-x="{{true}}" scroll-with-animation="{{true}}" scroll-into-view="childCate{{curChildIdx-1 < 0 ? 0 : curChildIdx-1}}" class="categoryTabs childTabs">
+              <view wx:for="{{ categories[curRootIdx].subCategory }}" wx:for-index="idx" wx:for-item="category" wx:key="idx" id="childCate{{idx}}" key="{{ idx }}" data-wpy-evt="10-4" bindtap="_proxy" data-wpytap-a="{{ idx }}" style="display: inline-block;">
+                <view class="category {{curChildIdx == idx ? 'activeCate' : ''}}">{{category.cateName}}</view>
+              </view>
+            </scroll-view>
+            <view data-wpy-evt="10-5" bindtap="_proxy" class="scroll-right-icon">
+              <van-icon bind_init="_initComponent" name="arrow-{{showCatePopup?'up':'down'}}" size="20px" color="#333333"></van-icon>
+            </view>
+          </view>
+          
+          <view class="sort-box">
+            <view wx:for="{{ sorts }}" wx:for-index="key" wx:for-item="sort" wx:key="key" class="ac">
+              <text wx:if="{{ key !== 'price' }}" data-wpy-evt="10-6" bindtap="_proxy" data-wpytap-a="{{ key }}" class=" {{ [ sort.selected ? 'activeSort' : '' ] }}">{{sort.name}}</text>
+              <view wx:else data-wpy-evt="10-7" bindtap="_proxy" data-wpytap-a="{{ key }}" class="ac {{ [ sort.selected ? 'activeSort' : '' ] }}">
+                <text style="padding-right: 10rpx;">价格</text>
+                <view style="flex-direction: column;align-items: center;justify-content: center;">
+                  <van-icon bind_init="_initComponent" name="arrow-up" size="6px" color="{{sort.selected && sort.type == 'asc' ? '#FF6600' : '#333333'}}"></van-icon>
+                  <van-icon bind_init="_initComponent" name="arrow-down" size="6px" color="{{sort.selected && sort.type == 'desc' ? '#FF6600' : '#333333'}}"></van-icon>
+                </view>
+              </view>
+            </view>
+
+
+
+
+          </view>
+        </view>
+        <scroll-view scroll-y="{{true}}" scroll-top="{{scrollTop}}" lower-threshold="20" data-wpy-evt="10-8" bindscrolltolower="_proxy" bindscrolltoupper="_proxy" style="height:{{categories[curRootIdx].subCategory.length === 0 ? 'calc(100% - 45px)' : 'calc(100% - 90px)'}};">
+          
+          <view wx:for="{{ goodsList }}" wx:for-index="key" wx:for-item="item" wx:key="index" class="goodsItem">
+            <image src="{{item.goodsCoverUrl}}" alt class="goodsImg"></image>
+            <view class="goodsInfo">
+              <view class="goodsTitle">{{item.goodsName}}</view>
+              <view class="goodsDesc">{{item.goodsContent}}</view>
+              <view class="activity">
+                <view class="iBox {{item.activity.type}}">{{item.activity.title}}</view>
+              </view>
+              <view class="purchase">
+                <view style="flex-direction: column;">
+                  <view wx:if="{{ item.isVipGoods }}" class="vipBox">
+                    <text class="vipPrice">¥{{tools.toDecimal(item.salePrice * storeInfo.vipDiscount)}}</text>
+                    <vip-price-box bind_init="_initComponent"></vip-price-box>
+                  </view>
+                  <view class="salePrice">¥{{item.salePrice}}</view>
+                </view>
+                
+                <view wx:if="{{ cartGoodsNum[item.goodsCode] == null }}" data-wpy-evt="10-10" bindtap="_proxy" data-wpytap-a="{{ item }}" class="circleBtn plusBtn">✢</view>
+                <van-stepper bind_init="_initComponent" wx:else value="{{ cartGoodsNum[item.goodsCode] }}" min="{{ 0 }}" disable-input="{{true}}" async-change="{{true}}" plus-class="circleBtn plusBtn" minus-class="circleBtn" input-class="inputBox" data-wpy-evt="10-11" bindminus="_proxy" data-wpyminus-a="{{ item }}" bindplus="_proxy" data-wpyplus-a="{{ item }}"></van-stepper>
+              </view>
+            </view>
+          </view>
+          <view class="touchBottom">─── {{goodsList.length === 0 ? '该类目还没有商品!' : '别扯了，到底啦'}} ───</view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+  <view wx:else style="justify-content: center;">
+    <van-loading bind_init="_initComponent" wx:if="{{ loading }}" color="#FF5500"></van-loading>
+    <coming-soon bind_init="_initComponent" wx:else></coming-soon>
+  </view>
+  
+  <store-list-modal bind_init="_initComponent" store-id="{{ storeInfo.storeId }}" store-list="{{ storeList }}" show-modal="{{ showStoreModal }}" data-wpy-evt="10-13" bindon-modal-close="_proxy" bindchoose-store="_proxy"></store-list-modal>

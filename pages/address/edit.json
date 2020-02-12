@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "编辑收货地址",
+    "backgroundColorTop": "#FF7700",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "van-popup": "./../../$vendor/@vant/weapp/dist/popup/index"
+    }
+}

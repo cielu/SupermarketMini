@@ -1,0 +1,36 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="_initComponent" title="会员信息" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="14-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight+44}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="notice">
+    完善个人信息，有助于我们为您提供更好的会员服务
+  </view>
+  <view class="card">
+    <view class="cell">
+      <view class="title">手机号</view>
+      <view class="content {{ [ userInfo.phone != \'\' ? 'disable' : '' ] }}">{{userInfo.phone}}</view>
+    </view>
+    <view class="cell">
+      <view class="title">生日</view>
+      <view wx:if="{{ userInfo.birthday }}" class="content">{{userInfo.birthday}}</view>
+      <picker wx:else start="1950-01-01" end="{{ endDate }}" value="{{index}}" mode="date" data-wpy-evt="14-1" bindchange="_proxy">
+        <text class="content">请选择</text>
+      </picker>
+    </view>
+    <view class="cell">
+      <view class="title">昵称</view>
+      <input type="text" value="{{userInfo.nickname}}" disabled="{{true}}" class="content">
+    </input></view>
+    <view data-wpy-evt="14-2" bindtap="_proxy" class="cell">
+      <view class="title">性别</view>
+      <view class="content">{{actions[userInfo.gender]}}</view>
+    </view>
+  </view>
+  <view class="submitBox">
+    <view data-wpy-evt="14-3" bindtap="_proxy" class="submitBtn">保存信息</view>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "意见反馈",
+    "enablePullDownRefresh": false,
+    "backgroundColorTop": "#FF7700",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-field": "./../../$vendor/@vant/weapp/dist/field/index"
+    }
+}

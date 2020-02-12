@@ -1,0 +1,6 @@
+
+<view wx:if="{{ show_add_tip }}" style="top:{{statusbarHeight + 44}}px;" class="tooltip">
+  <view class="tooltipText">
+    点击 ··· 添加到我的小程序，访问更便捷
+  </view>
+</view>

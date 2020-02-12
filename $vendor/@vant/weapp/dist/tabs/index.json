@@ -1,0 +1,7 @@
+{
+    "component": true,
+    "usingComponents": {
+        "van-sticky": "./../sticky/index",
+        "van-info": "./../info/index"
+    }
+}

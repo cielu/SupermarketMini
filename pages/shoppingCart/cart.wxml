@@ -1,0 +1,130 @@
+
+<wxs module="tools" src="../../utils/tools.wxs"></wxs>
+<view class="theme">
+  <van-nav-bar bind_init="_initComponent" title="{{navTitle}}" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="12-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight+44}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <van-notice-bar bind_init="_initComponent" mode="link" scrollable="{{false}}" custom-class="sendPlace theme" text="{{currentArea.title}}" data-wpy-evt="12-1" bindtap="_proxy" style="width: 100%;">
+    <view slot="left-icon" class="ac">
+      <van-icon bind_init="_initComponent" name="location" size="16"></van-icon>
+      <text style="font-size: 28rpx;padding-left:10rpx;">送至：</text>
+    </view>
+  </van-notice-bar>
+  <view class="cartBox">
+    <view wx:if="{{ storeLength > 0 }}" class="shopPlace">
+      <view class="ac">
+        <van-icon bind_init="_initComponent" name="shop-o" color="#898989" size="19px"></van-icon>
+        <text class="shopName">{{storeList[storeId].storeName}} - {{storeList[storeId].shortName}}</text>
+      </view>
+      <view data-wpy-evt="12-2" bindtap="_proxy" class="ac">
+        <text class="other">其他商家</text>
+        <van-icon bind_init="_initComponent" name="arrow-down" color="#898989" size="14"></van-icon>
+      </view>
+    </view>
+    <view wx:if="{{ cartLength == 0 }}" class="emptyCart">
+      <image src="/images/other/empty_cart.png" alt="空购物车" class="cartIcon"></image>
+      <text style="color: #9d9d9d;padding: 50rpx 0;">暂时没有可结算的商品</text>
+      <view data-wpy-evt="12-3" bindtap="_proxy" class="buyBtn">
+        去首页逛逛
+      </view>
+    </view>
+    <view wx:else class="cartList">
+      <view class="sendFee makeUp">
+        <text wx:if="{{ totalPrice < storeInfo.startSendFee }}">还差{{tools.toDecimal(storeInfo.startSendFee - totalPrice)}}元起送</text>
+        <text wx:else>{{totalPrice < storeInfo.freeSendFee ? '配送费¥' + storeInfo.sendFee + '，还差¥'+tools.toDecimal(storeInfo.freeSendFee - totalPrice)+'免配送费' : '免配送费'}}</text>
+        <view data-wpy-evt="12-4" bindtap="_proxy" style="color: #FD815E;">
+          <text style="margin-right:10rpx;">去凑单</text>
+          <van-icon bind_init="_initComponent" name="arrow" size="16px"></van-icon>
+        </view>
+      </view>
+      <view wx:for="{{ cartList }}" wx:for-index="key" wx:for-item="activities" wx:key="key" style="width:{{screenWidth-20}}px;" class="shopGoods">
+        <view wx:if="{{ activities.activity.activityId > 0 }}" class="sendFee">
+          <text>{{activities.activity.title + activities.activity.reduceTitle}}</text>
+          <view data-wpy-evt="12-5" bindtap="_proxy" data-wpytap-a="{{ activities }}" style="color: #FD815E;">
+            <text style="margin-right:10rpx;">去凑单</text>
+            <van-icon bind_init="_initComponent" name="arrow" size="16px"></van-icon>
+          </view>
+        </view>
+        <van-swipe-cell bind_init="_initComponent" wx:for="{{ activities.items }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" right-width="{{ 50 }}" left-width="{{0.001}}" class="swipe-cell">
+          <view style="width:{{screenWidth-20}}px;" class="goods">
+            <view wx:if="{{ item.stockNum <= 0 }}" class="floridianBox"></view>
+            <label wx:if="{{ item.stockNum <= 0 }}" style="color:#333333;">失效</label>
+            <van-checkbox bind_init="_initComponent" wx:else value="{{ item.selected }}" checked-color="#f89218" data-wpy-evt="12-6" bindchange="_proxy" data-wpychange-a="{{ key }}" data-wpychange-b="{{ index }}"></van-checkbox>
+            <view class="imgBox">
+              <image src="{{item.goodsCoverUrl}}" alt mode="aspectFill" data-wpy-evt="12-7" bindtap="_proxy" data-wpytap-a="{{ item }}" class="shopImg"></image>
+              <view wx:if="{{ item.stockNum <= 0 }}" class="floridian">卖完了</view>
+            </view>
+            <view class="goodsInfo">
+              <text class="title">{{item.goodsName}}</text>
+              <text wx:if="{{ item.skuId > 0 }}" class="desc title">{{ item.goodsSku.attributes }}</text>
+              <text wx:else class="desc title">{{ item.goodsContent }}</text>
+              <view class="activity">
+                <view wx:if="{{ item.activityId > 0 }}" class="iBox {{item.activity.type}}">
+                  {{item.activity.title}}
+                </view>
+                <vip-price-box bind_init="_initComponent" wx:if="{{ item.isVipGoods && userInfo.vipExpiredAt > nowTime }}"></vip-price-box>
+              </view>
+              <view class="purchase">
+                
+                <view wx:if="{{ item.skuId > 0 }}">
+                  <view wx:if="{{ item.isVipGoods && userInfo.vipExpiredAt > nowTime }}" style="align-items: flex-end;">
+                    <text class="price">¥{{ tools.toDecimal(item.goodsSku.salePrice * storeInfo.vipDiscount) }}</text>
+                    <text class="price-lt">¥{{ item.goodsSku.salePrice }}</text>
+                  </view>
+                  <text wx:else class="price">¥{{item.goodsSku.salePrice}}</text>
+                </view>
+                <view wx:else>
+                  <view wx:if="{{ item.isVipGoods && userInfo.vipExpiredAt > nowTime }}" style="align-items: flex-end;">
+                    <text class="price">{{tools.toDecimal(item.salePrice * storeInfo.vipDiscount)}}</text>
+                    <text class="price-lt">¥{{item.salePrice}}</text>
+                  </view>
+                  <text wx:else class="price">¥{{item.salePrice}}</text>
+                </view>
+                <van-stepper bind_init="_initComponent" wx:if="{{ item.stockNum }}" value="{{ item.goodsNum }}" min="{{ 0 }}" disable-input="{{true}}" async-change="{{true}}" plus-class="circleBtn" minus-class="circleBtn" input-class="inputBox" data-wpy-evt="12-8" bindminus="_proxy" data-wpyminus-a="{{ key }}" data-wpyminus-b="{{ index }}" bindplus="_proxy" data-wpyplus-a="{{ key }}" data-wpyplus-b="{{ index }}"></van-stepper>
+              </view>
+            </view>
+          </view>
+          <view slot="right" data-wpy-evt="12-10" bindtap="_proxy" data-wpytap-a="{{ key }}" data-wpytap-b="{{ index }}" class="deleteBtn">删除</view>
+        </van-swipe-cell>
+      </view>
+    </view>
+  </view>
+  
+  <view wx:if="{{ guessULikeGoods.length > 0 }}" class="guessULike">
+    <text class="line">---</text>
+    <text style="padding: 0 20rpx;">猜你喜欢</text>
+    <text class="line">---</text>
+  </view>
+  <goods-list-column bind_init="_initComponent" store-info="{{ storeInfo }}" goods-list="{{ guessULikeGoods }}" data-wpy-evt="12-11" bindon-handle-cart="_proxy"></goods-list-column>
+</view>
+<view class="settleBox">
+  <view class="settle">
+    <view class="ac">
+      <view data-wpy-evt="12-12" bindtap="_proxy" class="ac">
+        <van-checkbox bind_init="_initComponent" value="{{ selectAll }}" checked-color="#f89218"></van-checkbox>
+        <text class="all">全选</text>
+      </view>
+      <view class="total">
+        <text style="font-size:26rpx;color: #595959;">商品合计：<text class="price">¥{{totalPrice}}</text></text>
+        <text style="font-size: 22rpx;color: #9d9d9d;">{{totalPrice > storeInfo.freeSendFee ? '已免配送费' : '还需配送费 ¥' + storeInfo.sendFee}}</text>
+      </view>
+    </view>
+    <view data-wpy-evt="12-13" bindtap="_proxy" class="buyBtn">
+      去结算
+    </view>
+  </view>
+</view>
+<van-popup bind_init="_initComponent" show="{{ isShowStoreListModal }}" position="top" customClass="vanPopup" custom-style="top:{{statusBarHeight + 44}}px" overlay-style="top:{{statusBarHeight + 44}}px" data-wpy-evt="12-14" bindclose="_proxy">
+  <view data-wpy-evt="12-15" catchtouchmove="_proxy" class="chooseStore">
+    <view class="title">选择商家</view>
+    <view class="storeList">
+      <view wx:for="{{ storeList }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="12-16" bindtap="_proxy" class="storeItem {{storeId == item.storeId ? 'activeStore' : '' }}">
+        <view>{{item.shortName}} - {{item.storeName}}</view>
+        <van-icon bind_init="_initComponent" wx:if="{{ storeId == item.storeId }}" name="success" size="18"></van-icon>
+      </view>
+    </view>
+  </view>
+</van-popup>

@@ -1,0 +1,18 @@
+{
+    "enablePullDownRefresh": true,
+    "backgroundColorTop": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "component": true,
+    "usingComponents": {
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "van-stepper": "./../../$vendor/@vant/weapp/dist/stepper/index",
+        "van-popup": "./../../$vendor/@vant/weapp/dist/popup/index",
+        "van-cell": "./../../$vendor/@vant/weapp/dist/cell/index",
+        "van-goods-action": "./../../$vendor/@vant/weapp/dist/goods-action/index",
+        "van-goods-action-icon": "./../../$vendor/@vant/weapp/dist/goods-action-icon/index",
+        "van-goods-action-button": "./../../$vendor/@vant/weapp/dist/goods-action-button/index",
+        "vip-price-box": "./../../components/vipPriceBox",
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index"
+    }
+}

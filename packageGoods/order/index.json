@@ -1,0 +1,14 @@
+{
+    "navigationBarTitleText": "我的订单",
+    "backgroundColorTop": "#F7F7F7",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "van-tabs": "./../../$vendor/@vant/weapp/dist/tabs/index",
+        "van-tab": "./../../$vendor/@vant/weapp/dist/tab/index",
+        "order-list": "./../../components/orderList"
+    }
+}

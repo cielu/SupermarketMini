@@ -1,0 +1,1 @@
+.ball{width:30rpx;height:30rpx;background:#FF7700;border-radius:50%;position:fixed}.cartBox{height:80rpx;width:80rpx;border-radius:50%;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);position:fixed;left:30px;bottom:50px}

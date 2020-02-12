@@ -1,0 +1,15 @@
+
+<van-nav-bar bind_init="_initComponent" left-arrow customClass="bgLinear" title-class="van-nav-title" data-wpy-evt="27-0" bindleft-click="_proxy">
+    <van-search slot="title" shape="round" placeholder="发现身边好货" custom-class="van-search" background="transparent"></van-search>
+</van-nav-bar>
+<view class="container">
+    <van-tabs active="{{ active }}" style="width: 100%;">
+        <van-tab title="标签 1">内容 1</van-tab>
+        <van-tab title="标签 2">内容 2</van-tab>
+        <van-tab title="标签 3">内容 3</van-tab>
+        <van-tab title="标签 4">内容 4</van-tab>
+        <van-tab title="标签 5">内容 5</van-tab>
+        <van-tab title="标签 6">内容 6</van-tab>
+    </van-tabs>
+
+</view>

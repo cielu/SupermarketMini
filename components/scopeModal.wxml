@@ -1,0 +1,12 @@
+
+<view class="backdrop">
+  <view class="scopeModal">
+    <view class="modal_title">需要授权</view>
+    <view class="modal_body">
+      <view style="margin:5rpx;">为了提供更好的服务</view>
+      <view style="margin:5rpx;">请在稍后的提示框中点击"允许"</view>
+      <image src="https://image.linghui.co/platform/scope.png" alt="授权" mode="aspectFit" class="modal_scope"></image>
+      <button open-type="getUserInfo" lang="zh_CN" data-wpy-evt="63-0" bindgetuserinfo="_proxy" class="modal_btn">我知道了</button>
+    </view>
+  </view>
+</view>

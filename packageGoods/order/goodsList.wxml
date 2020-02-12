@@ -1,0 +1,39 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="_initComponent" title="商品列表" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="29-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight+44}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="goodsList">
+    <view wx:for="{{ goodsList }}" wx:for-index="index" wx:for-item="goods" wx:key="index" class="goodsItem">
+      <image src="{{goods.goodsCoverUrl}}" alt class="goodsImg"></image>
+      <view wx:if="{{ goods.skuId > 0 }}" class="goodsInfo">
+        <view class="goodsTitle">{{goods.goodsName}}</view>
+        <view class="goodsUnit">{{goods.goodsSku.attributes}}</view>
+        <view class="activity">
+          <view wx:if="{{ goods.activityId > 0 }}" class="iBox {{goods.activity.type}}">
+            {{goods.activity.title}}
+          </view>
+          <vip-price-box wx:if="{{ item.isVipGoods && userInfo.vipExpiredAt > nowTime }}"></vip-price-box>
+        </view>
+        <view wx:if="{{ goods.goodsSku.discountPrice > 0 }}" class="price">¥{{goods.goodsSku.discountPrice}}</view>
+        <view wx:else class="price">¥{{goods.goodsSku.salePrice}}</view>
+      </view>
+      <view wx:else class="goodsInfo">
+        <view class="goodsTitle">{{goods.goodsName}}</view>
+        <view class="goodsUnit">{{goods.goodsContent}}</view>
+        <view class="activity">
+          <view wx:if="{{ goods.activityId > 0 }}" class="iBox {{goods.activity.type}}">
+            {{goods.activity.title}}
+          </view>
+          <vip-price-box wx:if="{{ item.isVipGoods && userInfo.vipExpiredAt > nowTime }}"></vip-price-box>
+        </view>
+        <view wx:if="{{ goods.discountPrice > 0 }}" class="price">¥{{goods.discountPrice}}</view>
+        <view wx:else class="price">¥{{goods.salePrice}}</view>
+      </view>
+      <view class="goodsNum">x{{goods.goodsNum}}</view>
+    </view>
+  </view>
+</view>

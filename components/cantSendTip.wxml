@@ -1,0 +1,5 @@
+
+<view wx:if="{{ showTip }}" data-wpy-evt="106-0" bindtap="_proxy" style="{{tipStyle}};" class="cantSendTip">
+  <label>{{tip}}</label>
+  <label style="padding: 0 30rpx;transform:rotate(-135deg);">∟</label>
+</view>

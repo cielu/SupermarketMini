@@ -1,0 +1,41 @@
+
+<wxs module="tools" src="../utils/tools.wxs"></wxs>
+<view class="goodsItems">
+  <view wx:for="{{ goodsList }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" class="goodsItem">
+    <view wx:if="{{ item.stockNum <= 0 }}" class="floridianBox">已售罄</view>
+    <image src="{{item.goodsCoverUrl}}" mode="aspectFill" data-wpy-evt="58-0" bindtap="_proxy" data-wpytap-a="{{ item }}" class="goodsPic">
+      <view class="timeBox">1小时达</view>
+    </image>
+    <view class="goodsBody">
+      <view data-wpy-evt="58-1" bindtap="_proxy" data-wpytap-a="{{ item }}" class="goodsTitle">
+        {{item.goodsName}}
+      </view>
+      <view class="goodsBottom">
+        <view class="showPrice">
+          <view style="flex-direction: column;">
+            <view class="activity">
+              <view wx:if="{{ item.isPreSale }}" class="iBox preSale">
+                预售
+              </view>
+              <view wx:if="{{ item.activityId > 0 }}" class="iBox {{item.activity.type}}">
+                {{item.activity.title}}
+              </view>
+            </view>
+            <view style="flex-direction: column;">
+              <view wx:if="{{ item.isVipGoods }}" class="vipPrice">
+                <text style="padding-right: 10rpx;">¥{{tools.toDecimal(item.salePrice * storeInfo.vipDiscount)}}</text>
+                <vip-price-box bind_init="_initComponent"></vip-price-box>
+              </view>
+              <view class="salePrice">
+                ¥{{item.salePrice}}
+              </view>
+            </view>
+          </view>
+          <purchase-btn bind_init="_initComponent" is-single="{{ item.attrType === 'single' }}" buy-num="{{ cartGoodsNum[item.goodsCode] }}" data-wpy-evt="58-2" bindtap="_proxy" data-wpytap-a="{{ item }}"></purchase-btn>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<end-line bind_init="_initComponent" show-end-line="{{ goodsList.length > 5 }}"></end-line>

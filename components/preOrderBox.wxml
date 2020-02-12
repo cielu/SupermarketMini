@@ -1,0 +1,4 @@
+
+<view class="preOrderBox">
+  <label>{{tip}}</label>
+</view>

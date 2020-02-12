@@ -1,0 +1,192 @@
+
+<wxs module="tools" src="../../utils/tools.wxs"></wxs>
+<van-nav-bar bind_init="_initComponent" fixed="{{true}}" border="{{false}}" title="{{transparentNav ? '' : '商品详情'}}" customClass="{{transparentNav ? 'trans-nav' : ''}}" left-arrow="{{true}}" data-wpy-evt="26-0" bindclickLeft="_proxy"></van-nav-bar>
+<view class="container">
+  <swiper wx:if="{{ goods.goodsImages.length > 0 }}" autoplay="{{true}}" circular="{{true}}" skip-hidden-item-layout indicator-active-color="rgba(255,255,255,.7)" indicator-dots="{{goods.goodsImages.length > 1 ? true : false}}" easing-function="easeOutCubic" interval="{{5000}}" duration="{{1000}}" class="swiper-banner">
+    <swiper-item wx:for="{{ goods.goodsImages }}" wx:for-index="index" wx:for-item="img" wx:key="index" data-wpy-evt="26-1" bindtap="_proxy" data-wpytap-a="{{ index }}" class="slide-image">
+      <image src="{{img}}" mode="aspectFill" class="slide-image"></image>
+    </swiper-item>
+  </swiper>
+  <view style="margin-bottom: {{isIPhoneX ? 80 : 40}}rpx;" class="content">
+    <view class="priceBox">
+      <view style="align-items:flex-end;">
+        <text class="price">¥{{goods.salePrice}}</text>
+        <view wx:if="{{ goods.isVipGoods }}" class="ac">
+          <text class="vipPrice">¥{{tools.toDecimal(goods.salePrice * storeInfo.vipDiscount)}}</text>
+          <vip-price-box bind_init="_initComponent"></vip-price-box>
+        </view>
+      </view>
+      <text style="color: #9d9d9d;">月销{{goods.monthSalesNum}}件</text>
+    </view>
+    <view class="titleBox">
+      <view style="flex-direction: column;">
+        <view class="title">
+          <image src="/images/goods/hour_arrive.png" alt mode="aspectFit" class="hourArrive"></image>
+          {{goods.goodsName}}
+        </view>
+        <view class="goodsDesc">{{goods.goodsContent}}</view>
+      </view>
+      <button open-type="share" class="share">
+        <van-icon bind_init="_initComponent" name="share" size="20px" color="#8a8a8a"></van-icon>
+        <text style="color: #8a8a8a;">分享</text>
+      </button>
+    </view>
+    <view class="cellGroup">
+      <van-cell bind_init="_initComponent" title="送至" value="{{currentArea.title}}" customClass="vanCell" titleClass="vanCellTitle" valueClass="vanCellValue" is-link="{{true}}" link-type="navigateTo" url="/pages/other/location"></van-cell>
+      <van-cell bind_init="_initComponent" title="配送" customClass="vanCell" titleClass="vanCellTitle">
+        <view class="vanCellValueCustom">
+          <text wx:if="{{ storeInfo.freeSendFee > 0 }}" style="padding-bottom:10rpx;">满{{storeInfo.freeSendFee}}元免配送费</text>
+          <view class="ac">
+            <text>由{{storeInfo.delivery.name}}提供配送服务</text>
+            <van-icon bind_init="_initComponent" name="question-o" size="16px" color="#8a8a8a" data-wpy-evt="26-2" bindtap="_proxy"></van-icon>
+          </view>
+        </view>
+      </van-cell>
+    </view>
+    <view class="cellGroup">
+      <van-cell bind_init="_initComponent" title="促销" customClass="vanCell" titleClass="vanCellTitle">
+        <view class="vanCellValueCustom">
+          <view class="ac">
+            <view class="discount">返积分</view>
+            <text style="margin-left:10rpx;font-size: 24rpx;">预计返{{goods.salePrice}}积分</text>
+          </view>
+          <view wx:if="{{ goods.activityId > 0 }}" class="ac">
+            <view class="discount">活动</view>
+            <text style="margin-left:10rpx;font-size: 24rpx;">{{goods.activity.title}}</text>
+          </view>
+        </view>
+      </van-cell>
+    </view>
+    <view class="cellGroup">
+      <van-cell bind_init="_initComponent" title="服务" customClass="vanCell" titleClass="vanCellTitle">
+        <view style="flex-wrap: wrap;" class="ac">
+          <view class="serverItem">
+            <van-icon bind_init="_initComponent" name="passed" color="#595959" size="16px"></van-icon>
+            <view style="padding-left:6rpx;">正品保障</view>
+          </view>
+          <view class="serverItem">
+            <van-icon bind_init="_initComponent" name="passed" color="#595959" size="16px"></van-icon>
+            <view style="padding-left:6rpx;">质量无忧</view>
+          </view>
+          <view class="serverItem">
+            <van-icon bind_init="_initComponent" name="passed" color="#595959" size="16px"></van-icon>
+            <view style="padding-left:6rpx;">店铺销售&发货</view>
+          </view>
+          <view class="serverItem">
+            <van-icon bind_init="_initComponent" name="passed" color="#595959" size="16px"></van-icon>
+            <view style="padding-left:6rpx;">48小时发货</view>
+          </view>
+        </view>
+      </van-cell>
+    </view>
+    <view class="cellGroup">
+      <van-cell bind_init="_initComponent" wx:if="{{ goods.attrType === 'multiple' }}" title="选择" value="请选择商品规格" customClass="vanCell ac" titleClass="vanCellTitle" valueClass="vanCellValue" data-wpy-evt="26-3" bindtap="_proxy">
+        <van-icon bind_init="_initComponent" slot="right-icon" name="arrow" color="#999999"></van-icon>
+      </van-cell>
+      <van-cell bind_init="_initComponent" wx:if="{{ false }}" title="参数" value="查看商品详细参数" customClass="vanCell ac" titleClass="vanCellTitle" valueClass="vanCellValue" data-wpy-evt="26-4" bindtap="_proxy">
+        <van-icon bind_init="_initComponent" slot="right-icon" name="arrow" color="#999999"></van-icon>
+      </van-cell>
+    </view>
+    <view class="shopInfo">
+      <image src="/images/shop/shop_logo.png" alt class="shopLogo"></image>
+      <view class="shopBox">
+        <view style="justify-content: space-between;" class="ac">
+          <view class="shopProvider ellipsis">{{storeInfo.storeName}}</view>
+          <view data-wpy-evt="26-5" bindtap="_proxy" class="shopAbout goInto">
+            <text>进店</text>
+          </view>
+        </view>
+        <view class="ac">
+          <view data-wpy-evt="26-6" bindtap="_proxy" class="shopAbout">
+            <van-icon bind_init="_initComponent" name="phone-o" color="#696969" size="16px"></van-icon>
+            <text style="margin-left:10rpx;">联系商家</text>
+          </view>
+          <view data-wpy-evt="26-7" bindtap="_proxy" class="shopAbout">
+            <van-icon bind_init="_initComponent" name="info-o" color="#696969" size="16px"></van-icon>
+            <text style="margin-left:10rpx;">店铺信息</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="description">
+      —————<label class="words">商品详情</label>—————
+    </view>
+    <rich-text nodes="{{goods.goodsDescription}}" space="nbsp"></rich-text>
+  </view>
+</view>
+
+<van-goods-action bind_init="_initComponent" custom-class="goodsAction">
+  <van-goods-action-icon bind_init="_initComponent" icon="cart-o" text="购物车" info="{{ totalGoodsNum }}" data-wpy-evt="26-8" bindtap="_proxy"></van-goods-action-icon>
+  <van-stepper bind_init="_initComponent" wx:if="{{ cartGoodsNum[goods.goodsCode] }}" min="{{ 0 }}" value="{{ cartGoodsNum[goods.goodsCode] }}" disable-input="{{true}}" async-change="{{true}}" plus-class="circleBtn bgLinear" minus-class="circleBtn minusBtn" input-class="inputBox" data-wpy-evt="26-9" bindminus="_proxy" bindplus="_proxy"></van-stepper>
+  <van-goods-action-button bind_init="_initComponent" wx:else text="加入购物车" type="warning" data-wpy-evt="26-11" bindtap="_proxy" style="max-width:300rpx;"></van-goods-action-button>
+</van-goods-action>
+
+<van-popup bind_init="_initComponent" show="{{ isShowShopInfoModal }}" position="bottom" customClass="vanPopup" safe-area-inset-bottom="{{false}}" data-wpy-evt="26-12" bindclose="_proxy">
+  <view data-wpy-evt="26-13" catchtouchmove="_proxy" class="attributeBox">
+    <view class="title">店铺信息</view>
+    <view class="attribute">
+      <view class="content">
+        <view class="shopName">{{storeInfo.storeName}}</view>
+        <view class="ac serveInfo">
+          <view class="shopServe">配送时间</view>
+          <view class="serveContent">{{storeInfo.bizHours}}</view>
+        </view>
+        <view class="ac serveInfo">
+          <view class="shopServe">配送服务</view>
+          <view class="serveContent">{{storeInfo.deliver.name}}</view>
+        </view>
+        <view class="ac serveInfo">
+          <view class="shopServe">门店地址</view>
+          <view class="serveContent">{{storeInfo.address}}</view>
+        </view>
+        <map id="map" scale="18" longitude="{{ storeInfo.lng }}" latitude="{{ storeInfo.lat }}" enable-zoom="{{true}}" show-location="{{true}}" markers="{{markers}}" polyline="{{polyline}}" data-wpy-evt="26-14" bindmarkertap="_proxy" bindregionchange="_proxy" style="width: 100%; height: 250px;margin-top:40rpx;"></map>
+      </view>
+    </view>
+  </view>
+</van-popup>
+<van-popup bind_init="_initComponent" show="{{ isShowExplainModal }}" position="bottom" customClass="vanPopup" safe-area-inset-bottom="{{false}}" data-wpy-evt="26-16" bindclose="_proxy">
+  <view data-wpy-evt="26-17" catchtouchmove="_proxy" class="attributeBox">
+    <view class="title">配送说明</view>
+    <view class="attribute">
+      <text class="content">{{storeInfo.delivery.description}}</text>
+    </view>
+  </view>
+</van-popup>
+<van-popup bind_init="_initComponent" wx:if="{{ goods.attrType === 'multiple' }}" show="{{ isShowChooseModal }}" position="bottom" customClass="vanPopup" safe-area-inset-bottom="{{false}}" data-wpy-evt="26-18" bindclose="_proxy">
+  <view data-wpy-evt="26-19" catchtouchmove="_proxy" class="attributeBox">
+    <view class="header">
+      <image src="{{selectedAttr.imgUrl ? selectedAttr.imgUrl : goods.goodsCoverUrl}}" alt mode="aspectFill" class="img"></image>
+      <view class="info">
+        <view class="price">¥{{selectedAttr.salePrice ? selectedAttr.salePrice : goods.salePrice}}</view>
+        <view>库存{{selectedAttr.stockNum ? selectedAttr.stockNum : goods.stockNum}}件</view>
+        <view style="color: #333333;">已选： {{hasSelected}}</view>
+      </view>
+    </view>
+    <scroll-view scroll-y="{{true}}" style="padding: 20rpx;margin-bottom: 200rpx;box-sizing: border-box;max-height:{{screenHeight*0.52}}px;">
+      <view wx:for="{{ goods.goodsAttrs }}" wx:for-index="n" wx:for-item="attr" wx:key="n" class="attribute">
+        <view class="attrName">{{attr.attrName}}</view>
+        <view class="attrItems">
+          <view wx:for="{{ attr.attrValues }}" wx:for-index="index" wx:for-item="attrVal" wx:key="index" data-wpy-evt="26-20" bindtap="_proxy" data-wpytap-a="{{ attrVal }}" data-wpytap-b="{{ n }}" data-wpytap-c="{{ index }}" class="attrItem {{[attrVal.isShow ? '' : 'attrDisable' , subIndex[n] == index ? 'attrActive' : '' ]}}">
+            {{attrVal.name}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="finishBox">
+      <view data-wpy-evt="26-21" bindtap="_proxy" class="finishBtn bgLinear white">
+        加入购物车
+      </view>
+    </view>
+  </view>
+</van-popup>
+<van-popup bind_init="_initComponent" show="{{ isShowAttrModal }}" position="bottom" customClass="vanPopup" safe-area-inset-bottom="{{false}}" data-wpy-evt="26-22" bindclose="_proxy">
+  <view data-wpy-evt="26-23" catchtouchmove="_proxy" class="attributeBox">
+    <view class="title">基本参数</view>
+    <scroll-view scroll-y="{{true}}" style="margin-bottom:200rpx;max-height:{{screenHeight*0.52}}px;">
+      <van-cell bind_init="_initComponent" title="品牌" value="leysen1855/莱绅通灵" customClass="vanCell cellParam" titleClass="vanCellTitle minWidth120" valueClass="vanCellValue"></van-cell>
+    </scroll-view>
+    <view class="finishBox">
+      <view data-wpy-evt="26-24" bindtap="_proxy" class="finishBtn bgLinear white">确定</view>
+    </view>
+  </view>
+</van-popup>

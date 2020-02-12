@@ -1,0 +1,36 @@
+
+<van-popup bind_init="_initComponent" position="top" z-index="1000" show="{{ showModal }}" custom-style="padding-top:{{statusBarHeight}}px" data-wpy-evt="61-0" catchtouchmove="_proxy" bindclose="_proxy">
+  <view data-wpy-evt="61-2" catchtouchmove="_proxy" class="storePopup">
+    <view class="title">请选择店铺</view>
+    <van-notice-bar bind_init="_initComponent" mode="link" scrollable="{{false}}" text="{{currentArea.title}}" data-wpy-evt="61-3" bindtap="_proxy">
+      <text slot="left-icon">送至：</text>
+    </van-notice-bar>
+    <label style="color: #9f9f9f;align-self: center;padding: 14rpx 0;">以下商家可为您配送</label>
+    <view style="flex: 1;">
+      <view wx:if="{{ storeList.length === 0 }}" class="prepare">
+        <view class="city">
+          <view class="line">-------</view>
+          <image src="/images/shop/city.png" alt="城市" class="img"></image>
+          <view class="line">-------</view>
+        </view>
+        <view class="desc">
+          商家正在筹备中，敬请期待！
+        </view>
+      </view>
+      <scroll-view wx:else scroll-y="{{true}}" style="max-height:{{screenHeight*0.52}}px;" class="storeList">
+        <view wx:for="{{ storeList }}" wx:for-index="index" wx:for-item="store" wx:key="index" key="{{ index }}" data-wpy-evt="61-4" bindtap="_proxy" data-wpytap-a="{{ store }}" class="storeCard {{ [ storeId == store.storeId ? 'activeStore' : '' ] }}">
+          <view class="storeTitle">
+            {{store.shortName}}
+          </view>
+          <view class="storeInfo">
+            <label style="font-weight: 500;color: #555555;">{{store.storeName}}</label>
+            <label class="introduce">{{store.storeDesc}}　{{ store.distance}}</label>
+          </view>
+          <view style="width: 80rpx;">
+            <van-icon bind_init="_initComponent" wx:if="{{ storeId == store.storeId }}" name="checked" size="20px" color="#fa7631"></van-icon>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</van-popup>

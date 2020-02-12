@@ -1,0 +1,6 @@
+
+<view class="endLine">
+  <text class="line">-------</text>
+  <text style="padding: 0 20rpx;">别扯了，到底了 😕</text>
+  <text class="line">-------</text>
+</view>

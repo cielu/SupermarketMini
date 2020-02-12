@@ -1,0 +1,27 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="_initComponent" title="预售抢鲜" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="33-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight+44}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="banners">
+    <image src="http://cdn.linghui.co/shengxianguoshu.jpg" alt mode="aspectFill" class="banner"></image>
+  </view>
+  <view class="preSaleList">
+    <view wx:for="{{ preSaleGoodsList }}" wx:for-index="index" wx:for-item="goods" wx:key="index" data-wpy-evt="33-1" bindtap="_proxy" class="goodsItem">
+      <image src="{{goods.goodsCoverUrl}}" mode="aspectFill" class="goodsPic"></image>
+      <view class="goodsBody">
+        <view>
+          <text class="goodsTitle">{{goods.goodsName}}</text>
+        </view>
+        <view class="preSale">预售</view>
+        <view class="goodsBottom">
+          <view class="salePrice">¥{{goods.goodsSalePrice}}</view>
+          <view class="purchaseBtn">购买</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,57 @@
+
+<view>
+  <wxs module="tools" src="../../utils/tools.wxs"></wxs>
+  <van-nav-bar bind_init="_initComponent" title="{{ title }}" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="25-0" bindclickLeft="_proxy"></van-nav-bar>
+  <view style="height:{{statusBarHeight + 43 + 75}}px;" class="loading">
+    <van-loading bind_init="_initComponent" color="#696969"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <scroll-view scroll-x="{{true}}" scroll-with-animation="{{true}}" scroll-into-view="cate{{activeCateIdx-1 < 0 ? 0 : activeCateIdx-1}}" style="top:{{statusBarHeight + 43}}px;" class="categories">
+    <view style="flex-wrap: nowrap;height:150rpx;align-items: center;">
+      <view wx:for="{{ categories }}" wx:for-index="index" wx:for-item="category" wx:key="index" id="cate{{index}}" data-wpy-evt="25-1" bindtap="_proxy" data-wpytap-a="{{ index }}" class="category {{activeCateIdx == index ? 'activeCate' : ''}}">
+        <image src="{{ category.cateIcon || '/images/goods/cate_purchase.png' }}" alt mode="aspectFill" class="icon-lg"></image>
+        <text class="ellipsis">{{category.cateName}}</text>
+      </view>
+    </view>
+  </scroll-view>
+  
+  <view class="content">
+    <view wx:if="{{ categories[activeCateIdx].advert }}" class="banners">
+      <image src="{{ categories[activeCateIdx].advert }}" alt mode="aspectFill" class="banner"></image>
+    </view>
+    <view class="goodsList">
+      <view wx:for="{{ goodsList }}" wx:for-index="index" wx:for-item="goods" wx:key="index" class="goodsItem">
+        <image src="{{goods.goodsCoverUrl}}" alt="{{goods.goodsName}}" mode="aspectFill" data-wpy-evt="25-2" bindtap="_proxy" data-wpytap-a="{{ goods }}" class="goodsImg"></image>
+        <view class="goodsBody">
+          <view data-wpy-evt="25-3" bindtap="_proxy" data-wpytap-a="{{ goods }}" class="goodsTitle">
+            {{goods.goodsName}}
+          </view>
+          <view class="activity">
+            <view wx:if="{{ goods.isPreSale }}" class="iBox preSale">
+              预售
+            </view>
+            <view wx:if="{{ goods.activityId > 0 }}" class="iBox {{goods.activity.type}}">
+              {{goods.activity.title}}
+            </view>
+          </view>
+          <view wx:if="{{ goods.isVipGoods }}" class="vipPrice">
+            <text style="padding-right: 10rpx;">¥{{tools.toDecimal(goods.salePrice * storeInfo.vipDiscount)}}</text>
+            <vip-price-box bind_init="_initComponent"></vip-price-box>
+          </view>
+          <view class="priceBox">
+            <view class="salePrice">
+              ¥{{goods.salePrice}}
+            </view>
+            <purchase-btn bind_init="_initComponent" is-single="{{ goods.attrType === 'single' }}" buy-num="{{ cartGoodsNum[goods.goodsCode] }}" data-wpy-evt="25-4" bindtap="_proxy" data-wpytap-a="{{ goods }}"></purchase-btn>
+          </view>
+        </view>
+      </view>
+      <view style="flex:1;"></view>
+    </view>
+    
+    <end-line bind_init="_initComponent" show-end-line="{{ goodsList.length > 9 }}"></end-line>
+    
+    <fly-into-cart bind_init="_initComponent" data-ref="flyIntoCart" goodsNum="{{ totalGoodsNum }}"></fly-into-cart>
+  </view>
+</view>
