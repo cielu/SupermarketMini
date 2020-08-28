@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.miniAppLogin = miniAppLogin;
 exports.phoneLogin = phoneLogin;
 exports.loginByType = loginByType;
+exports.getUserCenter = getUserCenter;
+exports.perfectUserInfo = perfectUserInfo;
 
 var _request = require('./../utils/request.js');
 
@@ -32,4 +34,15 @@ function loginByType() {
   }
 
   return phoneLogin(data);
+} // 获取用户信息
+
+
+function getUserCenter() {
+  return (0, _request.wxRequest)('/user/center', null, 'GET', false);
+} // 完善用户表单
+
+
+function perfectUserInfo() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/user/perfect', data, 'POST');
 }

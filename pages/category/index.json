@@ -7,13 +7,13 @@
     "usingComponents": {
         "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
         "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
-        "van-search": "./../../$vendor/@vant/weapp/dist/search/index",
         "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
-        "van-transition": "./../../$vendor/@vant/weapp/dist/transition/index",
+        "van-search": "./../../$vendor/@vant/weapp/dist/search/index",
         "van-overlay": "./../../$vendor/@vant/weapp/dist/overlay/index",
         "van-stepper": "./../../$vendor/@vant/weapp/dist/stepper/index",
-        "coming-soon": "./../../components/comingSoon",
+        "van-transition": "./../../$vendor/@vant/weapp/dist/transition/index",
+        "store-list-modal": "./../../components/storeListModal",
         "vip-price-box": "./../../components/vipPriceBox",
-        "store-list-modal": "./../../components/storeListModal"
+        "coming-soon": "./../../components/comingSoon"
     }
 }

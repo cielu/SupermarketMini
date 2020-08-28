@@ -42,28 +42,28 @@ _core["default"].component({
       _util["default"].navigateTo('/packageGoods/goods/detail?goodsCode=' + goodsCode);
     },
     handleAddIntoCart: function handleAddIntoCart(goods) {
+      // 多sku
+      if (goods.attrType === 'multiple') {
+        this.redirectToGoodsDetail(goods.goodsCode);
+        return;
+      }
+
       this.$emit('on-handle-cart', goods);
     }
   }
-}, {info: {"components":{"end-line":{"path":"endLine"},"vip-price-box":{"path":"vipPriceBox"},"purchase-btn":{"path":"purchaseBtn"}},"on":{"58-2":["tap"]}}, handlers: {'58-0': {"tap": function proxy (item) {
-    
+}, {info: {"components":{"end-line":{"path":"./endLine"},"vip-price-box":{"path":"./vipPriceBox"},"purchase-btn":{"path":"./purchaseBtn"}},"on":{"75-2":["tap"]}}, handlers: {'75-0': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.redirectToGoodsDetail(item.goodsCode);
-      })();
-    
-  }},'58-1': {"tap": function proxy (item) {
-    
+  return (function () {
+    _vm.redirectToGoodsDetail(item.goodsCode);
+  })();
+}},'75-1': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.redirectToGoodsDetail(item.goodsCode);
-      })();
-    
-  }},'58-2': {"tap": function proxy (item) {
-    
+  return (function () {
+    _vm.redirectToGoodsDetail(item.goodsCode);
+  })();
+}},'75-2': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.handleAddIntoCart(item);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.handleAddIntoCart(item);
+  })();
+}}}, models: {}, refs: undefined });

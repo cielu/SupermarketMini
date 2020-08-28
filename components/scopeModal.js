@@ -24,11 +24,12 @@ _core["default"].component({
       this.$emit('get-user-info', e.$wx.detail.userInfo);
     }
   }
-}, {info: {"components":{},"on":{}}, handlers: {'63-0': {"getuserinfo": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.onGetUserInfo($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+}, {info: {"components":{},"on":{}}, handlers: {'84-0': {"getuserinfo": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onGetUserInfo.apply(_vm, $args || [$event]);
+  })();
+}}}, models: {}, refs: undefined });

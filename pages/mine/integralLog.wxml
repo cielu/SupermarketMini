@@ -1,0 +1,35 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="__initComponent" title="积分记录" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="20-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style="height:{{statusBarHeight}}px;" class="loading">
+    <van-loading bind_init="__initComponent" color="#ff7700"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="integralList">
+    <view wx:for="{{ logList }}" wx:for-index="idx" wx:for-item="log" wx:key="idx" key="{{ idx }}" class="integral">
+      <view class="item">
+        <view class="label">积分数量</view>
+        <view class="value">{{log.integral}}</view>
+      </view>
+      <view class="item">
+        <view class="label">积分类型</view>
+        <view class="value">{{typeMap[log.type]}}</view>
+      </view>
+      <view class="item">
+        <view class="label">备注信息</view>
+        <view class="value">{{log.remark}}</view>
+      </view>
+      <view class="item">
+        <view class="label">订单编号</view>
+        <view class="value">{{log.orderId}}</view>
+      </view>
+      <view class="item">
+        <view class="label">创建时间</view>
+        <view class="value">{{log.createdAt}}</view>
+      </view>
+    </view>
+    
+    <end-line wx:if="{{ logList.length > 5 }}"></end-line>
+  </view>
+</view>

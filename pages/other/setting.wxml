@@ -1,23 +1,23 @@
 
 <view class="theme">
-  <van-nav-bar bind_init="_initComponent" title="会员信息" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="17-0" bindclickLeft="_proxy"></van-nav-bar>
-  <view style="height:{{statusBarHeight+44}}px;" class="loading">
-    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  <van-nav-bar bind_init="__initComponent" title="会员信息" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="33-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#fff"></van-loading>
   </view>
 </view>
 <view class="container">
   <view class="card">
-    <view data-wpy-evt="17-1" bindtap="_proxy" class="cell">
+    <view data-wpy-evt="33-1" bind:tap="__dispatcher" class="cell">
       <button class="title">用户协议</button>
-      <van-icon bind_init="_initComponent" name="arrow"></van-icon>
+      <van-icon bind_init="__initComponent" name="arrow"></van-icon>
     </view>
     <view class="cell">
       <button open-type="feedback" class="title">功能异常反馈</button>
-      <van-icon bind_init="_initComponent" name="arrow"></van-icon>
+      <van-icon bind_init="__initComponent" name="arrow"></van-icon>
     </view>
   </view>
   <view class="submitBox">
-    <view wx:if="{{ userInfo == null }}" data-wpy-evt="17-2" bindtap="_proxy" class="submitBtn">登录</view>
-    <view wx:else data-wpy-evt="17-3" bindtap="_proxy" class="submitBtn">退出登录</view>
+    <view wx:if="{{ userInfo == null }}" data-wpy-evt="33-2" bind:tap="__dispatcher" class="submitBtn">登录</view>
+    <view wx:else data-wpy-evt="33-3" bind:tap="__dispatcher" class="submitBtn">退出登录</view>
   </view>
 </view>

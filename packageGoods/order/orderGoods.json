@@ -1,0 +1,8 @@
+{
+    "navigationBarTitleText": "商品列表",
+    "backgroundColorBottom": "#f7f7f7",
+    "component": true,
+    "usingComponents": {
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index"
+    }
+}

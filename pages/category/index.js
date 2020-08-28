@@ -4,7 +4,7 @@ var _regeneratorRuntime2 = _interopRequireDefault(require('./../../vendor.js')(2
 
 var _core = _interopRequireDefault(require('./../../vendor.js')(0));
 
-var _x3 = require('./../../vendor.js')(4);
+var _x = require('./../../vendor.js')(4);
 
 var _store = _interopRequireDefault(require('./../../store/index.js'));
 
@@ -75,7 +75,7 @@ _core["default"].page({
     // 用作跳转后右侧视图回到顶部
     scrollHeight: 730
   },
-  computed: _objectSpread({}, (0, _x3.mapState)(['currentArea', 'shoppingCart'])),
+  computed: _objectSpread({}, (0, _x.mapState)(['currentArea', 'shoppingCart', 'userInfo'])),
   onLoad: function onLoad() {
     // 门店ID
     this.storeInfo = this.$app.$options.globalData.storeInfo; // 顶部status bar 高度，导航栏高度，
@@ -89,13 +89,13 @@ _core["default"].page({
     }
   },
   onShow: function onShow() {
-    if (this.storeInfo !== null) {
+    if (this.storeInfo !== null && typeof this.shoppingCart[this.storeInfo.storeId] !== 'undefined') {
       // 设置当前门店的 badge
       (0, _common.setCartBadge)(this.shoppingCart[this.storeInfo.storeId].totalNum);
     }
   },
   // 事件处理函数(集中保存在methods对象中)
-  methods: _objectSpread({}, (0, _x3.mapActions)(['syncCurrentArea', 'initShoppingCart', 'addIntoCart', 'reduceCart']), {
+  methods: _objectSpread({}, (0, _x.mapActions)(['syncCurrentArea', 'initShoppingCart', 'addIntoCart', 'reduceCart']), {
     // vuex 方法
     // 本地其他方法
     handleStoreModal: function handleStoreModal() {
@@ -164,8 +164,10 @@ _core["default"].page({
       this.loadCategory();
     },
     // 获取附近门店
-    loadStores: function () {
-      var _loadStores = _asyncToGenerator(
+    loadStores: function loadStores() {
+      var _this = this;
+
+      return _asyncToGenerator(
       /*#__PURE__*/
       _regeneratorRuntime2["default"].mark(function _callee() {
         var _this$currentArea$loc, lat, lng, res;
@@ -174,19 +176,19 @@ _core["default"].page({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.loading = true; // 没有获取到地址信息
+                _this.loading = true; // 没有获取到地址信息
 
-                if (!(this.currentArea === null)) {
+                if (!(_this.currentArea === null)) {
                   _context.next = 4;
                   break;
                 }
 
                 _context.next = 4;
-                return this.syncCurrentArea();
+                return _this.syncCurrentArea();
 
               case 4:
                 // 获取经纬度
-                _this$currentArea$loc = this.currentArea.location, lat = _this$currentArea$loc.lat, lng = _this$currentArea$loc.lng; // 获取门店
+                _this$currentArea$loc = _this.currentArea.location, lat = _this$currentArea$loc.lat, lng = _this$currentArea$loc.lng; // 获取门店
 
                 _context.next = 7;
                 return (0, _store2.getStoreList)({
@@ -199,42 +201,38 @@ _core["default"].page({
 
                 // 附近存在门店
                 if (res.data.length > 0) {
-                  this.storeList = res.data.map(function (item) {
+                  _this.storeList = res.data.map(function (item) {
                     item.distance = (0, _location.formatDistance)(item.distance);
                     return item;
                   });
 
-                  if (this.storeInfo === null) {
-                    this.chooseStore(res.data[0]);
+                  if (_this.storeInfo === null) {
+                    _this.chooseStore(res.data[0]);
                   }
                 }
 
-                this.loading = false;
+                _this.loading = false;
 
               case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
-      }));
+        }, _callee);
+      }))();
+    },
+    onMinusGoodsNum: function onMinusGoodsNum(goods) {
+      var _this2 = this;
 
-      function loadStores() {
-        return _loadStores.apply(this, arguments);
-      }
-
-      return loadStores;
-    }(),
-    onMinusGoodsNum: function () {
-      var _onMinusGoodsNum = _asyncToGenerator(
+      return _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime2["default"].mark(function _callee2(goods) {
+      _regeneratorRuntime2["default"].mark(function _callee2() {
         return _regeneratorRuntime2["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 // 减少购物车商品数
-                this.reduceCart({
+                _this2.reduceCart({
                   goods: goods,
                   skuId: 0
                 });
@@ -244,28 +242,34 @@ _core["default"].page({
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
-      }));
+        }, _callee2);
+      }))();
+    },
+    onPlusGoodsNum: function onPlusGoodsNum(goods) {
+      var _this3 = this;
 
-      function onMinusGoodsNum(_x) {
-        return _onMinusGoodsNum.apply(this, arguments);
-      }
-
-      return onMinusGoodsNum;
-    }(),
-    onPlusGoodsNum: function () {
-      var _onPlusGoodsNum = _asyncToGenerator(
+      return _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime2["default"].mark(function _callee3(goods) {
+      _regeneratorRuntime2["default"].mark(function _callee3() {
         var skuId, cartParams;
         return _regeneratorRuntime2["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                if (!(_this3.userInfo === null)) {
+                  _context3.next = 3;
+                  break;
+                }
+
+                _util["default"].navigateTo('/pages/other/login');
+
+                return _context3.abrupt("return");
+
+              case 3:
                 skuId = 0; // 判断商品类型
 
                 if (!(goods.attrType === 'multiple')) {
-                  _context3.next = 4;
+                  _context3.next = 7;
                   break;
                 }
 
@@ -273,29 +277,28 @@ _core["default"].page({
 
                 return _context3.abrupt("return", false);
 
-              case 4:
+              case 7:
                 cartParams = {
                   goods: goods,
                   skuId: skuId
                 };
-                this.addIntoCart(cartParams);
 
-              case 6:
+                _this3.addIntoCart(cartParams).then(function (res) {
+                  if (res.status === 'error') {
+                    _util["default"].toast(res.msg);
+                  }
+                });
+
+              case 9:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this);
-      }));
-
-      function onPlusGoodsNum(_x2) {
-        return _onPlusGoodsNum.apply(this, arguments);
-      }
-
-      return onPlusGoodsNum;
-    }(),
+        }, _callee3);
+      }))();
+    },
     loadGoodsList: function loadGoodsList() {
-      var _this = this;
+      var _this4 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       // 没有更多数据可以获取
@@ -324,131 +327,116 @@ _core["default"].page({
       (0, _goods.getGoodsList)(params).then(function (res) {
         // 当前总数小于当前页面大小，则本分类的数据已获取完，获取下一个分类
         if (res.data.curTotal < res.data.curPageSize) {
-          _this.canLoadMore = false;
+          _this4.canLoadMore = false;
         }
 
-        _this.curPage = res.data.curPage;
-        _this.goodsList = _this.curPage === 1 ? res.data.data : _this.goodsList.concat(res.data.data);
+        _this4.curPage = res.data.curPage;
+        _this4.goodsList = _this4.curPage === 1 ? res.data.data : _this4.goodsList.concat(res.data.data);
       });
     },
     loadCategory: function loadCategory() {
-      var _this2 = this;
+      var _this5 = this;
 
       this.scrollTop = this.scrollTop > 0 ? 0 : 0.01;
       (0, _goods.getGoodsCategories)({
         storeId: this.storeInfo.storeId
       }).then(function (res) {
         if (res.status === 'success' && res.data.length > 0) {
-          _this2.categories = res.data; // 获取该分类下的商品
+          _this5.categories = res.data; // 获取该分类下的商品
 
-          _this2.loadGoodsList();
+          _this5.loadGoodsList();
         }
       });
     }
   })
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"van-search":{"path":"../../$vendor/@vant/weapp/dist/search/index"},"van-loading":{"path":"../../$vendor/@vant/weapp/dist/loading/index"},"van-transition":{"path":"../../$vendor/@vant/weapp/dist/transition/index"},"van-overlay":{"path":"../../$vendor/@vant/weapp/dist/overlay/index"},"van-stepper":{"path":"../../$vendor/@vant/weapp/dist/stepper/index"},"coming-soon":{"path":"../../components/comingSoon"},"vip-price-box":{"path":"../../components/vipPriceBox"},"store-list-modal":{"path":"../../components/storeListModal"}},"on":{"10-11":["minus","plus"],"10-13":["on-modal-close","choose-store"]}}, handlers: {'10-0': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-nav-bar":{"path":"./../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"./../../$vendor/@vant/weapp/dist/loading/index"},"van-search":{"path":"./../../$vendor/@vant/weapp/dist/search/index"},"van-overlay":{"path":"./../../$vendor/@vant/weapp/dist/overlay/index"},"van-stepper":{"path":"./../../$vendor/@vant/weapp/dist/stepper/index"},"van-transition":{"path":"./../../$vendor/@vant/weapp/dist/transition/index"},"store-list-modal":{"path":"./../../components/storeListModal"},"vip-price-box":{"path":"./../../components/vipPriceBox"},"coming-soon":{"path":"./../../components/comingSoon"}},"on":{"15-11":["minus","plus"],"15-13":["on-modal-close","choose-store"]}}, handlers: {'15-0': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleStoreModal.apply(_vm, $args || [$event]);
+  })();
+}},'15-1': {"tap": function proxy (index) {
     var _vm=this;
-      return (function () {
-        _vm.handleStoreModal($event);
-      })();
-    
-  }},'10-1': {"tap": function proxy (index) {
-    
+  return (function () {
+    _vm.tapRootCateTab(index);
+  })();
+}},'15-2': {"tap": function proxy (idx) {
     var _vm=this;
-      return (function () {
-        _vm.tapRootCateTab(index);
-      })();
-    
-  }},'10-2': {"tap": function proxy (idx) {
-    
+  return (function () {
+    _vm.tapChildCateTab(idx);
+  })();
+}},'15-3': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.tapChildCateTab(idx);
-      })();
-    
-  }},'10-3': {"tap": function proxy () {
-    
+  return (function () {
+    _vm.showCatePopup=!_vm.showCatePopup;
+  })();
+}},'15-4': {"tap": function proxy (idx) {
     var _vm=this;
-      return (function () {
-        _vm.showCatePopup=!_vm.showCatePopup;
-      })();
-    
-  }},'10-4': {"tap": function proxy (idx) {
-    
+  return (function () {
+    _vm.tapChildCateTab(idx);
+  })();
+}},'15-5': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.tapChildCateTab(idx);
-      })();
-    
-  }},'10-5': {"tap": function proxy () {
-    
+  return (function () {
+    _vm.showCatePopup=!_vm.showCatePopup;
+  })();
+}},'15-6': {"tap": function proxy (key) {
     var _vm=this;
-      return (function () {
-        _vm.showCatePopup=!_vm.showCatePopup;
-      })();
-    
-  }},'10-6': {"tap": function proxy (key) {
-    
+  return (function () {
+    _vm.handleSort(key);
+  })();
+}},'15-7': {"tap": function proxy (key) {
     var _vm=this;
-      return (function () {
-        _vm.handleSort(key);
-      })();
-    
-  }},'10-7': {"tap": function proxy (key) {
-    
+  return (function () {
+    _vm.handleSort(key);
+  })();
+}},'15-8': {"scrolltolower": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onGoodsScrollToLower.apply(_vm, $args || [$event]);
+  })();
+}, "scrolltoupper": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onGoodsScrollToUpper.apply(_vm, $args || [$event]);
+  })();
+}},'15-10': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.handleSort(key);
-      })();
-    
-  }},'10-8': {"scrolltolower": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.onPlusGoodsNum(item);
+  })();
+}},'15-11': {"minus": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.onGoodsScrollToLower($event);
-      })();
-    
-  }, "scrolltoupper": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.onMinusGoodsNum(item);
+  })();
+}, "plus": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.onGoodsScrollToUpper($event);
-      })();
-    
-  }},'10-10': {"tap": function proxy (item) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.onPlusGoodsNum(item);
-      })();
-    
-  }},'10-11': {"minus": function proxy (item) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.onMinusGoodsNum(item);
-      })();
-    
-  }, "plus": function proxy (item) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.onPlusGoodsNum(item);
-      })();
-    
-  }},'10-13': {"on-modal-close": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleStoreModal($event);
-      })();
-    
-  }, "choose-store": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.chooseStore($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.onPlusGoodsNum(item);
+  })();
+}},'15-13': {"on-modal-close": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleStoreModal.apply(_vm, $args || [$event]);
+  })();
+}, "choose-store": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.chooseStore.apply(_vm, $args || [$event]);
+  })();
+}}}, models: {}, refs: undefined });

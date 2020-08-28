@@ -1,0 +1,9 @@
+<!----------   wxs start ----------->
+<wxs module="utils" src="../wxs/utils.wxs"></wxs>
+<!----------   wxs end   ----------->
+
+
+<view class="custom-class {{ utils.bem('tag', [type, size, { mark, plain, round }]) }}" style="{{ color && !plain ? 'background-color: ' + color + ';' : '' }}{{ textColor || (color && plain) ? 'color: ' + (textColor || color) : '' }}">
+  <slot></slot>
+  <van-icon wx:if="{{ closeable }}" name="cross" custom-class="van-tag__close" bind:click="onClose"></van-icon>
+</view>

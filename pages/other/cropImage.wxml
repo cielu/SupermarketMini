@@ -1,0 +1,16 @@
+
+<view class="theme">
+  <van-nav-bar z-index="999" title="图片裁剪" custom-class="blackBg" fixed="{{true}}" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="39-0" bind:clickLeft="__dispatcher" catch:touchmove="__dispatcher"></van-nav-bar>
+</view>
+<view class="blackBg">
+  <canvas disable-scroll="{{ true }}" canvas-id="cropper" data-wpy-evt="39-2" bind:touchstart="__dispatcher" bind:touchmove="__dispatcher" bind:touchend="__dispatcher" bind:error="__dispatcher" style=" {{ 'width:' + (_width+\'px\') + ';' + 'height:' + (_height + \'px\') + ';' + 'top:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="cropper">
+  </canvas>
+  <canvas disable-scroll="{{ true }}" canvas-id="targetCropper" style=" {{ 'position:' + (\'fixed\') + ';' + 'top:' + ((_width * pixelRatio * -1) + \'px\') + ';' + 'left:' + ((_height * pixelRatio * -1) + \'px\') + ';' + 'width:' + ((_width * pixelRatio) + \'px\') + ';' + 'height:' + ((_height * pixelRatio) + \'px\') + ';' }}" class="cropper">
+  </canvas>
+  <view style="{{[isIPhoneX ? 'height:110px' : 'height:80px' ]}};" class="cropper-button">
+    <view class="description">裁剪后图片尺寸为 900*400 px</view>
+    <view data-wpy-evt="39-6" bind:tap="__dispatcher" class="finishBtn">
+      完成
+    </view>
+  </view>
+</view>

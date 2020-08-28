@@ -1,0 +1,19 @@
+
+  <view class="theme">
+    <van-nav-bar bind_init="__initComponent" title="{{ navTitle }}" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="44-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+    <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+      <van-loading bind_init="__initComponent" color="#FFFFFF"></van-loading>
+    </view>
+  </view>
+  <view class="container">
+
+
+
+
+
+
+
+
+
+    <order-list bind_init="__initComponent" list="{{ orderList }}"></order-list>
+  </view>

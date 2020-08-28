@@ -13,9 +13,7 @@ var _openType = require('./../mixins/open-type.js');
   relation: {
     type: 'ancestor',
     name: 'goods-action',
-    linked: function linked(parent) {
-      this.parent = parent;
-    }
+    current: 'goods-action-button'
   },
   props: {
     text: String,
@@ -28,28 +26,22 @@ var _openType = require('./../mixins/open-type.js');
       value: 'danger'
     }
   },
-  mounted: function mounted() {
-    this.updateStyle();
-  },
   methods: {
     onClick: function onClick(event) {
       this.$emit('click', event.detail);
       this.jumpLink();
     },
     updateStyle: function updateStyle() {
+      if (this.parent == null) {
+        return;
+      }
+
       var _this$parent$children = this.parent.children,
           children = _this$parent$children === void 0 ? [] : _this$parent$children;
       var length = children.length;
       var index = children.indexOf(this);
-      var rightBorderLess = false;
-
-      if (length > 1) {
-        rightBorderLess = index !== length - 1;
-      }
-
       this.setData({
         isFirst: index === 0,
-        rightBorderLess: rightBorderLess,
         isLast: index === length - 1
       });
     }

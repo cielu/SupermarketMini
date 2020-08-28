@@ -1,0 +1,115 @@
+
+<view class="header">
+  <van-nav-bar title="抢单大厅" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}">
+    <view slot="left" class="nav-left">
+      <van-icon bind_init="__initComponent" name="arrow-left" color="white" size="20" data-wpy-evt="30-0" bind:tap="__dispatcher"></van-icon>
+      <view class="line"></view>
+      <van-icon bind_init="__initComponent" name="wap-home-o" color="white" size="20" data-wpy-evt="30-1" bind:tap="__dispatcher"></van-icon>
+    </view>
+  </van-nav-bar>
+  <view style="padding-top:{{statusBarHeight+40}}px;" class="loading">
+    <van-loading bind_init="__initComponent" color="#FF5500"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view style="top:{{statusBarHeight+44}}px;" class="tabs">
+    <view wx:for="{{ orderTabs }}" wx:for-index="idx" wx:for-item="tab" wx:key="idx" key="{{ idx }}" data-wpy-evt="30-2" bind:tap="__dispatcher" data-wpytap-a="{{ idx }}" class="tab {{ [ idx === curTab ? 'curTab' : '' ] }}">
+      {{tab.name}}({{tab.val}})
+    </view>
+  </view>
+  <view class="orderList">
+    <view wx:if="{{ orderList.length === 0 }}" style="flex-direction: column;align-items: center;">
+      <label style="padding-top:35%;color:#797979;">暂无订单！</label>
+      <text style="padding-top: 50rpx;color: #9d9d9d;">提示：抢单大厅只展示3天内数据</text>
+    </view>
+    <view wx:for="{{ orderList }}" wx:for-index="key" wx:for-item="order" wx:key="key" key="{{ key }}" class="order">
+      <view class="nav">
+        <label class="label">订单编号</label>
+        <text>{{order.outTradeNo}}</text>
+      </view>
+      <view class="body">
+        <view class="item">
+          <label class="label">预计收入</label>
+          <text class="price">¥{{order.originDeliveryFee}}</text>
+        </view>
+        <view class="item">
+          <label class="label">订单总额</label>
+          <text class="price">¥{{order.totalPay}}</text>
+        </view>
+        <view class="item">
+          <label class="label">下单时间</label>
+          <text>{{order.createdAt}}</text>
+        </view>
+        <view class="item">
+          <label class="label">送达时间</label>
+          <text>{{order.sendTime}}</text>
+        </view>
+        <view class="item">
+          <label class="label">送货地址</label>
+          <text class="address">{{order.distributeAddress.addressDetail + " · " + order.distributeAddress.roomNum}} </text>
+        </view>
+        <view class="item">
+          <label class="label">商家名称</label>
+          <text>{{order.storeDetail.storeName}}</text>
+        </view>
+        <view class="item">
+          <label class="label">商家地址</label>
+          <text class="address">{{order.storeDetail.address}}</text>
+        </view>
+      </view>
+      
+      <view wx:if="{{ curTab == 'canTaking' }}" class="bottom">
+        <view data-wpy-evt="30-3" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="location-o"></van-icon>
+          <text>取货路线</text>
+        </view>
+        <view data-wpy-evt="30-4" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="location-o"></van-icon>
+          <text>送货路线</text>
+        </view>
+        <view data-wpy-evt="30-5" bind:tap="__dispatcher" data-wpytap-a="{{ key }}" class="btn">
+          <van-icon bind_init="__initComponent" name="fire" color="{{order.status === 1 ? '#FF7700' : '#999999'}}"></van-icon>
+          <text class="{{order.status === 1 ? 'orderTaking' : 'dark'}}">立即抢单</text>
+        </view>
+      </view>
+      <view wx:elif="{{ curTab == 'waitTaking' }}" class="bottom">
+        <view data-wpy-evt="30-6" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="location-o"></van-icon>
+          <text>取货路线</text>
+        </view>
+        <view data-wpy-evt="30-7" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="phone-circle-o"></van-icon>
+          <text>联系商家</text>
+        </view>
+        <view data-wpy-evt="30-8" bind:tap="__dispatcher" data-wpytap-a="{{ key }}" class="btn">
+          <van-icon bind_init="__initComponent" name="fire" color="{{order.status === 2 ? '#FF7700' : '#999999'}}"></van-icon>
+          <text class="{{order.status === 2 ? 'orderTaking' : 'dark'}}">完成取货</text>
+        </view>
+      </view>
+      <view wx:elif="{{ curTab == 'sendTaking' }}" class="bottom">
+        <view data-wpy-evt="30-9" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="location-o"></van-icon>
+          <text>送货路线</text>
+        </view>
+        <view data-wpy-evt="30-10" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="phone-circle-o"></van-icon>
+          <text>联系买家</text>
+        </view>
+        <view data-wpy-evt="30-11" bind:tap="__dispatcher" data-wpytap-a="{{ key }}" class="btn">
+          <van-icon bind_init="__initComponent" name="fire" color="{{order.status === 3 ? '#FF7700' : '#999999'}}"></van-icon>
+          <text class="{{order.status === 3 ? 'orderTaking' : 'dark'}}">确认送达</text>
+        </view>
+      </view>
+      <view wx:else class="bottom">
+        <view data-wpy-evt="30-12" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="phone-circle-o"></van-icon>
+          <text>联系商家</text>
+        </view>
+        <view data-wpy-evt="30-13" bind:tap="__dispatcher" data-wpytap-a="{{ order }}" class="btn">
+          <van-icon bind_init="__initComponent" name="phone-circle-o"></van-icon>
+          <text>联系买家</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

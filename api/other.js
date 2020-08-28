@@ -8,6 +8,12 @@ exports.getAdverts = getAdverts;
 exports.getGridsMenu = getGridsMenu;
 exports.getCurrentArea = getCurrentArea;
 exports.sendSmsCode = sendSmsCode;
+exports.getSignData = getSignData;
+exports.signNow = signNow;
+exports.getIntegralLog = getIntegralLog;
+exports.getUserRedPacks = getUserRedPacks;
+exports.getOssSignature = getOssSignature;
+exports.publishSuggest = publishSuggest;
 
 var _request = require('./../utils/request.js');
 
@@ -39,4 +45,39 @@ function getCurrentArea() {
 function sendSmsCode() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return (0, _request.wxRequest)('/send-sms', data, 'POST');
+} // 获取签到数据
+
+
+function getSignData() {
+  return (0, _request.wxRequest)('/sign/data');
+} // 立即签到
+
+
+function signNow() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/sign', data, 'POST');
+} // 积分记录
+
+
+function getIntegralLog() {
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/user/integral-log', params);
+} // 用户红包
+
+
+function getUserRedPacks() {
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/user/red-packs', params);
+} // alioss 签名
+
+
+function getOssSignature() {
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/alioss/signature', params, 'GET', false);
+} // 反馈提交
+
+
+function publishSuggest() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/suggest', data, 'POST');
 }

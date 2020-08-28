@@ -6,22 +6,32 @@ var _component = require('./../common/component.js');
   relation: {
     type: 'descendant',
     name: 'goods-action-button',
-    linked: function linked(child) {
-      this.children.push(child);
+    current: 'goods-action',
+    linked: function linked() {
+      this.updateStyle();
     },
-    unlinked: function unlinked(child) {
-      this.children = this.children.filter(function (item) {
-        return item !== child;
-      });
+    unlinked: function unlinked() {
+      this.updateStyle();
+    },
+    linkChanged: function linkChanged() {
+      this.updateStyle();
     }
-  },
-  beforeCreate: function beforeCreate() {
-    this.children = [];
   },
   props: {
     safeAreaInsetBottom: {
       type: Boolean,
       value: true
+    }
+  },
+  methods: {
+    updateStyle: function updateStyle() {
+      var _this = this;
+
+      wx.nextTick(function () {
+        _this.children.forEach(function (child) {
+          child.updateStyle();
+        });
+      });
     }
   }
 });

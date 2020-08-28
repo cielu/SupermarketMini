@@ -11,7 +11,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 // 请求API
-var HOST = 'https://market.linghui.co/api'; // const HOST = 'http://127.0.0.1:8088/api'
+var HOST = 'https://app.yhxd.shop/api'; // const HOST = 'http://127.0.0.1:8088/api'
 // 封装微信请求
 
 var wxRequest =
@@ -32,15 +32,15 @@ function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            data = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+            data = _args.length > 1 && _args[1] !== undefined ? _args[1] : null;
             method = _args.length > 2 && _args[2] !== undefined ? _args[2] : 'GET';
             showLoading = _args.length > 3 && _args[3] !== undefined ? _args[3] : true;
             // eslint-disable-next-line no-undef
             _getApp$$wepy$$option = getApp().$wepy.$options.globalData, authorization = _getApp$$wepy$$option.authorization, storeInfo = _getApp$$wepy$$option.storeInfo; // 显示加载状态
 
             showLoading && (0, _util.toast)('加载中...', 'loading', 10000); // wx.showNavigationBarLoading()
-
-            console.log('request params :', data); // 组合url
+            // console.log('request params :', data
+            // 组合url
 
             url = url.indexOf('http') > -1 ? url : HOST + url; // 数据请求
 
@@ -77,9 +77,9 @@ function () {
                         getApp().$wepy.$options.globalData.authorization = res.data.token;
                         wx.setStorageSync('authorization', res.data.token); // 再次请求
 
-                        reject(res);
+                        wxRequest(url, data, method); // reject(res)
                       } else {
-                        console.log(res.data);
+                        // console.log(res.data)
                         resolve(res.data);
                       }
 
@@ -95,7 +95,7 @@ function () {
               });
             }));
 
-          case 8:
+          case 7:
           case "end":
             return _context.stop();
         }

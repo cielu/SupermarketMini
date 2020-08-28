@@ -1,226 +1,317 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": false,
-		"es6": false,
-		"enhance": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"coverView": true,
-		"nodeModules": true,
-		"autoAudits": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		}
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.9.5",
-	"appid": "wx779dd62b7d8d7992",
-	"projectname": "SupermarketMini",
-	"cloudfunctionTemplateRoot": "",
-	"watchOptions": {
-		"ignore": []
-	},
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"scripts": {},
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "测试位置",
-					"pathName": "pages/other/location",
-					"query": "name=ciel&age=12",
-					"scene": null
-				},
-				{
-					"id": 1,
-					"name": "购物车",
-					"pathName": "pages/shoppingCart/index",
-					"query": "name=ciel&age=12",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "我的个人中心",
-					"pathName": "pages/mine/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "小店拼团",
-					"pathName": "packageGoods/spellGroup/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 4,
-					"name": "分类商品列表",
-					"pathName": "packageGoods/cateGoods/index",
-					"query": "cateId=1000011&storeId=10001",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "预售抢鲜",
-					"pathName": "packageGoods/preSaleGoods/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 6,
-					"name": "商品详情",
-					"pathName": "packageGoods/goods/detail",
-					"query": "goodsCode=10613908279&fromUid=100012",
-					"scene": null
-				},
-				{
-					"id": 7,
-					"name": "确认订单",
-					"pathName": "packageGoods/order/confirm",
-					"query": "storeId=10001&cartIds=51,50,49",
-					"scene": null
-				},
-				{
-					"id": 8,
-					"name": "订单详情",
-					"pathName": "packageGoods/order/detail",
-					"query": "outTradeNo=191290601113653248",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "商品分类",
-					"pathName": "pages/category/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "用户登录",
-					"pathName": "pages/other/login",
-					"query": "goodsCode=000000000619182600",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "收货地址管理",
-					"pathName": "pages/address/index",
-					"query": "back=true",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "编辑收货地址",
-					"pathName": "pages/address/edit",
-					"query": "back=true",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "城市列表",
-					"pathName": "pages/other/city",
-					"query": "back=true",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "选择位置",
-					"pathName": "pages/other/location",
-					"query": "back=true",
-					"scene": null
-				},
-				{
-					"id": 15,
-					"name": "订单商品列表",
-					"pathName": "packageGoods/order/goodsList",
-					"query": "storeId=10001&cartIds=51,50,49",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "会员信息",
-					"pathName": "pages/mine/info",
-					"query": "outTradeNo=191290601113653248",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "意见反馈",
-					"pathName": "pages/other/suggest",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "订单列表",
-					"pathName": "packageGoods/order/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 19,
-					"name": "拼团详情",
-					"pathName": "packageGoods/spellGroup/detail",
-					"query": "activityId=42",
-					"scene": null
-				},
-				{
-					"id": 20,
-					"name": "单个商品确认订单",
-					"pathName": "packageGoods/order/confirmSingle",
-					"query": "storeId=10001&goodsId=1",
-					"scene": null
-				},
-				{
-					"id": 21,
-					"name": "拼团邀请",
-					"pathName": "packageGoods/spellGroup/invite",
-					"query": "groupCode=100001",
-					"scene": null
-				},
-				{
-					"id": 22,
-					"name": "促销活动",
-					"pathName": "packageGoods/activity/index",
-					"query": "activityId=1&title=满50减5",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": true,
+    "autoAudits": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "useMultiFrameRuntime": true,
+    "useApiHook": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.6.2",
+  "appid": "wx779dd62b7d8d7992",
+  "projectname": "SupermarketMini",
+  "cloudfunctionTemplateRoot": "",
+  "watchOptions": {
+    "ignore": []
+  },
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {},
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": [
+        {
+          "id": 0,
+          "name": "测试位置",
+          "pathName": "pages/other/location",
+          "query": "name=ciel&age=12",
+          "scene": null
+        },
+        {
+          "id": 1,
+          "name": "购物车",
+          "pathName": "pages/shoppingCart/index",
+          "query": "name=ciel&age=12",
+          "scene": null
+        },
+        {
+          "id": 2,
+          "name": "我的个人中心",
+          "pathName": "pages/mine/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "小店拼团",
+          "pathName": "packageGoods/spellGroup/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 4,
+          "name": "分类商品列表",
+          "pathName": "packageGoods/cateGoods/index",
+          "query": "cateId=1000011&storeId=10001",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "预售抢鲜",
+          "pathName": "packageGoods/preSaleGoods/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 6,
+          "name": "商品详情",
+          "pathName": "packageGoods/goods/detail",
+          "query": "goodsCode=10613908279&fromUid=100012",
+          "scene": null
+        },
+        {
+          "id": 7,
+          "name": "确认订单",
+          "pathName": "packageGoods/order/confirm",
+          "query": "storeId=10001&cartIds=32,31,33",
+          "scene": null
+        },
+        {
+          "id": 8,
+          "name": "订单详情",
+          "pathName": "packageGoods/order/detail",
+          "query": "outTradeNo=245352240653537280",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "商品分类",
+          "pathName": "pages/category/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "用户登录",
+          "pathName": "pages/other/login",
+          "query": "goodsCode=000000000619182600",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "收货地址管理",
+          "pathName": "pages/address/index",
+          "query": "back=true",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "编辑收货地址",
+          "pathName": "pages/address/edit",
+          "query": "back=true",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "城市列表",
+          "pathName": "pages/other/city",
+          "query": "back=true",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "选择位置",
+          "pathName": "pages/other/location",
+          "query": "back=true",
+          "scene": null
+        },
+        {
+          "id": 15,
+          "name": "订单商品列表",
+          "pathName": "packageGoods/order/goodsList",
+          "query": "storeId=10001&cartIds=51,50,49",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "会员信息",
+          "pathName": "pages/mine/info",
+          "query": "outTradeNo=191290601113653248",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "意见反馈",
+          "pathName": "pages/other/suggest",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "订单列表",
+          "pathName": "packageGoods/order/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 19,
+          "name": "拼团详情",
+          "pathName": "packageGoods/spellGroup/detail",
+          "query": "activityId=61",
+          "scene": null
+        },
+        {
+          "id": 20,
+          "name": "单个商品确认订单",
+          "pathName": "packageGoods/order/confirmSingle",
+          "query": "storeId=10001&goodsId=1",
+          "scene": null
+        },
+        {
+          "id": 21,
+          "name": "拼团邀请",
+          "pathName": "packageGoods/spellGroup/invite",
+          "query": "groupCode=100001",
+          "scene": null
+        },
+        {
+          "id": 22,
+          "name": "促销活动",
+          "pathName": "packageGoods/activity/index",
+          "query": "activityId=1&title=满50减5",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "接单大厅",
+          "pathName": "pages/distributor/orderTaking",
+          "query": "storeId=10001&cartIds=246,247,248",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "每日签到",
+          "pathName": "pages/dailySign/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "积分记录",
+          "pathName": "pages/mine/integralLog",
+          "query": "type=1",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "我的红包",
+          "pathName": "pages/mine/redPack",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 27,
+          "name": "免费抽奖",
+          "pathName": "pages/lotteryDraw/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "抽奖详情",
+          "pathName": "pages/lotteryDraw/detail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 29,
+          "name": "参与抽奖用户",
+          "pathName": "pages/lotteryDraw/joinUsers",
+          "query": "lotteryId=17",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "发起抽奖",
+          "pathName": "pages/lotteryDraw/publish",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 31,
+          "name": "图片裁剪",
+          "pathName": "pages/other/cropImage",
+          "query": "filePath=http%3A%2F%2Ftmp%2Fwx779dd62b7d8d7992.o6zAJs5Cor5XykPVkgUwmE-rHJS0.T9jI1f7sIhav616be03037a00b68400e879db6e30550.png",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "我的中奖记录",
+          "pathName": "pages/lotteryDraw/winnerLog",
+          "query": "lotteryId=17",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "商家入驻申请",
+          "pathName": "pages/merchant/apply",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 34,
+          "name": "订单商品",
+          "pathName": "packageGoods/order/orderGoods",
+          "query": "orderId=147",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

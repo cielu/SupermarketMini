@@ -1,0 +1,11 @@
+{
+    "navigationBarTitleText": "积分记录",
+    "backgroundColorTop": "#ff7700",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index"
+    }
+}

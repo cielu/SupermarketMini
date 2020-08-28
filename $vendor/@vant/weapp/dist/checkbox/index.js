@@ -12,12 +12,7 @@ function emit(target, value) {
   relation: {
     name: 'checkbox-group',
     type: 'ancestor',
-    linked: function linked(target) {
-      this.parent = target;
-    },
-    unlinked: function unlinked() {
-      this.parent = null;
-    }
+    current: 'checkbox'
   },
   classes: ['icon-class', 'label-class'],
   props: {
@@ -36,6 +31,9 @@ function emit(target, value) {
       value: 20
     }
   },
+  data: {
+    parentDisabled: false
+  },
   methods: {
     emitChange: function emitChange(value) {
       if (this.parent) {
@@ -46,20 +44,22 @@ function emit(target, value) {
     },
     toggle: function toggle() {
       var _this$data = this.data,
+          parentDisabled = _this$data.parentDisabled,
           disabled = _this$data.disabled,
           value = _this$data.value;
 
-      if (!disabled) {
+      if (!disabled && !parentDisabled) {
         this.emitChange(!value);
       }
     },
     onClickLabel: function onClickLabel() {
       var _this$data2 = this.data,
           labelDisabled = _this$data2.labelDisabled,
+          parentDisabled = _this$data2.parentDisabled,
           disabled = _this$data2.disabled,
           value = _this$data2.value;
 
-      if (!disabled && !labelDisabled) {
+      if (!disabled && !labelDisabled && !parentDisabled) {
         this.emitChange(!value);
       }
     },

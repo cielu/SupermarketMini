@@ -1,0 +1,11 @@
+{
+    "navigationBarTitleText": "图片裁剪",
+    "backgroundColorTop": "#000000",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": false,
+    "component": true,
+    "usingComponents": {
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "we-cropper": "./../../components/weCropper"
+    }
+}

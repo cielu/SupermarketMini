@@ -11,7 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 _core["default"].page({
   mixins: [_statusBar["default"]],
   data: {
-    src: 'https://market.linghui.co'
+    src: 'https://yhxd.shop/license'
   },
   onLoad: function onLoad(options) {
     if (options.src) this.src = options.src; // loading
@@ -19,4 +19,4 @@ _core["default"].page({
     _util["default"].toast('加载中...', 'loading', 1000);
   } //
 
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"}},"on":{}}, handlers: {}, models: {}, refs: undefined });
+}, {info: {"components":{},"on":{}}, handlers: {}, models: {}, refs: undefined });

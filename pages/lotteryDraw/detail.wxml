@@ -1,0 +1,90 @@
+
+<view class="theme">
+  <van-nav-bar title="抽奖详情" custom-class="whiteBg" fixed="{{true}}" z-index="99" border="{{false}}">
+    <view slot="left" class="nav-left">
+      <van-icon bind_init="__initComponent" name="arrow-left" size="20" data-wpy-evt="23-0" bind:tap="__dispatcher"></van-icon>
+      <view class="line"></view>
+      <van-icon bind_init="__initComponent" name="wap-home-o" size="20" data-wpy-evt="23-1" bind:tap="__dispatcher"></van-icon>
+    </view>
+  </van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#333333"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="cover">
+    <image src="{{ lottery.lotteryCover || '/images/other/lottery_gift.png' }}" mode="aspectFill" class="cover"></image>
+  </view>
+  <view class="lotteryInfo">
+    <view class="top">
+      <view style="flex-direction: column;">
+       <view class="title">奖品：{{lotteryGifts[0].giftTitle}}</view>
+       <view wx:if="{{ lottery.lotteryOpenType == 1 }}" class="openTime">{{lotteryOpenTime}} 自动开奖</view>
+       <view wx:else class="openTime">参与人次达到{{lottery.lotteryOpenNum}}人次自动开奖</view>
+      </view>
+      <button open-type="share" class="share">
+       <van-icon bind_init="__initComponent" name="share" size="20px" color="#8a8a8a"></van-icon>
+       <text style="color: #8a8a8a;">分享</text>
+      </button>
+    </view>
+    <view class="bottom">
+      <view class="ac">
+        <image src="{{ lottery.sponsorAvatar }}" alt class="avatar"></image>
+        <text>{{lottery.sponsorName}}</text>
+      </view>
+      <text style="color: #9D9D9D;">赞助商</text>
+    </view>
+  </view>
+  <view class="introduce">
+    <view class="title">抽奖说明</view>
+    <view class="content">
+      {{lottery.lotteryDescription}}
+    </view>
+    <view wx:if="{{ lottery.sponsorCode }}" class="scanCode">
+      <view class="left">
+        <text style="color:#595959;">{{lottery.sponsorName}}</text>
+        <text>长按右侧图片识别</text>
+      </view>
+      <view data-wpy-evt="23-2" bind:tap="__dispatcher" style="padding: 0 20rpx;" class="code">
+        <image src="{{ lottery.sponsorCode }}" alt mode="aspectFit" class="code"></image>
+      </view>
+    </view>
+  </view>
+  
+  <view class="awardInfo">
+    <view wx:if="{{ lottery.status==2 }}" data-wpy-evt="23-3" bind:tap="__dispatcher" class="joinLottery">中奖成员</view>
+    <view wx:else data-wpy-evt="23-4" bind:tap="__dispatcher" class="joinLottery">
+      {{lotteryJoinTimes > 0 ? '继续' : '参与'}}抽奖
+    </view>
+    <view data-wpy-evt="23-5" bind:tap="__dispatcher" style="padding: 32rpx 0;" class="ac">
+      <text class="joinUser">已有 {{lottery.lotteryJoinNum}} 人次参与，查看全部</text>
+      <van-icon bind_init="__initComponent" name="arrow" color="#8a8a8a"></van-icon>
+    </view>
+    <view class="avatars">
+      <image wx:for="{{ lotteryJoiners }}" wx:for-index="index" wx:for-item="joiner" wx:key="index" src="{{ joiner.avatar }}" mode="aspectFit" class="avatar"></image>
+    </view>
+    <view class="notice">温馨提示：多次参与抽奖可提高中奖概率</view>
+  </view>
+</view>
+<van-popup bind_init="__initComponent" z-index="9999" position="bottom" round="{{ true }}" show="{{ showLotteryJoiner }}" close-on-click-overlay="{{ true }}" data-wpy-evt="23-6" bind:close="__dispatcher" catch:touchmove="__dispatcher">
+  <view class="lotteryCard">
+    <view class="cardHeader">
+      <text>中奖名单</text>
+    </view>
+    <scroll-view scroll-y="{{true}}" style="margin-bottom:60rpx;max-height:40vh;">
+      <view wx:for="{{ winners }}" wx:for-index="key" wx:for-item="item" wx:key="key" key="{{ key }}" class="joinerItem">
+        <view class="avatar">
+          <image src="{{ item.avatar }}" alt="头像" mode="aspectFit" class="avatar"></image>
+        </view>
+        <view class="body">
+          <text class="title">{{item.name}}, {{item.phone}}</text>
+          <text class="address">{{item.address}}</text>
+          <view class="giftName">
+            <text style="padding-right: 20rpx;">{{item.giftName}}</text>
+            <text style="color: #9d9d9d;">x{{item.giftNum}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</van-popup>

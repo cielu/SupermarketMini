@@ -11,7 +11,8 @@ _core["default"].component({
       "default": true
     },
     buyNum: {
-      type: Number
+      type: Number,
+      "default": 1
     }
   }
 }, {info: {"components":{},"on":{}}, handlers: {}, models: {}, refs: undefined });

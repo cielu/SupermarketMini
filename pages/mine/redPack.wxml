@@ -1,0 +1,30 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="__initComponent" title="我的红包" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="21-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + (statusBarHeight + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#ff7700"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="redPackList">
+    <view wx:if="{{ redPackList.length === 0 }}" style="flex-direction: column;align-items: center;">
+      <label style="padding-top:35%;color:#797979;">暂无红包！</label>
+      <text style="padding-top: 50rpx;color: #9d9d9d;">提示：请关注商家活动，领取红包</text>
+    </view>
+    <view wx:for="{{ redPackList }}" wx:for-index="idx" wx:for-item="redPack" wx:key="idx" key="{{ idx }}" class="redPack">
+      <view class="fullMoney">
+        <view class="ac">¥<view class="money">{{redPack.discountAmount}}</view></view>
+        <view class="info">满{{redPack.fullAmount > 0 ? redPack.fullAmount + '元' : '任意金额'}}可用</view>
+      </view>
+      <view class="body">
+        <view class="title">{{typeMap[redPack.type]}}红包</view>
+        <view class="dueTime">{{redPack.dueDate}}到期</view>
+      </view>
+      <view class="option">
+        <view class="useBtn">去使用</view>
+      </view>
+    </view>
+    
+    <end-line wx:if="{{ redPackList.length > 5 }}"></end-line>
+  </view>
+</view>

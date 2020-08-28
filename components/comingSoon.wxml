@@ -1,5 +1,5 @@
 
-<view style="justify-content:center;padding-top: {{ statusBarHeight + 100}}px;">
+<view style=" {{ 'justify-content:' + (\'center\') + ';' + 'padding-top:' + ((statusBarHeight + 100) + \'px\') + ';' }}">
   <view class="comingSoon">
     <view class="prepare">
       <view class="city">
@@ -11,9 +11,9 @@
         {{desc}}
       </view>
     </view>
-    <image src="https://image.linghui.co/platform/shop_stationed.png" alt="商家入住" class="partnerImg"></image>
-    <view data-wpy-evt="60-0" bindtap="_proxy" class="btn">我要合作</view>
+    <image src="/images/shop/shop_stationed.png" alt="商家入住" class="partnerImg"></image>
+    <view data-wpy-evt="78-0" bind:tap="__dispatcher" class="btn">我要合作</view>
   </view>
   
-  <cant-send-tip bind_init="_initComponent" show-tip="{{true}}"></cant-send-tip>
+  <cant-send-tip bind_init="__initComponent" show-tip="{{true}}"></cant-send-tip>
 </view>

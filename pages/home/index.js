@@ -39,14 +39,16 @@ _core["default"].page({
   // vuex store
   mixins: [_statusBar["default"]],
   data: {
-    userInfo: null,
-    timer: null,
+    storeId: 0,
     storeInfo: null,
     storeList: [],
     loading: true,
     showVanNavBar: true,
-    showStoreModal: true,
+    showStoreModal: false,
+    showActivityModal: false,
     showGuessULikeBar: false,
+    gridsInOneLine: false,
+    // 导航组 单行显示
     guessULikeTop: 950,
     pageInTop: true,
     slideLeft: 0,
@@ -57,9 +59,11 @@ _core["default"].page({
     // 广告
     topBgImg: null,
     curBannerIndex: 0,
-    topBackground: '#6484e9',
+    topBackground: 'transparent',
     showTopTabs: false,
     // 是否展示导航栏
+    storeActies: [],
+    // 门店优惠活动，包括VIP折扣活动
     menuTabs: [],
     groupGoods: [],
     guessULikeTabs: [{
@@ -72,15 +76,24 @@ _core["default"].page({
     canLoadMoreGoods: true,
     currentLikedTab: 0
   },
-  computed: _objectSpread({}, (0, _x.mapState)(['currentArea', 'shoppingCart'])),
-  onLoad: function onLoad() {
-    // 当前位置
+  computed: _objectSpread({}, (0, _x.mapState)(['currentArea', 'shoppingCart', 'userInfo'])),
+  onLoad: function onLoad(options) {
+    // 判断进入场景
+    if (typeof options.scene !== 'undefined') {
+      var tmpArr = options.scene.split('_');
+
+      if (tmpArr[0] === 'store') {
+        this.storeId = tmpArr[1];
+        this.loadStoreInfo(this.storeId);
+      }
+    } // 当前位置
+
+
     this.getLocalStores();
   },
   onShow: function onShow() {
-    this.userInfo = this.$app.$options.globalData.userInfo; // 设置当前门店的 badge
-
-    if (this.storeInfo !== null) {
+    // 设置当前门店的 badge
+    if (this.storeInfo !== null && this.userInfo !== null) {
       (0, _common.setCartBadge)(this.shoppingCart[this.storeInfo.storeId].totalNum);
     }
   },
@@ -100,8 +113,10 @@ _core["default"].page({
       this.loadGuessULikeTabs();
       this.loadGuessULikeGoods();
     },
-    getLocalStores: function () {
-      var _getLocalStores = _asyncToGenerator(
+    getLocalStores: function getLocalStores() {
+      var _this = this;
+
+      return _asyncToGenerator(
       /*#__PURE__*/
       _regeneratorRuntime2["default"].mark(function _callee() {
         return _regeneratorRuntime2["default"].wrap(function _callee$(_context) {
@@ -109,26 +124,20 @@ _core["default"].page({
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.syncCurrentArea();
+                return _this.syncCurrentArea();
 
               case 2:
                 // set current area
-                this.loadStores();
+                _this.loadStores();
 
               case 3:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
-      }));
-
-      function getLocalStores() {
-        return _getLocalStores.apply(this, arguments);
-      }
-
-      return getLocalStores;
-    }(),
+        }, _callee);
+      }))();
+    },
     tapGrids: function tapGrids(item) {
       _util["default"].navigate(item.navigate, item.targetId, item.targetName);
     },
@@ -138,9 +147,13 @@ _core["default"].page({
         skuId: 0,
         returnGoods: true
       };
-      this.addIntoCart(cartParams).then(function (_) {
-        // 购物车加入成功
-        _util["default"].toast('已加入购物车');
+      this.addIntoCart(cartParams).then(function (res) {
+        // console.log(res)
+        if (res.status === 'error') {
+          _util["default"].toast(res.msg);
+        } else {
+          _util["default"].toast('已加入购物车');
+        }
       });
     },
     handleStoreModal: function handleStoreModal() {
@@ -162,7 +175,7 @@ _core["default"].page({
     onBannerChange: function onBannerChange(e) {
       this.curBannerIndex = e.$wx.detail.current;
 
-      if (this.topBgImg === null) {
+      if (this.topBgImg === null || this.topBgImg === '') {
         this.topBackground = this.topBanners[this.curBannerIndex].averageColor;
       }
     },
@@ -200,16 +213,58 @@ _core["default"].page({
       this.setStore(storeInfo);
     },
     setStore: function setStore(storeInfo) {
+      if (storeInfo.fullReduce !== '') {
+        var fullReduce = JSON.parse(storeInfo.fullReduce);
+        fullReduce.sort(function (a, b) {
+          return b.full - a.full;
+        });
+        this.storeActies = fullReduce;
+      }
+
       this.storeInfo = storeInfo;
       this.$app.$options.globalData.storeInfo = storeInfo; // 初始化购物车信息
 
-      this.initShoppingCart(storeInfo); // 重新获取数据
+      if (this.userInfo !== null) {
+        this.initShoppingCart(storeInfo);
+      } // 重新获取数据
+
 
       this.loadData();
     },
+    loadStoreInfo: function loadStoreInfo(storeId) {
+      var _this2 = this;
+
+      return _asyncToGenerator(
+      /*#__PURE__*/
+      _regeneratorRuntime2["default"].mark(function _callee2() {
+        var res;
+        return _regeneratorRuntime2["default"].wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return (0, _store2.getStoreInfo)(storeId);
+
+              case 2:
+                res = _context2.sent;
+
+                if (res.data.storeId > 0) {
+                  _this2.storeInfo = res.data;
+
+                  _this2.setStore(_this2.storeInfo);
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
     // 获取附近门店
     loadStores: function loadStores() {
-      var _this = this;
+      var _this3 = this;
 
       this.loading = true; // 获取经纬度
 
@@ -222,83 +277,95 @@ _core["default"].page({
         lng: lng
       }).then(function (res) {
         // 加载状态
-        _this.loading = false; // 附近存在门店
+        _this3.loading = false; // 附近存在门店
 
         if (res.data.length > 0) {
-          _this.storeList = res.data.map(function (item) {
+          _this3.storeList = res.data.map(function (item) {
             item.distance = (0, _location.formatDistance)(item.distance);
             return item;
-          }); // 默认设置第一个为门店
+          });
 
-          _this.setStore(res.data[0]);
+          if (_this3.storeInfo === null || _this3.storeInfo.storeId === 0) {
+            // 默认设置第一个为门店
+            _this3.showStoreModal = true;
+
+            _this3.setStore(res.data[0]);
+          }
         } else {
-          _this.storeList = [];
+          _this3.storeList = [];
         }
       });
     },
     loadAdverts: function loadAdverts() {
-      var _this2 = this;
+      var _this4 = this;
 
       (0, _other.getAdverts)('homePage').then(function (res) {
-        _this2.adverts = res.data.homeMedium;
+        _this4.adverts = res.data.homeMedium;
 
         if (res.data.homeTopBg) {
-          _this2.topBgImg = res.data.homeTopBg.imgUrl;
-          _this2.topBackground = 'url(' + _this2.topBgImg + ') no-repeat';
+          _this4.topBgImg = res.data.homeTopBg.imgUrl;
+          _this4.topBackground = 'url(' + _this4.topBgImg + ') no-repeat';
         }
       });
     },
     // load banners
     loadBanners: function loadBanners() {
-      var _this3 = this;
+      var _this5 = this;
 
       (0, _other.getBanners)('homePage').then(function (res) {
-        _this3.topBanners = res.data.homeTop;
+        _this5.topBanners = res.data.homeTop;
       });
     },
     // load grids menu
     loadGridsMenu: function loadGridsMenu() {
-      var _this4 = this;
+      var _this6 = this;
 
       (0, _other.getGridsMenu)('homePage').then(function (res) {
-        var newArr = [];
+        if (res.data.length >= 10) {
+          var newArr = [];
 
-        for (var i = 0; i < res.data.length; i += 2) {
-          newArr.push(res.data.slice(i, i + 2));
+          for (var i = 0; i < res.data.length; i += 2) {
+            newArr.push(res.data.slice(i, i + 2));
+          }
+
+          _this6.menuTabs = newArr;
+          _this6.gridsInOneLine = false;
+        } else {
+          _this6.menuTabs = res.data;
+          _this6.gridsInOneLine = true;
         }
 
-        _this4.menuTabs = newArr;
-        _this4.slideRatio = (100 / (_this4.menuTabs.length * 142) * (700 / _this4.$app.$options.globalData.systemInfo.windowWidth) * 2).toFixed(3);
+        _this6.slideRatio = (100 / (_this6.menuTabs.length * 140) * (700 / _this6.$app.$options.globalData.systemInfo.windowWidth) * 2).toFixed(3);
       });
     },
     //  load group goods
     loadGroupGoods: function loadGroupGoods() {
-      var _this5 = this;
+      var _this7 = this;
 
       // console.log('load group goods')
       (0, _goods.getGroupGoods)().then(function (res) {
-        _this5.groupGoods = res.data.data;
+        _this7.groupGoods = res.data.data;
       });
     },
     loadGuessULikeTabs: function loadGuessULikeTabs() {
-      var _this6 = this;
+      var _this8 = this;
 
       (0, _goods.getGuessULikeTab)().then(function (res) {
-        _this6.guessULikeTabs = [{
+        _this8.guessULikeTabs = [{
           tabDesc: '猜你喜欢',
           tabName: '全部',
           tabId: 0
-        }].concat(res.data);
-      }); // 获取猜你喜欢 tabbar 的位置
+        }].concat(res.data); // 获取猜你喜欢位置
 
-      this.timer = setTimeout(function () {
         wx.createSelectorQuery().select('#guessULikeGoods').boundingClientRect(function (rect) {
-          _this6.guessULikeTop = rect.top - (_this6.isIPhoneX ? 72 : 50);
+          if (rect) {
+            _this8.guessULikeTop = rect.top - (_this8.isIPhoneX ? 72 : 50);
+          }
         }).exec();
-      }, 1000);
+      });
     },
     loadGuessULikeGoods: function loadGuessULikeGoods() {
-      var _this7 = this;
+      var _this9 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       if (!this.canLoadMoreGoods) return null; // 获取当前选中的tabId
@@ -311,11 +378,11 @@ _core["default"].page({
       }).then(function (res) {
         // 当前总数小于当前页面大小，则无更多数据
         if (res.data.curTotal < res.data.curPageSize) {
-          _this7.canLoadMoreGoods = false;
+          _this9.canLoadMoreGoods = false;
         }
 
-        _this7.guessULikePage = res.data.curPage;
-        _this7.guessULikeGoods = _this7.guessULikePage === 1 ? res.data.data : _this7.guessULikeGoods.concat(res.data.data);
+        _this9.guessULikePage = res.data.curPage;
+        _this9.guessULikeGoods = _this9.guessULikePage === 1 ? res.data.data : _this9.guessULikeGoods.concat(res.data.data);
       });
     }
   }),
@@ -350,18 +417,13 @@ _core["default"].page({
   },
 
   /**
-   * 卸载组建
-   */
-  onUnload: function onUnload() {
-    clearTimeout(this.timer);
-  },
-
-  /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function onPullDownRefresh() {
     // 展示弹窗
-    this.showStoreModal = true; // 获取门店
+    this.showStoreModal = true; // 导航色设为 黑色
+
+    (0, _common.setNavBarColor)('#000000'); // 获取门店
 
     this.loadStores();
   },
@@ -377,109 +439,138 @@ _core["default"].page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function onShareAppMessage(res) {}
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"van-search":{"path":"../../$vendor/@vant/weapp/dist/search/index"},"van-loading":{"path":"../../$vendor/@vant/weapp/dist/loading/index"},"van-sticky":{"path":"../../$vendor/@vant/weapp/dist/sticky/index"},"van-transition":{"path":"../../$vendor/@vant/weapp/dist/transition/index"},"goods-list-column":{"path":"../../components/goodsListColumn"},"show-add-tip":{"path":"../../components/showAddTip"},"coming-soon":{"path":"../../components/comingSoon"},"store-list-modal":{"path":"../../components/storeListModal"}},"on":{"9-1":["tap"],"9-3":["tap"],"9-12":["on-handle-cart"],"9-13":["on-modal-close","choose-store"]}}, handlers: {'9-0': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-nav-bar":{"path":"./../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-popup":{"path":"./../../$vendor/@vant/weapp/dist/popup/index"},"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"./../../$vendor/@vant/weapp/dist/loading/index"},"van-search":{"path":"./../../$vendor/@vant/weapp/dist/search/index"},"van-transition":{"path":"./../../$vendor/@vant/weapp/dist/transition/index"},"goods-list-column":{"path":"./../../components/goodsListColumn"},"store-list-modal":{"path":"./../../components/storeListModal"},"show-add-tip":{"path":"./../../components/showAddTip"},"coming-soon":{"path":"./../../components/comingSoon"}},"on":{"14-1":["tap"],"14-3":["tap"],"14-17":["on-handle-cart"],"14-18":["on-modal-close","choose-store"],"14-20":["close","touchmove"]}}, handlers: {'14-0': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleStoreModal.apply(_vm, $args || [$event]);
+  })();
+}},'14-1': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleStoreModal.apply(_vm, $args || [$event]);
+  })();
+}},'14-2': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleStoreModal.apply(_vm, $args || [$event]);
+  })();
+}},'14-3': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.handleStoreModal($event);
-      })();
-    
-  }},'9-1': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.redirectTo('/pages/home/index');
+  })();
+}},'14-4': {"change": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onBannerChange.apply(_vm, $args || [$event]);
+  })();
+}},'14-5': {"tap": function proxy (img) {
     var _vm=this;
-      return (function () {
-        _vm.handleStoreModal($event);
-      })();
-    
-  }},'9-2': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.onClickAdvert(img);
+  })();
+}},'14-6': {"scroll": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onGridsScroll.apply(_vm, $args || [$event]);
+  })();
+}},'14-7': {"tap": function proxy (grid) {
     var _vm=this;
-      return (function () {
-        _vm.handleStoreModal($event);
-      })();
-    
-  }},'9-3': {"tap": function proxy () {
-    
+  return (function () {
+    _vm.tapGrids(grid);
+  })();
+}},'14-8': {"tap": function proxy (grid) {
     var _vm=this;
-      return (function () {
-        _vm.redirectTo('/pages/home/index');
-      })();
-    
-  }},'9-4': {"change": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.tapGrids(grid);
+  })();
+}},'14-9': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onBannerChange($event);
-      })();
-    
-  }},'9-5': {"tap": function proxy (img) {
-    
+  return (function () {
+    _vm.showActivityModal=true;
+  })();
+}},'14-10': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onClickAdvert(img);
-      })();
-    
-  }},'9-6': {"scroll": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.onClickAdvert(_vm.adverts[0]);
+  })();
+}},'14-11': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onGridsScroll($event);
-      })();
-    
-  }},'9-7': {"tap": function proxy (grid) {
-    
+  return (function () {
+    _vm.onClickAdvert(_vm.adverts[1]);
+  })();
+}},'14-12': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.tapGrids(grid);
-      })();
-    
-  }},'9-8': {"tap": function proxy () {
-    
+  return (function () {
+    _vm.onClickAdvert(_vm.adverts[2]);
+  })();
+}},'14-13': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.redirectTo('/packageGoods/spellGroup/index');
-      })();
-    
-  }},'9-9': {"tap": function proxy (item) {
-    
+  return (function () {
+    _vm.redirectTo('/packageGoods/spellGroup/index');
+  })();
+}},'14-14': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.redirectTo('/packageGoods/spellGroup/detail?activityId=' + item.activityId);
-      })();
-    
-  }},'9-10': {"tap": function proxy (index) {
-    
+  return (function () {
+    _vm.redirectTo('/packageGoods/spellGroup/detail?activityId=' + item.activityId);
+  })();
+}},'14-15': {"tap": function proxy (index) {
     var _vm=this;
-      return (function () {
-        _vm.clickGussTab(index);
-      })();
-    
-  }},'9-11': {"tap": function proxy (index) {
-    
+  return (function () {
+    _vm.clickGussTab(index);
+  })();
+}},'14-16': {"tap": function proxy (index) {
     var _vm=this;
-      return (function () {
-        _vm.clickGussTab(index);
-      })();
-    
-  }},'9-12': {"on-handle-cart": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.clickGussTab(index);
+  })();
+}},'14-17': {"on-handle-cart": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onAddIntoCart.apply(_vm, $args || [$event]);
+  })();
+}},'14-18': {"on-modal-close": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleStoreModal.apply(_vm, $args || [$event]);
+  })();
+}, "choose-store": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.chooseStore.apply(_vm, $args || [$event]);
+  })();
+}},'14-20': {"close": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onAddIntoCart($event);
-      })();
-    
-  }},'9-13': {"on-modal-close": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.showActivityModal=false;
+  })();
+}, "touchmove": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.handleStoreModal($event);
-      })();
-    
-  }, "choose-store": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.chooseStore($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    !function(){};
+  })();
+}}}, models: {}, refs: undefined });

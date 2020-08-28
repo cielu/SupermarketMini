@@ -7,7 +7,9 @@ exports["default"] = void 0;
 
 var _regeneratorRuntime2 = _interopRequireDefault(require('./../vendor.js')(2));
 
-var _x7 = _interopRequireDefault(require('./../vendor.js')(4));
+var _x = _interopRequireDefault(require('./../vendor.js')(4));
+
+var _core = _interopRequireDefault(require('./../vendor.js')(0));
 
 var _location = require('./../utils/location.js');
 
@@ -23,15 +25,21 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+_core["default"].use(_x["default"]);
+
 // Vuex store
-var _default = new _x7["default"].Store({
+var _default = new _x["default"].Store({
   state: {
+    userInfo: null,
     currentArea: null,
     // 当前位置信息
     shoppingCart: {} // 购物车
 
   },
   mutations: {
+    SET_USER_INFO: function SET_USER_INFO(state, userInfo) {
+      state.userInfo = userInfo;
+    },
     SET_CURRENT_AREA: function SET_CURRENT_AREA(state, currentArea) {
       state.currentArea = currentArea;
     },
@@ -40,16 +48,20 @@ var _default = new _x7["default"].Store({
     }
   },
   actions: {
-    setCurrentArea: function setCurrentArea(_ref, currentArea) {
+    setUserInfo: function setUserInfo(_ref, userInfo) {
       var commit = _ref.commit;
+      commit('SET_USER_INFO', userInfo);
+    },
+    setCurrentArea: function setCurrentArea(_ref2, currentArea) {
+      var commit = _ref2.commit;
       commit('SET_CURRENT_AREA', currentArea);
     },
-    setShoppingCart: function setShoppingCart(_ref2, shoppingCart) {
-      var commit = _ref2.commit;
+    setShoppingCart: function setShoppingCart(_ref3, shoppingCart) {
+      var commit = _ref3.commit;
       commit('SET_SHOPPING_CART', shoppingCart);
     },
-    syncCurrentArea: function syncCurrentArea(_ref3) {
-      var commit = _ref3.commit;
+    syncCurrentArea: function syncCurrentArea(_ref4) {
+      var commit = _ref4.commit;
       var relocate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       return new Promise(function (resolve, reject) {
         (0, _location.getLocation)(relocate).then(function (currentArea) {
@@ -62,15 +74,23 @@ var _default = new _x7["default"].Store({
         });
       });
     },
-    updateCartNum: function updateCartNum(_ref4, _ref5) {
-      var commit = _ref4.commit,
-          state = _ref4.state;
-      var storeId = _ref5.storeId,
-          goodsCode = _ref5.goodsCode,
-          num = _ref5.num,
-          _ref5$isPlus = _ref5.isPlus,
-          isPlus = _ref5$isPlus === void 0 ? true : _ref5$isPlus;
-      // 判断购物车商品是否存在
+    updateCartNum: function updateCartNum(_ref5, _ref6) {
+      var commit = _ref5.commit,
+          state = _ref5.state;
+      var storeId = _ref6.storeId,
+          goodsCode = _ref6.goodsCode,
+          num = _ref6.num,
+          _ref6$isPlus = _ref6.isPlus,
+          isPlus = _ref6$isPlus === void 0 ? true : _ref6$isPlus;
+
+      // 获取用户信息
+      if (state.userInfo === null) {
+        _util["default"].navigateTo('/pages/other/login');
+
+        return;
+      } // 判断购物车商品是否存在
+
+
       var shoppingCart = JSON.parse(JSON.stringify(state.shoppingCart));
 
       if (typeof shoppingCart[storeId] === 'undefined') {
@@ -102,31 +122,46 @@ var _default = new _x7["default"].Store({
 
       commit('SET_SHOPPING_CART', shoppingCart);
     },
-    addIntoCart: function () {
-      var _addIntoCart = _asyncToGenerator(
+    addIntoCart: function addIntoCart(_ref7, _ref8) {
+      return _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime2["default"].mark(function _callee(_ref6, _ref7) {
-        var commit, state, goods, _ref7$skuId, skuId, _ref7$returnGoods, returnGoods, goodsNum, storeId, shoppingCart, data, res;
+      _regeneratorRuntime2["default"].mark(function _callee() {
+        var commit, state, goods, _ref8$skuId, skuId, _ref8$returnGoods, returnGoods, goodsNum, storeId, shoppingCart, data, res;
 
         return _regeneratorRuntime2["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref6.commit, state = _ref6.state;
-                goods = _ref7.goods, _ref7$skuId = _ref7.skuId, skuId = _ref7$skuId === void 0 ? 0 : _ref7$skuId, _ref7$returnGoods = _ref7.returnGoods, returnGoods = _ref7$returnGoods === void 0 ? false : _ref7$returnGoods;
+                commit = _ref7.commit, state = _ref7.state;
+                goods = _ref8.goods, _ref8$skuId = _ref8.skuId, skuId = _ref8$skuId === void 0 ? 0 : _ref8$skuId, _ref8$returnGoods = _ref8.returnGoods, returnGoods = _ref8$returnGoods === void 0 ? false : _ref8$returnGoods;
+
+                if (!(state.userInfo === null)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _util["default"].navigateTo('/pages/other/login');
+
+                return _context.abrupt("return", {
+                  status: 'error',
+                  'msg': '加入失败，请先登录！'
+                });
+
+              case 5:
                 storeId = goods.storeId;
                 shoppingCart = JSON.parse(JSON.stringify(state.shoppingCart)); // 获取不到数据 （数据有问题）
 
                 if (!(typeof shoppingCart[storeId] === 'undefined')) {
-                  _context.next = 7;
+                  _context.next = 9;
                   break;
                 }
 
-                _util["default"].toast('数据错误，请重试');
+                return _context.abrupt("return", {
+                  status: 'error',
+                  'msg': '数据错误，请下拉刷新'
+                });
 
-                return _context.abrupt("return", false);
-
-              case 7:
+              case 9:
                 // console.warn('before shopping cart change:', shoppingCart[storeId]['goodsNum'])
                 // 第二次以上添加商品,商品没有添加过
                 if (typeof shoppingCart[storeId]['goodsNum'][goods.goodsCode] === 'undefined') {
@@ -148,10 +183,10 @@ var _default = new _x7["default"].Store({
                   skuId: skuId
                 }; // 加入购物车
 
-                _context.next = 11;
+                _context.next = 13;
                 return (0, _cart.addGoodsIntoCart)(data);
 
-              case 11:
+              case 13:
                 res = _context.sent;
 
                 // console.log(res)
@@ -166,32 +201,26 @@ var _default = new _x7["default"].Store({
 
                 return _context.abrupt("return", res);
 
-              case 14:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
-      }));
-
-      function addIntoCart(_x, _x2) {
-        return _addIntoCart.apply(this, arguments);
-      }
-
-      return addIntoCart;
-    }(),
-    reduceCart: function () {
-      var _reduceCart = _asyncToGenerator(
+      }))();
+    },
+    reduceCart: function reduceCart(_ref9, _ref10) {
+      return _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime2["default"].mark(function _callee2(_ref8, _ref9) {
-        var commit, state, goods, _ref9$skuId, skuId, storeId, shoppingCart, beforeNum, data, reduceRes;
+      _regeneratorRuntime2["default"].mark(function _callee2() {
+        var commit, state, goods, _ref10$skuId, skuId, storeId, shoppingCart, beforeNum, data, reduceRes;
 
         return _regeneratorRuntime2["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref8.commit, state = _ref8.state;
-                goods = _ref9.goods, _ref9$skuId = _ref9.skuId, skuId = _ref9$skuId === void 0 ? 0 : _ref9$skuId;
+                commit = _ref9.commit, state = _ref9.state;
+                goods = _ref10.goods, _ref10$skuId = _ref10.skuId, skuId = _ref10$skuId === void 0 ? 0 : _ref10$skuId;
                 storeId = goods.storeId;
                 shoppingCart = JSON.parse(JSON.stringify(state.shoppingCart)); // 获取不到数据 （数据有问题）
 
@@ -248,25 +277,19 @@ var _default = new _x7["default"].Store({
             }
           }
         }, _callee2);
-      }));
-
-      function reduceCart(_x3, _x4) {
-        return _reduceCart.apply(this, arguments);
-      }
-
-      return reduceCart;
-    }(),
+      }))();
+    },
     // 初始化 shoppingCart
-    initShoppingCart: function () {
-      var _initShoppingCart = _asyncToGenerator(
+    initShoppingCart: function initShoppingCart(_ref11, storeInfo) {
+      return _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime2["default"].mark(function _callee3(_ref10, storeInfo) {
+      _regeneratorRuntime2["default"].mark(function _callee3() {
         var commit, state, storeId, shoppingCart, res, cartGoods, gNum, totalNum, cart;
         return _regeneratorRuntime2["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                commit = _ref10.commit, state = _ref10.state;
+                commit = _ref11.commit, state = _ref11.state;
                 _context3.prev = 1;
 
                 if (!(storeInfo == null)) {
@@ -298,6 +321,15 @@ var _default = new _x7["default"].Store({
 
               case 9:
                 res = _context3.sent;
+
+                if (!(res.status !== 'success')) {
+                  _context3.next = 12;
+                  break;
+                }
+
+                return _context3.abrupt("return", false);
+
+              case 12:
                 // 可销售的商品
                 cartGoods = res.data.filter(function (item) {
                   return item.stockNum > 0;
@@ -323,28 +355,22 @@ var _default = new _x7["default"].Store({
                 (0, _common.setCartBadge)(totalNum); // 设置shopping cart
 
                 commit('SET_SHOPPING_CART', shoppingCart);
-                _context3.next = 23;
+                _context3.next = 25;
                 break;
 
-              case 20:
-                _context3.prev = 20;
+              case 22:
+                _context3.prev = 22;
                 _context3.t0 = _context3["catch"](1);
                 console.warn('some thing error:', _context3.t0);
 
-              case 23:
+              case 25:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[1, 20]]);
-      }));
-
-      function initShoppingCart(_x5, _x6) {
-        return _initShoppingCart.apply(this, arguments);
-      }
-
-      return initShoppingCart;
-    }()
+        }, _callee3, null, [[1, 22]]);
+      }))();
+    }
   }
 });
 

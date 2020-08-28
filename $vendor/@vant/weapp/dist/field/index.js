@@ -2,67 +2,37 @@
 
 var _component = require('./../common/component.js');
 
-var _utils = require('./../common/utils.js');
+var _props = require('./props.js');
 
 (0, _component.VantComponent)({
   field: true,
-  classes: ['input-class', 'right-icon-class'],
-  props: {
+  classes: ['input-class', 'right-icon-class', 'label-class'],
+  props: Object.assign(Object.assign(Object.assign(Object.assign({}, _props.commonProps), _props.inputProps), _props.textareaProps), {
     size: String,
     icon: String,
     label: String,
     error: Boolean,
-    fixed: Boolean,
-    focus: Boolean,
     center: Boolean,
     isLink: Boolean,
     leftIcon: String,
     rightIcon: String,
-    disabled: Boolean,
-    autosize: Boolean,
-    readonly: Boolean,
+    autosize: [Boolean, Object],
     required: Boolean,
-    password: Boolean,
     iconClass: String,
-    clearable: Boolean,
     clickable: Boolean,
     inputAlign: String,
-    placeholder: String,
     customStyle: String,
-    confirmType: String,
-    confirmHold: Boolean,
-    holdKeyboard: Boolean,
     errorMessage: String,
     arrowDirection: String,
-    placeholderStyle: String,
+    showWordLimit: Boolean,
     errorMessageAlign: String,
-    selectionEnd: {
-      type: Number,
-      value: -1
-    },
-    selectionStart: {
-      type: Number,
-      value: -1
-    },
-    showConfirmBar: {
+    readonly: {
       type: Boolean,
-      value: true
+      observer: 'setShowClear'
     },
-    adjustPosition: {
+    clearable: {
       type: Boolean,
-      value: true
-    },
-    cursorSpacing: {
-      type: Number,
-      value: 50
-    },
-    maxlength: {
-      type: Number,
-      value: -1
-    },
-    type: {
-      type: String,
-      value: 'text'
+      observer: 'setShowClear'
     },
     border: {
       type: Boolean,
@@ -70,61 +40,105 @@ var _utils = require('./../common/utils.js');
     },
     titleWidth: {
       type: String,
-      value: '90px'
+      value: '6.2em'
     }
-  },
+  }),
   data: {
     focused: false,
-    system: (0, _utils.getSystemInfoSync)().system.split(' ').shift().toLowerCase()
+    innerValue: '',
+    showClear: false
+  },
+  created: function created() {
+    this.value = this.data.value;
+    this.setData({
+      innerValue: this.value
+    });
   },
   methods: {
     onInput: function onInput(event) {
-      var _this = this;
-
       var _ref = event.detail || {},
           _ref$value = _ref.value,
           value = _ref$value === void 0 ? '' : _ref$value;
 
-      this.setData({
-        value: value
-      });
-      wx.nextTick(function () {
-        _this.emitChange(value);
-      });
+      this.value = value;
+      this.setShowClear();
+      this.emitChange();
     },
     onFocus: function onFocus(event) {
-      this.setData({
-        focused: true
-      });
+      this.focused = true;
+      this.setShowClear();
       this.$emit('focus', event.detail);
     },
     onBlur: function onBlur(event) {
-      this.setData({
-        focused: false
-      });
+      this.focused = false;
+      this.setShowClear();
       this.$emit('blur', event.detail);
     },
     onClickIcon: function onClickIcon() {
       this.$emit('click-icon');
     },
     onClear: function onClear() {
+      var _this = this;
+
+      this.setData({
+        innerValue: ''
+      });
+      this.value = '';
+      this.setShowClear();
+      wx.nextTick(function () {
+        _this.emitChange();
+
+        _this.$emit('clear', '');
+      });
+    },
+    onConfirm: function onConfirm(event) {
+      var _ref2 = event.detail || {},
+          _ref2$value = _ref2.value,
+          value = _ref2$value === void 0 ? '' : _ref2$value;
+
+      this.value = value;
+      this.setShowClear();
+      this.$emit('confirm', value);
+    },
+    setValue: function setValue(value) {
+      this.value = value;
+      this.setShowClear();
+
+      if (value === '') {
+        this.setData({
+          innerValue: ''
+        });
+      }
+
+      this.emitChange();
+    },
+    onLineChange: function onLineChange(event) {
+      this.$emit('linechange', event.detail);
+    },
+    onKeyboardHeightChange: function onKeyboardHeightChange(event) {
+      this.$emit('keyboardheightchange', event.detail);
+    },
+    emitChange: function emitChange() {
       var _this2 = this;
 
       this.setData({
-        value: ''
+        value: this.value
       });
       wx.nextTick(function () {
-        _this2.emitChange('');
+        _this2.$emit('input', _this2.value);
 
-        _this2.$emit('clear', '');
+        _this2.$emit('change', _this2.value);
       });
     },
-    onConfirm: function onConfirm() {
-      this.$emit('confirm', this.data.value);
-    },
-    emitChange: function emitChange(value) {
-      this.$emit('input', value);
-      this.$emit('change', value);
+    setShowClear: function setShowClear() {
+      var _this$data = this.data,
+          clearable = _this$data.clearable,
+          readonly = _this$data.readonly;
+      var focused = this.focused,
+          value = this.value;
+      this.setData({
+        showClear: !!clearable && !!focused && !!value && !readonly
+      });
     },
     noop: function noop() {}
   }

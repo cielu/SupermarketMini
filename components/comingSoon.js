@@ -28,11 +28,12 @@ _core["default"].component({
       });
     }
   }
-}, {info: {"components":{"cant-send-tip":{"path":"cantSendTip"}},"on":{}}, handlers: {'60-0': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.cooperate($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+}, {info: {"components":{"cant-send-tip":{"path":"./cantSendTip"}},"on":{}}, handlers: {'78-0': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.cooperate.apply(_vm, $args || [$event]);
+  })();
+}}}, models: {}, refs: undefined });

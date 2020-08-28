@@ -1,8 +1,8 @@
 
 
-<view wx:if="{{ showBall }}" animation="{{ animationY }}" style="position:fixed;left:0;top:{{ballY}}px;">
-  <view animation="{{ animationX }}" style="position:fixed;top: 0;left:{{ballX}}px;" class="ball"></view>
+<view wx:if="{{ showBall }}" animation="{{ animationY }}" style=" {{ 'position:' + (\'fixed\') + ';' + 'left:' + (0) + ';' + 'top:' + (ballY + \'px\') + ';' }}">
+  <view animation="{{ animationX }}" style=" {{ 'position:' + (\'fixed\') + ';' + 'left:' + (0) + ';' + 'top:' + (ballY + \'px\') + ';' }}" class="ball"></view>
 </view>
-<view data-wpy-evt="64-0" bindtap="_proxy" class="cartBox">
-  <van-icon bind_init="_initComponent" name="shopping-cart-o" color="#FFF" info="{{ goodsNum }}"></van-icon>
+<view data-wpy-evt="86-0" bind:tap="__dispatcher" class="cartBox">
+  <van-icon bind_init="__initComponent" name="shopping-cart-o" color="#FFF" info="{{ goodsNum }}"></van-icon>
 </view>

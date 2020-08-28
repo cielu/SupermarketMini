@@ -11,7 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 _core["default"].component({
   data: {
     orderType: ['配送', '线下', '拼团'],
-    statusText: ['已取消', '待支付', '待发货', '已发货', '已收货', '已完成'],
+    statusText: ['已取消', '待支付', '已支付', '骑手已接单', '配送中', '已送达', '已完成', '待退款', '', '已退款'],
     orderList: []
   },
   props: {
@@ -37,6 +37,9 @@ _core["default"].component({
     inviteJoinGroup: function inviteJoinGroup(order) {
       _util["default"].navigateTo('/packageGoods/spellGroup/invite?orderId=' + order.orderId);
     },
+    // ensureReceive(order) {
+    //   console.log(order)
+    // },
     payOrder: function payOrder(order) {
       (0, _order.getPayInfo)({
         orderId: order.orderId
@@ -66,32 +69,27 @@ _core["default"].component({
       });
     }
   }
-}, {info: {"components":{"end-line":{"path":"endLine"}},"on":{}}, handlers: {'67-0': {"tap": function proxy (item) {
-    
+}, {info: {"components":{"end-line":{"path":"./endLine"}},"on":{}}, handlers: {'88-0': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.toOrderDetail(item.outTradeNo);
-      })();
-    
-  }},'67-1': {"tap": function proxy (item) {
-    
+  return (function () {
+    _vm.toOrderDetail(item.outTradeNo);
+  })();
+}},'88-1': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.inviteJoinGroup(item);
-      })();
-    
-  }},'67-2': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.inviteJoinGroup(item);
+  })();
+}},'88-2': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.toCategory.apply(_vm, $args || [$event]);
+  })();
+}},'88-3': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.toCategory($event);
-      })();
-    
-  }},'67-3': {"tap": function proxy (item) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.payOrder(item);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.payOrder(item);
+  })();
+}}}, models: {}, refs: undefined });

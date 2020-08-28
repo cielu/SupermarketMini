@@ -2,6 +2,8 @@
 
 var _core = _interopRequireDefault(require('./../../vendor.js')(0));
 
+var _store = _interopRequireDefault(require('./../../store/index.js'));
+
 var _util = _interopRequireDefault(require('./../../utils/util.js'));
 
 var _other = require('./../../api/other.js');
@@ -11,10 +13,11 @@ var _auth = require('./../../api/auth.js');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _core["default"].page({
+  store: _store["default"],
   data: {
     isShowScopeModal: false,
     countDownTime: 60,
-    userInfo: {},
+    user_info: {},
     code: null,
     phone: '',
     verify_code: '',
@@ -34,7 +37,7 @@ _core["default"].page({
         } else {
           wx.getUserInfo({
             success: function success(res) {
-              _this.userInfo = res.userInfo;
+              _this.user_info = res.userInfo;
             }
           });
         }
@@ -46,6 +49,9 @@ _core["default"].page({
     // 其他方法
     onClickBack: function onClickBack() {
       _util["default"].navigateBack();
+    },
+    onClickHome: function onClickHome() {
+      _util["default"].switchHome();
     },
     refreshCode: function refreshCode() {
       var _this = this; // 登录
@@ -103,7 +109,7 @@ _core["default"].page({
       });
     },
     getUserInfo: function getUserInfo(userInfo) {
-      this.userInfo = userInfo;
+      this.user_info = userInfo;
       this.isShowScopeModal = false;
     },
     login: function login() {
@@ -114,7 +120,7 @@ _core["default"].page({
         return;
       }
 
-      if (this.verify_code.length !== 5) {
+      if ([5, 6].indexOf(this.verify_code.length) === -1) {
         _util["default"].toast('请输入正确的验证码');
 
         return;
@@ -144,11 +150,11 @@ _core["default"].page({
     },
     formatForm: function formatForm() {
       var form = {};
-      form.province = this.userInfo.province;
-      form.city = this.userInfo.city;
-      form.nickname = this.userInfo.nickName;
-      form.avatar = this.userInfo.avatarUrl;
-      form.gender = this.userInfo.gender;
+      form.province = this.user_info.province;
+      form.city = this.user_info.city;
+      form.nickname = this.user_info.nickName;
+      form.avatar = this.user_info.avatarUrl;
+      form.gender = this.user_info.gender;
       return form;
     },
     loginForm: function loginForm(data) {
@@ -165,11 +171,11 @@ _core["default"].page({
           _util["default"].toast(loginRes.msg);
 
           return;
-        } // console.log(loginRes)
-        // user info
+        } // user info
 
 
-        _this.$app.$options.globalData.userInfo = loginRes.data.user; // login token
+        _store["default"].dispatch('setUserInfo', loginRes.data.user); // login token
+
 
         _this.$app.$options.globalData.authorization = loginRes.data.token;
         wx.setStorageSync('userInfo', loginRes.data.user);
@@ -183,53 +189,62 @@ _core["default"].page({
       });
     }
   }
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"scope-modal":{"path":"../../components/scopeModal"}},"on":{"19-0":["clickLeft"],"19-6":["get-user-info"]}}, handlers: {'19-0': {"clickLeft": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-nav-bar":{"path":"./../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"scope-modal":{"path":"./../../components/scopeModal"}},"on":{"35-0":["tap"],"35-1":["tap"],"35-7":["get-user-info"]}}, handlers: {'35-0': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onClickBack.apply(_vm, $args || [$event]);
+  })();
+}},'35-1': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onClickHome.apply(_vm, $args || [$event]);
+  })();
+}},'35-2': {"input": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.phoneInput.apply(_vm, $args || [$event]);
+  })();
+}},'35-3': {"input": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.verifyInput.apply(_vm, $args || [$event]);
+  })();
+}},'35-4': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onClickBack($event);
-      })();
-    
-  }},'19-1': {"input": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.getVerifyCode();
+  })();
+}},'35-5': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.phoneInput($event);
-      })();
-    
-  }},'19-2': {"input": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.verifyInput($event);
-      })();
-    
-  }},'19-3': {"tap": function proxy () {
-    
-    var _vm=this;
-      return (function () {
-        _vm.getVerifyCode();
-      })();
-    
-  }},'19-4': {"tap": function proxy () {
-    
-    var _vm=this;
-      return (function () {
-        _vm.login();
-      })();
-    
-  }},'19-5': {"getphonenumber": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.getPhoneNumber($event);
-      })();
-    
-  }},'19-6': {"get-user-info": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.getUserInfo($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.login();
+  })();
+}},'35-6': {"getphonenumber": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.getPhoneNumber.apply(_vm, $args || [$event]);
+  })();
+}},'35-7': {"get-user-info": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.getUserInfo.apply(_vm, $args || [$event]);
+  })();
+}}}, models: {}, refs: undefined });

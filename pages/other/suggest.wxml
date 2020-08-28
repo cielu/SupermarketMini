@@ -1,22 +1,26 @@
 
 <view class="theme">
-  <van-nav-bar bind_init="_initComponent" title="我要反馈" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="18-0" bindclickLeft="_proxy"></van-nav-bar>
-  <view style="height:{{statusBarHeight+44}}px;" class="loading"></view>
+  <van-nav-bar bind_init="__initComponent" title="意见反馈" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="34-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading"></view>
 </view>
 <view class="container">
   <view class="card">
     <view class="title">反馈类型</view>
     <view class="cates">
-      <view wx:for="{{ cates }}" wx:for-index="idx" wx:for-item="cate" wx:key="idx" data-wpy-evt="18-1" bindtap="_proxy" data-wpytap-a="{{ idx }}" class="cate {{ [ cateIdx == idx ? 'active' : '' ] }}">
+      <view wx:for="{{ cates }}" wx:for-index="idx" wx:for-item="cate" wx:key="idx" data-wpy-evt="34-1" bind:tap="__dispatcher" data-wpytap-a="{{ idx }}" class="cate {{ [ cateIdx == idx ? 'active' : '' ] }}">
         {{cate}}
       </view>
     </view>
   </view>
   <view class="card">
-    <textarea value="{{ form.content }}" placeholder="请输入您的反馈，我们会不断改进" class="content"></textarea>
+    <textarea value="{{ form.content }}" bindinput="__dispatcher" data-model-id="10" placeholder="请输入您的反馈，我们会不断改进" maxlength="255" class="content" />
     <view class="cell">
       <view>手机号</view>
-      <input placeholder="请填写(选填)" style="width: 70%;height: 70rpx;text-align: right;"></input>
+      <input placeholder="请填写手机号(选填)" type="number" value="{{ form.linkPhone }}" bindinput="__dispatcher" data-model-id="11" maxlength="11" class="input" />
+    </view>
+    <view class="cell">
+      <view>订单编号</view>
+      <input placeholder="请填写订单编号(选填)" value="{{ form.outTradeNo }}" bindinput="__dispatcher" data-model-id="12" maxlength="22" class="input" />
     </view>
     <view class="item">
       <view style="padding: 26rpx;" class="ac">
@@ -24,19 +28,19 @@
         <view style="color:#9d9d9d;padding-left:30rpx;">最多3张</view>
       </view>
       <view class="images">
-        <view wx:for="{{ form.images }}" wx:for-index="idx" wx:for-item="img" wx:key="idx" class="upload bdn">
+        <view wx:for="{{ images }}" wx:for-index="idx" wx:for-item="img" wx:key="idx" class="upload bdn">
           <image src="{{ img }}" alt class="img"></image>
-          <view data-wpy-evt="18-2" bindtap="_proxy" data-wpytap-a="{{ idx }}" class="close">
-            <van-icon bind_init="_initComponent" name="cross" size="13" color="#FF7700"></van-icon>
+          <view data-wpy-evt="34-2" bind:tap="__dispatcher" data-wpytap-a="{{ idx }}" class="close">
+            <van-icon bind_init="__initComponent" name="clear" size="18" color="#c9c9c9"></van-icon>
           </view>
         </view>
-        <view data-wpy-evt="18-3" bindtap="_proxy" class="upload">
-          <van-icon bind_init="_initComponent" name="photo-o" size="30" color="#a9a9a9"></van-icon>
+        <view data-wpy-evt="34-3" bind:tap="__dispatcher" class="upload">
+          <van-icon bind_init="__initComponent" name="plus" size="30" color="#c9c9c9"></van-icon>
         </view>
       </view>
     </view>
   </view>
   <view class="submitBox">
-    <view data-wpy-evt="18-4" bindtap="_proxy" class="submitBtn">我要反馈</view>
+    <view data-wpy-evt="34-4" bind:tap="__dispatcher" class="submitBtn">提交反馈</view>
   </view>
 </view>

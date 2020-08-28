@@ -2,6 +2,8 @@
 
 var _component = require('./../common/component.js');
 
+var _utils = require('./../common/utils.js');
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -10,8 +12,6 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var FONT_COLOR = '#ed6a0c';
-var BG_COLOR = '#fffbe8';
 (0, _component.VantComponent)({
   props: {
     text: {
@@ -60,14 +60,9 @@ var BG_COLOR = '#fffbe8';
       type: String,
       value: ''
     },
-    color: {
-      type: String,
-      value: FONT_COLOR
-    },
-    backgroundColor: {
-      type: String,
-      value: BG_COLOR
-    },
+    color: String,
+    backgroundColor: String,
+    background: String,
     wrapable: Boolean
   },
   data: {
@@ -123,21 +118,24 @@ var BG_COLOR = '#fffbe8';
       this.setData({
         animationData: this.resetAnimation.translateX(this.wrapWidth).step()["export"]()
       });
-      setTimeout(function () {
+      (0, _utils.requestAnimationFrame)(function () {
         _this4.setData({
           animationData: _this4.animation.translateX(-_this4.contentWidth).step()["export"]()
         });
-      }, 20);
+      });
       this.timer = setTimeout(function () {
         _this4.scroll();
       }, this.duration);
     },
-    onClickIcon: function onClickIcon() {
-      this.timer && clearTimeout(this.timer);
-      this.timer = null;
-      this.setData({
-        show: false
-      });
+    onClickIcon: function onClickIcon(event) {
+      if (this.data.mode === 'closeable') {
+        this.timer && clearTimeout(this.timer);
+        this.timer = null;
+        this.setData({
+          show: false
+        });
+        this.$emit('close', event.detail);
+      }
     },
     onClick: function onClick(event) {
       this.$emit('click', event);

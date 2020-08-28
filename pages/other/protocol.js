@@ -30,11 +30,9 @@ _core["default"].page({
     }
   } //
 
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"}},"on":{}}, handlers: {'20-0': {"tap": function proxy () {
-    
+}, {info: {"components":{},"on":{}}, handlers: {'36-0': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.redirectTo('{{item.path}}');
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.redirectTo('{{item.path}}');
+  })();
+}}}, models: {}, refs: undefined });

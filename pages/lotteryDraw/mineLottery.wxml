@@ -1,0 +1,9 @@
+
+<view>
+  <van-nav-bar title="我发起的抽奖" fixed="{{true}}" z-index="99" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="27-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}"></view>
+</view>
+<view class="container">
+  
+  <lottery-list bind_init="__initComponent" lotteryList="{{ lotteryList }}" isMineLottery="{{ true }}" data-wpy-evt="27-1" bind:delete-lottery="__dispatcher" style="width:100%;"></lottery-list>
+</view>

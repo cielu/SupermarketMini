@@ -1,0 +1,6 @@
+
+<view class="guessULike">
+  <image src="/images/other/shine.png" alt class="icon"></image>
+  <text class="guessText">猜你喜欢</text>
+  <image src="/images/other/shine.png" alt class="icon"></image>
+</view>

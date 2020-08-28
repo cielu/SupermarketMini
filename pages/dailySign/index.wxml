@@ -1,0 +1,37 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="__initComponent" title="每日签到" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="31-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + (statusBarHeight + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#ff7700"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="partLinear"></view>
+  <view data-wpy-evt="31-1" bind:tap="__dispatcher" style="width: 100%;padding:20rpx 0;" class="ac white">
+    <text>我的积分</text>
+    <text style="font-size: 70rpx;padding:0 20rpx;">{{userInfo.integral}}</text>
+    <van-icon bind_init="__initComponent" name="arrow"></van-icon>
+  </view>
+  <view class="card">
+    <text class="signDay">已连续签到<text style="color: #FF7700;">{{userInfo.signDay}}</text>天</text>
+    <view class="weeks">
+      <view wx:for="{{ signList }}" wx:for-index="index" wx:for-item="sign" wx:key="index" class="day">
+        <view class="circle {{sign.hasSign ? 'sign' : ''}}">
+          <text class="integral">+{{sign.integral}}</text>
+          <van-icon bind_init="__initComponent" name="{{ sign.hasSign ? 'success' : 'gem' }}"></van-icon>
+        </view>
+        <text class="date">{{sign.date}}</text>
+      </view>
+    </view>
+    <view data-wpy-evt="31-2" bind:tap="__dispatcher" class="signBtn {{todaySign ? 'hasSign' : ''}}">{{todaySign ? '今日已签到' : '签到'}}</view>
+  </view>
+  <view class="recommend">
+    <image src="/images/other/shine.png" alt class="icon"></image>
+    <text class="text">超值推荐</text>
+    <image src="/images/other/shine.png" alt class="icon"></image>
+  </view>
+  
+  <spell-goods-items bind_init="__initComponent" goodsList="{{ spellGoodsList }}"></spell-goods-items>
+  
+  <end-line bind_init="__initComponent" wx:if="{{ spellGoodsList.length > 5 }}"></end-line>
+</view>

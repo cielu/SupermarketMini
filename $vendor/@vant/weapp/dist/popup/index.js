@@ -5,7 +5,7 @@ var _component = require('./../common/component.js');
 var _transition = require('./../mixins/transition.js');
 
 (0, _component.VantComponent)({
-  classes: ['enter-class', 'enter-active-class', 'enter-to-class', 'leave-class', 'leave-active-class', 'leave-to-class'],
+  classes: ['enter-class', 'enter-active-class', 'enter-to-class', 'leave-class', 'leave-active-class', 'leave-to-class', 'close-icon-class'],
   mixins: [(0, _transition.transition)(false)],
   props: {
     round: Boolean,
@@ -67,13 +67,17 @@ var _transition = require('./../mixins/transition.js');
     observeClass: function observeClass() {
       var _this$data = this.data,
           transition = _this$data.transition,
-          position = _this$data.position;
+          position = _this$data.position,
+          duration = _this$data.duration;
       var updateData = {
         name: transition || position
       };
 
       if (transition === 'none') {
         updateData.duration = 0;
+        this.originDuration = duration;
+      } else if (this.originDuration != null) {
+        updateData.duration = this.originDuration;
       }
 
       this.setData(updateData);

@@ -1,0 +1,171 @@
+
+  <view class="theme">
+    <van-nav-bar title="发起抽奖" custom-class="whiteBg" fixed="{{true}}" z-index="99" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="25-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+    <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading"></view>
+  </view>
+  <view class="container">
+    <view class="lotteryTitle">奖品设置</view>
+    <view class="card">
+      <view class="cover">
+        <view data-wpy-evt="25-1" bind:tap="__dispatcher" class="change-img">
+          <van-icon bind_init="__initComponent" name="photo"></van-icon>
+          <text style="padding-left:10rpx;">{{form.gifts[0].giftCover === '' ? '更换' : '移除'}}图片</text>
+        </view>
+        <image src="{{ form.gifts[0].giftCover || '/images/other/lottery_gift.png' }}" alt="lottery_gift" mode="aspectFill" class="cover-img"></image>
+      </view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <view hidden="{{ !(form.gifts[0].giftType != 2) }}" class="inputCell">
+        <view class="content">
+          <view class="label">奖品名称</view>
+          <view class="inputBox">
+            <input type="text" value="{{ form.gifts[0].giftTitle }}" bindinput="__dispatcher" data-model-id="0" placeholder="请输入奖品名称" placeholer-class="placeholder" maxlength="30" class="input" />
+          </view>
+        </view>
+      </view>
+      <view hidden="{{ !(form.gifts[0].giftType != 2) }}" class="inputCell">
+        <view class="content">
+          <view class="label">奖品价值</view>
+          <view class="inputBox">
+            <input type="text" value="{{ form.gifts[0].giftPrice }}" bindinput="__dispatcher" data-model-id="1" placeholder="请输入奖品价值" placeholer-class="placeholder" maxlength="10" class="input" />
+          </view>
+        </view>
+      </view>
+      <view hidden="{{ !(form.gifts[0].giftType != 2) }}" class="inputCell noBorder">
+        <view class="content">
+          <view class="label">奖品份数</view>
+          <view class="inputBox">
+            <input type="number" value="{{ form.gifts[0].giftNum }}" bindinput="__dispatcher" data-model-id="2" placeholder="份数" placeholer-class="placeholder" maxlength="5" class="input" />
+            <text>份</text>
+          </view>
+        </view>
+      </view>
+      <view hidden="{{ !(form.gifts[0].giftType == 2) }}" class="inputCell">
+        <view class="content">
+          <view class="label">红包金额 <view class="tag">{{form.gifts[0].redpackType == 0 ? '普' : '拼' }}</view></view>
+          <view class="inputBox">
+            <input type="number" value="{{ form.gifts[0].redpackFee }}" bindinput="__dispatcher" data-model-id="3" placeholder="¥ 0.00" placeholer-class="placeholder" maxlength="5" class="input" />
+            <text>元</text>
+          </view>
+        </view>
+        <view class="description">
+          当前为{{form.gifts[0].redpackType == 0 ? '普通' : '拼手气' }}红包，
+          <text data-wpy-evt="25-2" bind:tap="__dispatcher" class="blue">改为{{form.gifts[0].redpackType == 0 ? '拼手气' : '普通'}}红包</text>
+        </view>
+      </view>
+      <view hidden="{{ !(form.gifts[0].giftType == 2) }}" class="inputCell noBorder">
+        <view class="content">
+          <view class="label">红包数量</view>
+          <view class="inputBox">
+            <input type="number" value="{{ form.gifts[0].redpackNum }}" bindinput="__dispatcher" data-model-id="4" placeholder="数量" placeholer-class="placeholder" maxlength="3" class="input" />
+            <text>个</text>
+          </view>
+        </view>
+        <view class="description">
+          需支付红包金额：<text style="color:#ed6154;">¥ {{form.gifts[0].redpackType === 0 ? form.gifts[0].redpackFee * form.gifts[0].redpackNum * 1.01 : form.gifts[0].redpackFee * 1.01 }}</text>
+        </view>
+      </view>
+      <view hidden="{{ !(form.gifts[0].giftType == 3) }}" class="inputCell">
+        <view class="content">
+          <view class="label">添加兑换码</view>
+          <view class="inputBox">
+            <textarea id="redeemCode" value="{{ form.gifts[0].redeemCode }}" bindinput="__dispatcher" data-model-id="5" rows="5" auto-height placeholder=" 多个兑换码请换行,例: \n code-0001 \n code-0002 \n code-0003" maxlength="250" class="textarea" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="lotteryTitle">开奖设置</view>
+    <view class="card">
+      <view class="inputCell">
+        <view class="content">
+          <view class="label">开奖条件</view>
+          <view data-wpy-evt="25-3" bind:tap="__dispatcher" class="selectBox">
+            <view class="text">{{form.lotteryOpenType == 1 ? '按开奖时间自动开奖' : '按参奖人次自动开奖'}}</view>
+            <van-icon bind_init="__initComponent" name="arrow" color="#999999" size="20"></van-icon>
+          </view>
+        </view>
+      </view>
+      <view hidden="{{ !(form.lotteryOpenType == 1) }}" class="inputCell noBorder">
+        <view class="content">
+          <view class="label">开奖时间</view>
+          <view data-wpy-evt="25-4" bind:tap="__dispatcher" class="selectBox">
+            <view class="text {{ [ lotteryOpenTime == \'\' ? 'unText' : '' ] }}">{{lotteryOpenTime == '' ? '点击设置' : lotteryOpenTime}}</view>
+            <van-icon bind_init="__initComponent" name="arrow" color="#999999" size="20"></van-icon>
+          </view>
+        </view>
+      </view>
+      <view hidden="{{ !(form.lotteryOpenType == 2) }}" class="inputCell noBorder">
+        <view class="content">
+          <view class="label">开奖人次</view>
+          <view class="inputBox">
+            <input type="number" value="{{ form.lotteryOpenNum }}" bindinput="__dispatcher" data-model-id="6" placeholder="人次" placeholer-class="placeholder" maxlength="8" class="input" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="lotteryTitle">抽奖说明</view>
+    <view class="card">
+      <view class="inputCell noBorder noPadding">
+        <view class="content">
+          <view class="label">保存说明</view>
+          <view class="selectBox">
+            <switch checked="{{ form.saveDescription }}" bindchange="__dispatcher" data-model-id="7" color="#ed6154" />
+          </view>
+        </view>
+      </view>
+      <view class="inputCell noBorder">
+        <textarea rows="5" value="{{ form.lotteryDescription }}" bindinput="__dispatcher" data-model-id="8" auto-height placeholder="非必填，可输入抽奖说明" maxlength="250" class="textarea" />
+      </view>
+      <view class="inputCell">
+        <view class="content">
+          <view style="color: #696969;" class="label">赞助商二维码</view>
+          <view class="selectBox">
+            <view wx:if="{{ form.sponsorCode }}" class="upload">
+              <image src="{{ form.sponsorCode }}" alt class="img"></image>
+              <van-icon bind_init="__initComponent" name="clear" data-wpy-evt="25-5" bind:tap="__dispatcher" class="close"></van-icon>
+            </view>
+            <view wx:else data-wpy-evt="25-6" bind:tap="__dispatcher" class="upload">
+              <van-icon bind_init="__initComponent" name="plus" size="30" color="#c9c9c9"></van-icon>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="bottomBox"></view>
+    <view class="submitBox">
+      <view hidden="{{ !(form.giftType == 2) }}" class="description">需收取红包总金额0.6%的手续费</view>
+      <view data-wpy-evt="25-7" bind:tap="__dispatcher" class="submitBtn">{{form.giftType == 2 ? '支付并' : ''}}发起抽奖</view>
+    </view>
+  </view>
+  <van-popup bind_init="__initComponent" z-index="9999" position="bottom" show="{{ showLotteryTimeModal }}" close-on-click-overlay="{{ true }}" data-wpy-evt="25-8" bind:close="__dispatcher" catch:touchmove="__dispatcher">
+    <view class="datetime-picker">
+      <view class="picker-header">
+        <text data-wpy-evt="25-10" bind:tap="__dispatcher" style="color: #898989;">取消</text>
+        <text>开奖时间设置</text>
+        <text data-wpy-evt="25-11" bind:tap="__dispatcher" class="btnSure">确认</text>
+      </view>
+      <picker-view indicator-style="height:46px;" value="{{ lotteryTimePicker }}" data-wpy-evt="25-12" bind:change="__dispatcher" style="width: 100%; height:500rpx;">
+        <picker-view-column class="column">
+          <view wx:for="{{ lotteryTime.days }}" wx:for-index="index" wx:for-item="day" wx:key="index" class="column-view">{{day}}</view>
+        </picker-view-column>
+        <picker-view-column class="column">
+          <view wx:for="{{ lotteryTime.hours }}" wx:for-index="index" wx:for-item="hour" wx:key="index" class="column-view">{{hour}}</view>
+        </picker-view-column>
+        <picker-view-column class="column">
+          <view wx:for="{{ lotteryTime.minutes }}" wx:for-index="index" wx:for-item="minute" wx:key="index" class="column-view">{{minute}}</view>
+        </picker-view-column>
+      </picker-view>
+    </view>
+  </van-popup>

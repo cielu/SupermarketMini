@@ -1,0 +1,25 @@
+
+<view class="lotteryList">
+  <view wx:for="{{ lotteryList }}" wx:for-index="index" wx:for-item="item" wx:key="index" class="goods">
+    <view class="header">
+      <van-count-down bind_init="__initComponent" wx:if="{{ item.lotteryOpenType == 1 }}" time="{{ item.lotteryOpenTime * 1000 - nowTime }}" format="DD天HH时mm分ss秒开奖"></van-count-down>
+      <view wx:else>满{{item.lotteryOpenNum}}人开奖</view>
+      <view class="joinNum">共<text style="color: #f55833;">{{item.lotteryJoinNum}}</text>人参与</view>
+    </view>
+    <view data-wpy-evt="81-0" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="body">
+      <image src="{{ item.lotteryCover || '/images/other/lottery_gift.png' }}" alt mode="aspectFill" class="cover"></image>
+      <view class="info">
+        <view class="title">{{item.lotteryTitle}}</view>
+        <view class="inline">
+          <view class="strikePrice">¥{{item.lotteryGiftPrice}}</view>
+          <view wx:if="{{ item.status == 2 }}" class="lotteryBtn">已开奖</view>
+          <view wx:else data-wpy-evt="81-1" catch:tap="__dispatcher" data-wpytap-a="{{ index }}" class="lotteryBtn {{ [ item.lotteryJoiner.joinTimes > 0 ? 'hasLottery' : '' ] }}">
+            {{item.lotteryJoiner.joinTimes > 0 ? '已参与 ' + item.lotteryJoiner.joinTimes + ' 次' : isMineLottery ? '删除抽奖' : '参与抽奖'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<end-line bind_init="__initComponent" wx:if="{{ lotteryList.length > 3 }}"></end-line>

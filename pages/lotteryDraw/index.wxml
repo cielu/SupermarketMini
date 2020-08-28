@@ -1,0 +1,56 @@
+
+<van-nav-bar fixed="{{true}}" border="{{false}}" z-index="99" title="{{ transNavigation ? '' : '购物抽奖' }}" customClass="{{ transNavigation? 'trans-nav' : '' }}">
+  <view slot="left" class="nav-left">
+    <van-icon bind_init="__initComponent" name="arrow-left" color="{{ transNavigation ? 'white' : '#000000' }}" size="20" data-wpy-evt="22-0" bind:tap="__dispatcher"></van-icon>
+    <view class="Y-line"></view>
+    <van-icon bind_init="__initComponent" name="wap-home-o" color="{{ transNavigation ? 'white' : '#000000' }}" size="20" data-wpy-evt="22-1" bind:tap="__dispatcher"></van-icon>
+  </view>
+</van-nav-bar>
+<view class="lotteryDraw">
+  <image src="/images/other/lottery_draw.png" mode="scaleToFill" class="lotteryDraw"></image>
+</view>
+<view class="container">
+  <view class="partLinear"></view>
+  <view class="lotteryBox">
+    <view class="myLottery">
+      <view data-wpy-evt="22-2" bind:tap="__dispatcher" class="item">
+        <view class="desc">我的中奖记录</view>
+        <view class="ac">
+          <van-icon bind_init="__initComponent" name="send-gift" color="#f53833" size="20px"></van-icon>
+          <text style="padding-left: 10rpx;" class="important"> x {{userInfo.lotteryTimes}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="desc">我的抽奖机会 <van-icon bind_init="__initComponent" name="info-o" size="16" data-wpy-evt="22-3" bind:tap="__dispatcher"></van-icon></view>
+        <view class="ac">
+          <van-icon bind_init="__initComponent" name="point-gift" color="#FF5500" size="20px"></van-icon>
+          <text style="padding-left: 10rpx;" class="important"> x {{userInfo.lotteryChance}}</text>
+        </view>
+      </view>
+      <view data-wpy-evt="22-4" bind:tap="__dispatcher" style="color:#f53833;" class="item">发起抽奖</view>
+    </view>
+    <view class="lotteryInfo">
+      <swiper autoplay="true" interval="2500" duration="1000" vertical="true" circular="true" class="swiperTxt">
+        <swiper-item wx:for="{{ winnerList }}" wx:for-index="key" wx:for-item="winner" wx:key="key" key="{{ key }}">
+          <view class="txtInfo">
+            <text>恭喜</text>
+            <image src="{{ winner.avatar }}" mode="scaleToFill" class="avatar-sm"></image>
+            <text class="desc">{{winner.name}}</text>
+            <text>抽中了 {{winner.lotteryGiftName}}</text>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+  </view>
+  
+  <lottery-list bind_init="__initComponent" lotteryList="{{ lotteryList }}" style="width:100%;"></lottery-list>
+</view>
+
+<van-popup bind_init="__initComponent" round position="bottom" show="{{ showLotteryModal }}" close-on-click-overlay="{{ true }}" data-wpy-evt="22-5" bind:close="__dispatcher" catch:touchmove="__dispatcher">
+  <view class="actionSheet">
+    <view wx:for="{{ lotteryActions }}" wx:for-index="index" wx:for-item="action" wx:key="index" data-wpy-evt="22-7" bind:tap="__dispatcher" data-wpytap-a="{{ action }}" style=" {{ 'color:' + (action.color || \'#333333\') + ';' }}" class="item">
+      {{action.title}}
+    </view>
+    <view data-wpy-evt="22-8" bind:tap="__dispatcher" class="cancel-btn">取消</view>
+  </view>
+</van-popup>

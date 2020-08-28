@@ -1,0 +1,11 @@
+{
+    "navigationBarTitleText": "参与抽奖用户",
+    "backgroundColorTop": "#f7f7f7",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true,
+    "component": true,
+    "usingComponents": {
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index"
+    }
+}

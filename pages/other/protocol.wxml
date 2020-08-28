@@ -2,7 +2,7 @@
 <view class="container">
     <view class="content">
         <repeat for="{{lists}}" key="this">
-            <view data-wpy-evt="20-0" bindtap="_proxy" class="item">
+            <view data-wpy-evt="36-0" bind:tap="__dispatcher" class="item">
                 <text>{{item.name}}</text>
                 <image src="/images/arrow_right.png" class="icon-sm"></image>
             </view>

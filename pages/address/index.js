@@ -70,25 +70,25 @@ _core["default"].page({
       this.loadAddressList(this.curPage + 1);
     }
   }
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"../../$vendor/@vant/weapp/dist/loading/index"}},"on":{"15-0":["clickLeft"],"15-1":["tap"]}}, handlers: {'15-0': {"clickLeft": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-nav-bar":{"path":"./../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"./../../$vendor/@vant/weapp/dist/loading/index"}},"on":{"28-0":["clickLeft"],"28-1":["tap"]}}, handlers: {'28-0': {"clickLeft": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onClickBack.apply(_vm, $args || [$event]);
+  })();
+}},'28-1': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.onClickBack($event);
-      })();
-    
-  }},'15-1': {"tap": function proxy (item) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.editAddress(item.addressId);
-      })();
-    
-  }},'15-2': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.editAddress($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.editAddress(item.addressId);
+  })();
+}},'28-2': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.editAddress.apply(_vm, $args || [$event]);
+  })();
+}}}, models: {}, refs: undefined });

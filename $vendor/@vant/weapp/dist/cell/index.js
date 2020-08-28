@@ -24,7 +24,8 @@ var _component = require('./../common/component.js');
     border: {
       type: Boolean,
       value: true
-    }
+    },
+    titleStyle: String
   },
   methods: {
     onClick: function onClick(event) {

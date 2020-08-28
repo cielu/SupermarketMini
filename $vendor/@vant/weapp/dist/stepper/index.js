@@ -12,6 +12,10 @@ function add(num1, num2) {
   return Math.round((num1 + num2) * cardinal) / cardinal;
 }
 
+function equal(value1, value2) {
+  return String(value1) === String(value2);
+}
+
 (0, _component.VantComponent)({
   field: true,
   classes: ['input-class', 'plus-class', 'minus-class'],
@@ -19,51 +23,36 @@ function add(num1, num2) {
     value: {
       type: null,
       observer: function observer(value) {
-        if (value === '') {
-          return;
-        }
-
-        var newValue = this.range(value);
-
-        if (typeof newValue === 'number' && +this.data.value !== newValue) {
+        if (!equal(value, this.data.currentValue)) {
           this.setData({
-            value: newValue
+            currentValue: this.format(value)
           });
         }
       }
     },
-    integer: Boolean,
+    integer: {
+      type: Boolean,
+      observer: 'check'
+    },
     disabled: Boolean,
-    inputWidth: {
-      type: null,
-      observer: function observer() {
-        this.setData({
-          inputStyle: this.computeInputStyle()
-        });
-      }
-    },
-    buttonSize: {
-      type: null,
-      observer: function observer() {
-        this.setData({
-          inputStyle: this.computeInputStyle(),
-          buttonStyle: this.computeButtonStyle()
-        });
-      }
-    },
+    inputWidth: null,
+    buttonSize: null,
     asyncChange: Boolean,
     disableInput: Boolean,
     decimalLength: {
       type: Number,
-      value: null
+      value: null,
+      observer: 'check'
     },
     min: {
       type: null,
-      value: 1
+      value: 1,
+      observer: 'check'
     },
     max: {
       type: null,
-      value: Number.MAX_SAFE_INTEGER
+      value: Number.MAX_SAFE_INTEGER,
+      observer: 'check'
     },
     step: {
       type: null,
@@ -85,34 +74,53 @@ function add(num1, num2) {
     }
   },
   data: {
-    focus: false,
-    inputStyle: '',
-    buttonStyle: ''
+    currentValue: ''
   },
   created: function created() {
     this.setData({
-      value: this.range(this.data.value)
+      currentValue: this.format(this.data.value)
     });
   },
   methods: {
+    check: function check() {
+      var val = this.format(this.data.currentValue);
+
+      if (!equal(val, this.data.currentValue)) {
+        this.setData({
+          currentValue: val
+        });
+      }
+    },
     isDisabled: function isDisabled(type) {
       if (type === 'plus') {
-        return this.data.disabled || this.data.disablePlus || this.data.value >= this.data.max;
+        return this.data.disabled || this.data.disablePlus || this.data.currentValue >= this.data.max;
       }
 
-      return this.data.disabled || this.data.disableMinus || this.data.value <= this.data.min;
+      return this.data.disabled || this.data.disableMinus || this.data.currentValue <= this.data.min;
     },
     onFocus: function onFocus(event) {
       this.$emit('focus', event.detail);
     },
     onBlur: function onBlur(event) {
-      var value = this.range(this.data.value);
-      this.triggerInput(value);
-      this.$emit('blur', event.detail);
+      var value = this.format(event.detail.value);
+      this.emitChange(value);
+      this.$emit('blur', Object.assign(Object.assign({}, event.detail), {
+        value: value
+      }));
+    },
+    // filter illegal characters
+    filter: function filter(value) {
+      value = String(value).replace(/[^0-9.-]/g, '');
+
+      if (this.data.integer && value.indexOf('.') !== -1) {
+        value = value.split('.')[0];
+      }
+
+      return value;
     },
     // limit value range
-    range: function range(value) {
-      value = String(value).replace(/[^0-9.-]/g, ''); // format range
+    format: function format(value) {
+      value = this.filter(value); // format range
 
       value = value === '' ? 0 : +value;
       value = Math.max(Math.min(this.data.max, value), this.data.min); // format decimal
@@ -126,9 +134,30 @@ function add(num1, num2) {
     onInput: function onInput(event) {
       var _ref = event.detail || {},
           _ref$value = _ref.value,
-          value = _ref$value === void 0 ? '' : _ref$value;
+          value = _ref$value === void 0 ? '' : _ref$value; // allow input to be empty
 
-      this.triggerInput(value);
+
+      if (value === '') {
+        return;
+      }
+
+      var formatted = this.filter(value); // limit max decimal length
+
+      if ((0, _utils.isDef)(this.data.decimalLength) && formatted.indexOf('.') !== -1) {
+        var pair = formatted.split('.');
+        formatted = "".concat(pair[0], ".").concat(pair[1].slice(0, this.data.decimalLength));
+      }
+
+      this.emitChange(formatted);
+    },
+    emitChange: function emitChange(value) {
+      if (!this.data.asyncChange) {
+        this.setData({
+          currentValue: value
+        });
+      }
+
+      this.$emit('change', value);
     },
     onChange: function onChange() {
       var type = this.type;
@@ -139,8 +168,8 @@ function add(num1, num2) {
       }
 
       var diff = type === 'minus' ? -this.data.step : +this.data.step;
-      var value = add(+this.data.value, diff);
-      this.triggerInput(this.range(value));
+      var value = this.format(add(+this.data.currentValue, diff));
+      this.emitChange(value);
       this.$emit(type);
     },
     longPressStep: function longPressStep() {
@@ -182,35 +211,6 @@ function add(num1, num2) {
       }
 
       clearTimeout(this.longPressTimer);
-    },
-    triggerInput: function triggerInput(value) {
-      this.setData({
-        value: this.data.asyncChange ? this.data.value : value
-      });
-      this.$emit('change', value);
-    },
-    computeInputStyle: function computeInputStyle() {
-      var style = '';
-
-      if (this.data.inputWidth) {
-        style = "width: ".concat((0, _utils.addUnit)(this.data.inputWidth), ";");
-      }
-
-      if (this.data.buttonSize) {
-        style += "height: ".concat((0, _utils.addUnit)(this.data.buttonSize), ";");
-      }
-
-      return style;
-    },
-    computeButtonStyle: function computeButtonStyle() {
-      var style = '';
-      var size = (0, _utils.addUnit)(this.data.buttonSize);
-
-      if (this.data.buttonSize) {
-        style = "width: ".concat(size, ";height: ").concat(size, ";");
-      }
-
-      return style;
     }
   }
 });

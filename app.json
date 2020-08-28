@@ -6,14 +6,26 @@
         "pages/shoppingCart/cart",
         "pages/mine/index",
         "pages/mine/info",
+        "pages/mine/integralLog",
+        "pages/mine/redPack",
+        "pages/lotteryDraw/index",
+        "pages/lotteryDraw/detail",
+        "pages/lotteryDraw/joinUsers",
+        "pages/lotteryDraw/publish",
+        "pages/lotteryDraw/winnerLog",
+        "pages/lotteryDraw/mineLottery",
         "pages/address/index",
         "pages/address/edit",
+        "pages/distributor/orderTaking",
+        "pages/dailySign/index",
+        "pages/merchant/apply",
         "pages/other/setting",
         "pages/other/suggest",
         "pages/other/login",
         "pages/other/protocol",
         "pages/other/city",
         "pages/other/location",
+        "pages/other/cropImage",
         "pages/other/webview"
     ],
     "subPackages": [
@@ -24,9 +36,9 @@
                 "activity/index",
                 "cateGoods/index",
                 "goods/detail",
-                "goodsList/index",
                 "order/index",
                 "order/goodsList",
+                "order/orderGoods",
                 "order/confirm",
                 "order/confirmSingle",
                 "order/detail",
@@ -37,11 +49,6 @@
             ]
         }
     ],
-    "permission": {
-        "scope.userLocation": {
-            "desc": "你的位置信息将用于小程序位置接口的效果展示"
-        }
-    },
     "window": {
         "navigationStyle": "custom",
         "backgroundColorTop": "#FF7700",
@@ -84,9 +91,21 @@
             }
         ]
     },
+    "permission": {
+        "scope.userLocation": {
+            "desc": "你的位置信息将用于小程序定位"
+        }
+    },
+    "plugins": {
+        "routePlan": {
+            "version": "1.0.5",
+            "provider": "wx50b5593e81dd937a"
+        }
+    },
     "networkTimeout": {
         "request": 10000,
         "downloadFile": 10000
     },
-    "debug": true
+    "debug": true,
+    "usingComponents": {}
 }

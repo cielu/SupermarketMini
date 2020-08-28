@@ -8,6 +8,11 @@ exports.confirmOrder = confirmOrder;
 exports.settleOrder = settleOrder;
 exports.getPayInfo = getPayInfo;
 exports.getOrderDetail = getOrderDetail;
+exports.getOrderGoods = getOrderGoods;
+exports.getTakingOrderCount = getTakingOrderCount;
+exports.getTakingOrder = getTakingOrder;
+exports.grabOrderNow = grabOrderNow;
+exports.updateStatus = updateStatus;
 
 var _request = require('./../utils/request.js');
 
@@ -38,4 +43,33 @@ function getPayInfo() {
 
 function getOrderDetail(outTradeNo) {
   return (0, _request.wxRequest)('/order/detail/' + outTradeNo);
+} // 获取订单商品
+
+
+function getOrderGoods(orderId) {
+  return (0, _request.wxRequest)('/order/goods/' + orderId);
+} // ========-----------===========
+// 获取抢单列表
+
+
+function getTakingOrderCount() {
+  return (0, _request.wxRequest)('/order-taking/count');
+} // 获取抢单列表
+
+
+function getTakingOrder(type) {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return (0, _request.wxRequest)('/order-taking/list/' + type, params);
+} // 立即抢单
+
+
+function grabOrderNow() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/order-taking/grab-order', data, 'POST');
+} // 已取货物
+
+
+function updateStatus() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return (0, _request.wxRequest)('/order-taking/update-status', data, 'POST');
 }

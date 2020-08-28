@@ -6,14 +6,27 @@ var _button = require('./../mixins/button.js');
 
 var _openType = require('./../mixins/open-type.js');
 
+var _version = require('./../common/version.js');
+
+var mixins = [_button.button, _openType.openType];
+
+if ((0, _version.canIUseFormFieldButton)()) {
+  mixins.push('wx://form-field-button');
+}
+
 (0, _component.VantComponent)({
-  mixins: [_button.button, _openType.openType],
+  mixins: mixins,
   classes: ['hover-class', 'loading-class'],
   data: {
-    style: ''
+    baseStyle: ''
   },
   props: {
+    formType: String,
     icon: String,
+    classPrefix: {
+      type: String,
+      value: 'van-icon'
+    },
     plain: Boolean,
     block: Boolean,
     round: Boolean,
@@ -31,6 +44,7 @@ var _openType = require('./../mixins/open-type.js');
       type: String,
       value: 'default'
     },
+    dataset: null,
     size: {
       type: String,
       value: 'normal'
@@ -60,9 +74,9 @@ var _openType = require('./../mixins/open-type.js');
           }
         }
 
-        if (style !== this.data.style) {
+        if (style !== this.data.baseStyle) {
           this.setData({
-            style: style
+            baseStyle: style
           });
         }
       }
@@ -70,9 +84,10 @@ var _openType = require('./../mixins/open-type.js');
   },
   methods: {
     onClick: function onClick() {
-      if (!this.data.disabled && !this.data.loading) {
+      if (!this.data.loading) {
         this.$emit('click');
       }
-    }
+    },
+    noop: function noop() {}
   }
 });

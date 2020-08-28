@@ -1,69 +1,72 @@
 
 <view class="theme">
-  <van-nav-bar bind_init="_initComponent" title="{{ navTitle }}" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="16-0" bindclickLeft="_proxy"></van-nav-bar>
-  <view style="height:{{statusBarHeight+44}}px;" class="loading"></view>
+  <van-nav-bar bind_init="__initComponent" title="{{ navTitle }}" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="29-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading"></view>
 </view>
 <view class="container">
   <view class="card">
     <view style="border: none;padding: 10rpx 0 0;" class="item">
       <text class="label">收货人</text>
-      <view style="border-bottom: 1rpx solid #f1f1f1;padding: 10rpx 0;flex: 1;">
-        <input type="text" placeholder="收货人姓名" value="{{ address.linkMan }}" placeholder-class="choose" maxlength="5" data-wpy-evt="16-1" bindinput="_proxy" class="input"></input>
+      <view class="input-border">
+        <input type="text" placeholder="收货人姓名" value="{{ address.linkMan }}" placeholder-class="choose" maxlength="5" data-wpy-evt="29-1" bind:input="__dispatcher" class="input" />
       </view>
     </view>
-    <view class="item">
+    <view class="item bd1">
       <label class="label"></label>
       <view style="justify-content: flex-start;" class="ac">
-        <view wx:for="{{ genders }}" wx:for-index="index" wx:for-item="sex" wx:key="index" data-wpy-evt="16-2" bindtap="_proxy" data-wpytap-a="{{ index }}" class="circle {{ [ (index+1) == address.gender ? 'circleAct' : '' ] }}">
+        <view wx:for="{{ genders }}" wx:for-index="index" wx:for-item="sex" wx:key="index" data-wpy-evt="29-2" bind:tap="__dispatcher" data-wpytap-a="{{ index }}" class="circle {{ [ (index+1) == address.gender ? 'circleAct' : '' ] }}">
           {{sex}}
         </view>
       </view>
     </view>
-    <view class="item bdn">
+    <view class="item">
       <text class="label">手机号</text>
-      <input type="number" placeholder="收货人手机号" value="{{ address.linkPhone }}" placeholder-class="choose" maxlength="11" data-wpy-evt="16-3" bindinput="_proxy" class="input"></input>
+      <view class="input-border">
+        <input type="number" placeholder="收货人手机号" value="{{ address.linkPhone }}" placeholder-class="choose" maxlength="11" data-wpy-evt="29-3" bind:input="__dispatcher" class="input" />
+      </view>
     </view>
   </view>
   <view class="card">
-    <view class="item">
+    <view class="item p-y-10">
       <text class="label">收货地址</text>
-      <view data-wpy-evt="16-4" bindtap="_proxy" style="padding: 10rpx;" class="ac">
-        <label wx:if="{{ address.addressDetail }}" class="content">{{address.addressDetail}}</label>
-        <label wx:else class="choose">小区、街道、写字楼、学校</label>
-        <van-icon bind_init="_initComponent" name="arrow" size="16" color="#9d9d9d"></van-icon>
+      <view style="flex-direction:column;flex:1;padding-top: 10rpx;">
+        <view data-wpy-evt="29-4" bind:tap="__dispatcher" style="min-height: 70rpx;" class="ac">
+          <label wx:if="{{ address.addressDetail }}" class="content">{{address.addressDetail}}</label>
+          <label wx:else class="choose">请选择地理位置</label>
+          <van-icon bind_init="__initComponent" name="arrow" size="16" color="#9d9d9d"></van-icon>
+        </view>
+        <view class="input-border">
+          <input type="text" placeholder="详细地址：门牌号、小区、楼栋号" value="{{ address.roomNum }}" placeholder-class="choose" data-wpy-evt="29-5" bind:input="__dispatcher" class="input" />
+        </view>
       </view>
-    </view>
-    <view class="item">
-      <text class="label">楼号门牌</text>
-      <input type="text" placeholder="例：11栋3单元1001" value="{{ address.roomNum }}" placeholder-class="choose" data-wpy-evt="16-5" bindinput="_proxy" class="input"></input>
     </view>
     <view class="item bdn">
       <text class="label">标签</text>
       <view style="justify-content: space-around;width: 100%;" class="ac">
-        <view wx:for="{{ tags }}" wx:for-index="idx" wx:for-item="tag" wx:key="idx" data-wpy-evt="16-6" bindtap="_proxy" data-wpytap-a="{{ idx }}" class="circle {{ [ tag === address.tag ? 'circleAct' : '' ] }}">
+        <view wx:for="{{ tags }}" wx:for-index="idx" wx:for-item="tag" wx:key="idx" data-wpy-evt="29-6" bind:tap="__dispatcher" data-wpytap-a="{{ idx }}" class="circle {{ [ tag === address.tag ? 'circleAct' : '' ] }}">
           {{tag}}
         </view>
       </view>
     </view>
   </view>
   <view class="card">
-    <view style="justify-content: space-between;" class="item bdn">
+    <view style="justify-content: space-between;" class="item">
       <text class="label">设为默认</text>
-      <switch checked="{{ address.isDefault === 1 }}" data-wpy-evt="16-7" bindchange="_proxy"></switch>
+      <switch checked="{{ address.isDefault === 1 }}" data-wpy-evt="29-7" bind:change="__dispatcher" />
     </view>
   </view>
 </view>
 <view class="submitBox">
-  <view data-wpy-evt="16-8" bindtap="_proxy" class="submitBtn">保存收货地址</view>
+  <view data-wpy-evt="29-8" bind:tap="__dispatcher" class="submitBtn">保存收货地址</view>
 </view>
-<van-popup bind_init="_initComponent" show="{{ showDialog }}" custom-class="dialog" data-wpy-evt="16-9" catchtouchmove="_proxy" bindclose="_proxy">
+<van-popup bind_init="__initComponent" show="{{ showDialog }}" custom-class="dialog" data-wpy-evt="29-9" bind:close="__dispatcher" catch:touchmove="__dispatcher">
   <view class="dialogBox">
     <view style="flex: 1;align-items: center;">
-      <input type="text" value="{{ tagName }}" placeholder="请输入标签" maxlength="5" data-wpy-evt="16-11" bindinput="_proxy" class="dialogInput"></input>
+      <input type="text" value="{{ tagName }}" placeholder="请输入标签" maxlength="5" data-wpy-evt="29-11" bind:input="__dispatcher" class="dialogInput" />
     </view>
     <view class="ac btns">
-      <view data-wpy-evt="16-12" bindtap="_proxy" class="btn">取消</view>
-      <view data-wpy-evt="16-13" bindtap="_proxy" class="btn sure">确认</view>
+      <view data-wpy-evt="29-12" bind:tap="__dispatcher" class="btn">取消</view>
+      <view data-wpy-evt="29-13" bind:tap="__dispatcher" class="btn sure">确认</view>
     </view>
   </view>
 </van-popup>

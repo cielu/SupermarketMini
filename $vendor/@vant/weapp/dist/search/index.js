@@ -2,6 +2,8 @@
 
 var _component = require('./../common/component.js');
 
+var _version = require('./../common/version.js');
+
 (0, _component.VantComponent)({
   field: true,
   classes: ['field-class', 'input-class', 'cancel-class'],
@@ -46,9 +48,12 @@ var _component = require('./../common/component.js');
   },
   methods: {
     onChange: function onChange(event) {
-      this.setData({
-        value: event.detail
-      });
+      if ((0, _version.canIUseModel)()) {
+        this.setData({
+          value: event.detail
+        });
+      }
+
       this.$emit('change', event.detail);
     },
     onCancel: function onCancel() {
@@ -59,26 +64,28 @@ var _component = require('./../common/component.js');
        * https://github.com/youzan/@vant/weapp/issues/1768
        */
       setTimeout(function () {
-        _this.setData({
-          value: ''
-        });
+        if ((0, _version.canIUseModel)()) {
+          _this.setData({
+            value: ''
+          });
+        }
 
         _this.$emit('cancel');
 
         _this.$emit('change', '');
       }, 200);
     },
-    onSearch: function onSearch() {
-      this.$emit('search', this.data.value);
+    onSearch: function onSearch(event) {
+      this.$emit('search', event.detail);
     },
-    onFocus: function onFocus() {
-      this.$emit('focus');
+    onFocus: function onFocus(event) {
+      this.$emit('focus', event.detail);
     },
-    onBlur: function onBlur() {
-      this.$emit('blur');
+    onBlur: function onBlur(event) {
+      this.$emit('blur', event.detail);
     },
-    onClear: function onClear() {
-      this.$emit('clear');
+    onClear: function onClear(event) {
+      this.$emit('clear', event.detail);
     }
   }
 });

@@ -1,8 +1,8 @@
 
 <view class="theme">
-  <van-nav-bar bind_init="_initComponent" title="收货地址管理" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="15-0" bindclickLeft="_proxy"></van-nav-bar>
-  <view style="height:{{statusBarHeight+44}}px;" class="loading">
-    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  <van-nav-bar bind_init="__initComponent" title="收货地址管理" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="28-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#fff"></van-loading>
   </view>
 </view>
 <view class="container">
@@ -15,10 +15,10 @@
         </view>
         <view class="address">{{item.addressDetail + item.roomNum}}</view>
       </view>
-      <van-icon bind_init="_initComponent" name="edit" size="18" color="#9d9d9d" data-wpy-evt="15-1" bindtap="_proxy" data-wpytap-a="{{ item }}"></van-icon>
+      <van-icon bind_init="__initComponent" name="edit" size="18" color="#9d9d9d" data-wpy-evt="28-1" bind:tap="__dispatcher" data-wpytap-a="{{ item }}"></van-icon>
     </view>
   </view>
 </view>
 <view class="newAddressBox">
-  <view data-wpy-evt="15-2" bindtap="_proxy" class="newBtn">新增地址</view>
+  <view data-wpy-evt="28-2" bind:tap="__dispatcher" class="newBtn">新增地址</view>
 </view>

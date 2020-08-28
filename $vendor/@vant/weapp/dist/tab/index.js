@@ -6,12 +6,7 @@ var _component = require('./../common/component.js');
   relation: {
     name: 'tabs',
     type: 'ancestor',
-    linked: function linked(target) {
-      this.parent = target;
-    },
-    unlinked: function unlinked() {
-      this.parent = null;
-    }
+    current: 'tab'
   },
   props: {
     dot: {

@@ -1,0 +1,15 @@
+
+<view>
+  <van-nav-bar title="参与抽奖用户" fixed="{{true}}" z-index="99" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="24-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}"></view>
+</view>
+<view class="container">
+  <view class="joinNum">共 {{totalCount}} 人次参与</view>
+  <view class="avatars">
+    <view wx:for="{{ joinUserList }}" wx:for-index="index" wx:for-item="user" wx:key="index" style="flex: 0 0 11.11%;">
+      <image src="{{ user.avatar }}" alt mode="aspectFit" class="avatar"></image>
+    </view>
+    <view style="flex:1;"></view>
+  </view>
+  <view wx:if="{{ totalCount > 100 }}" data-wpy-evt="24-1" bind:tap="__dispatcher" class="loadMore">加载更多</view>
+</view>

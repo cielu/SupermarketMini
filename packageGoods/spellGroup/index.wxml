@@ -1,0 +1,38 @@
+
+<view class="header">
+  <van-nav-bar bind_init="__initComponent" title="在线拼团" custom-class="header" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}">
+    <view slot="left" class="nav-left">
+      <van-icon bind_init="__initComponent" name="arrow-left" color="white" size="20" data-wpy-evt="51-0" bind:tap="__dispatcher"></van-icon>
+      <view class="line"></view>
+      <van-icon bind_init="__initComponent" name="wap-home-o" color="white" size="20" data-wpy-evt="51-1" bind:tap="__dispatcher"></van-icon>
+    </view>
+  </van-nav-bar>
+  <view style="height:{{statusBarHeight + 94}}px;" class="loading">
+    <van-loading bind_init="__initComponent" color="white"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view style="top: {{statusBarHeight + 44}}px;" class="topTabs">
+    <scroll-view scroll-x="{{true}}" scroll-with-animation="{{true}}" scroll-into-view="tab{{curRootCateIdx-1 < 0 ? 0 : curRootCateIdx-1}}" class="scroll-tabs">
+      <view wx:for="{{ groupCategories }}" wx:for-index="index" wx:for-item="cate" wx:key="index" id="tab{{index}}" data-wpy-evt="51-2" bind:tap="__dispatcher" data-wpytap-a="{{ index }}" class="tab {{ [ index == curRootCateIdx ? 'tab-active' : '' ] }}">
+        {{cate.cateName}}
+      </view>
+    </scroll-view>
+    <view data-wpy-evt="51-3" bind:tap="__dispatcher" class="moreCate">
+      <van-icon bind_init="__initComponent" name="arrow-{{showCatePopup ? 'up' : 'down'}}" size="20"></van-icon>
+    </view>
+  </view>
+  <view class="content">
+    
+    <spell-goods-items bind_init="__initComponent" goodsList="{{ spellGoodsList }}"></spell-goods-items>
+    
+    <end-line bind_init="__initComponent" wx:if="{{ spellGoodsList.length > 5 }}"></end-line>
+  </view>
+</view>
+<van-popup bind_init="__initComponent" show="{{ showCatePopup }}" closeable="{{true}}" position="top" custom-style="padding-top:{{statusBarHeight + 94}}px" data-wpy-evt="51-4" bind:close="__dispatcher" catch:touchmove="__dispatcher">
+<view class="cateTabs">
+  <view wx:for="{{ groupCategories }}" wx:for-index="idx" wx:for-item="tab" wx:key="idx" data-wpy-evt="51-6" bind:tap="__dispatcher" data-wpytap-a="{{ idx }}" class="cate {{ [ idx == curRootCateIdx ? 'cate-active' : '' ] }}">
+    {{tab.cateName}}
+  </view>
+</view>
+</van-popup>

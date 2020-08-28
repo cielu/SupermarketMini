@@ -41,7 +41,7 @@ _core["default"].page({
       province: '',
       city: '',
       district: '',
-      isDefault: 0,
+      isDefault: 1,
       addressDetail: ''
     }
   },
@@ -158,102 +158,98 @@ _core["default"].page({
   onPullDownRefresh: function onPullDownRefresh() {
     this.loadAddressInfo();
   }
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"../../$vendor/@vant/weapp/dist/loading/index"},"van-popup":{"path":"../../$vendor/@vant/weapp/dist/popup/index"}},"on":{"16-0":["clickLeft"],"16-9":["touchmove","close"]}}, handlers: {'16-0': {"clickLeft": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-nav-bar":{"path":"./../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-popup":{"path":"./../../$vendor/@vant/weapp/dist/popup/index"},"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"./../../$vendor/@vant/weapp/dist/loading/index"}},"on":{"29-0":["clickLeft"],"29-9":["close","touchmove"]}}, handlers: {'29-0': {"clickLeft": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onClickBack.apply(_vm, $args || [$event]);
+  })();
+}},'29-1': {"input": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onInputLinkMan.apply(_vm, $args || [$event]);
+  })();
+}},'29-2': {"tap": function proxy (index) {
     var _vm=this;
-      return (function () {
-        _vm.onClickBack($event);
-      })();
-    
-  }},'16-1': {"input": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.chooseGender(index);
+  })();
+}},'29-3': {"input": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onInputPhone.apply(_vm, $args || [$event]);
+  })();
+}},'29-4': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.chooseLocation.apply(_vm, $args || [$event]);
+  })();
+}},'29-5': {"input": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onInputRoomNum.apply(_vm, $args || [$event]);
+  })();
+}},'29-6': {"tap": function proxy (idx) {
     var _vm=this;
-      return (function () {
-        _vm.onInputLinkMan($event);
-      })();
-    
-  }},'16-2': {"tap": function proxy (index) {
-    
+  return (function () {
+    _vm.chooseTag(idx);
+  })();
+}},'29-7': {"change": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.handleSwitch.apply(_vm, $args || [$event]);
+  })();
+}},'29-8': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.saveAddress.apply(_vm, $args || [$event]);
+  })();
+}},'29-9': {"close": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.chooseGender(index);
-      })();
-    
-  }},'16-3': {"input": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.showDialog=false;
+  })();
+}, "touchmove": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onInputPhone($event);
-      })();
-    
-  }},'16-4': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    !function(){};
+  })();
+}},'29-11': {"input": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onInputTag.apply(_vm, $args || [$event]);
+  })();
+}},'29-12': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.chooseLocation($event);
-      })();
-    
-  }},'16-5': {"input": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    _vm.showDialog=false;
+  })();
+}},'29-13': {"tap": function proxy () {
     var _vm=this;
-      return (function () {
-        _vm.onInputRoomNum($event);
-      })();
-    
-  }},'16-6': {"tap": function proxy (idx) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.chooseTag(idx);
-      })();
-    
-  }},'16-7': {"change": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleSwitch($event);
-      })();
-    
-  }},'16-8': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.saveAddress($event);
-      })();
-    
-  }},'16-9': {"touchmove": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        return($event);
-      })();
-    
-  }, "close": function proxy () {
-    
-    var _vm=this;
-      return (function () {
-        _vm.showDialog=false;
-      })();
-    
-  }},'16-11': {"input": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.onInputTag($event);
-      })();
-    
-  }},'16-12': {"tap": function proxy () {
-    
-    var _vm=this;
-      return (function () {
-        _vm.showDialog=false;
-      })();
-    
-  }},'16-13': {"tap": function proxy () {
-    
-    var _vm=this;
-      return (function () {
-        _vm.setCustomTag();
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.setCustomTag();
+  })();
+}}}, models: {}, refs: undefined });

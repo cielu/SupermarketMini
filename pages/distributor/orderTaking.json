@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "抢单大厅",
+    "enablePullDownRefresh": true,
+    "backgroundColorTop": "#f5f5f5",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-popup": "./../../$vendor/@vant/weapp/dist/popup/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index"
+    }
+}

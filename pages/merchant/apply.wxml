@@ -1,0 +1,82 @@
+
+<view class="theme">
+  <van-nav-bar z-index="99" title="商家入驻申请" custom-class="bgLinear" title-class="white" fixed="{{ true }}" border="{{ false }}" left-arrow="{{ true }}" data-wpy-evt="32-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}"></view>
+</view>
+<view class="container">
+  
+  <view class="topField">
+    <view class="ac">
+      <view class="info">
+        <view class="title">平台商家入驻</view>
+        <view class="desc">独立商铺后台管理系统</view>
+      </view>
+      <view class="merchantImg">
+        <image src="/images/shop/merchant_settle.png" alt="商户大图标" mode="aspectFit" class="merchantImg"></image>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{ applyStatus == -1 || applyStatus == 2 }}" class="applyCard form">
+    <view class="title">资料填写</view>
+    <van-cell-group bind_init="__initComponent" border="{{ false }}">
+      <van-field bind_init="__initComponent" value="{{ form.storeName }}" label="店铺名称" error-message="{{ errMsg.storeName }}" placeholder="请输入店铺名称" clearable data-wpy-evt="32-1" bind:change="__dispatcher"></van-field>
+      <van-field bind_init="__initComponent" value="{{ form.contactName }}" label="店主姓名" error-message="{{ errMsg.contactName }}" placeholder="请输入店主姓名" clearable data-wpy-evt="32-2" bind:change="__dispatcher"></van-field>
+      <van-field bind_init="__initComponent" value="{{ form.contactTel }}" label="联系电话" error-message="{{ errMsg.contactTel }}" placeholder="请输入联系电话" clearable data-wpy-evt="32-3" bind:change="__dispatcher"></van-field>
+      <view class="item">
+        <view class="label">门店地址</view>
+        <view class="content">
+          <view data-wpy-evt="32-4" bind:tap="__dispatcher" class="ac">
+            <label wx:if="{{ form.address }}" class="active">{{form.address}}</label>
+            <label wx:else class="choose">请选择地理位置</label>
+            <van-icon bind_init="__initComponent" name="arrow" size="16" color="#9d9d9d"></van-icon>
+          </view>
+          <view class="input-border">
+            <input type="text" placeholder="详细地址：门牌号、小区、楼栋号等" value="{{ form.roomNum }}" bindinput="__dispatcher" data-model-id="9" placeholder-class="choose" class="input" />
+          </view>
+        </view>
+      </view>
+      <view style="padding-top: 30rpx;" class="item">
+        <view class="label">连锁店</view>
+        <van-switch bind_init="__initComponent" checked="{{ form.isChainStore }}" active-color="#ff8800" active-value="{{ 1 }}" inactive-value="{{ 0 }}" data-wpy-evt="32-5" bind:change="__dispatcher"></van-switch>
+      </view>
+    </van-cell-group>
+  </view>
+  <view wx:else class="applyCard form">
+    <view wx:if="{{ applyStatus == 1 }}" class="result">
+      <text style="color:#38f;">恭喜您，门店申请成功!</text>
+      <text class="pt50">请使用手机号登录后台网址</text>
+      <text class="pt50">后台网址：<text style="color:#f48529;">yhxd.shop</text></text>
+      <text class="pt50">临时密码：<text style="color:#ff5622;">{{form.remark}}</text></text>
+    </view>
+    <view wx:else class="result">
+      <text>您的申请已受理，正在进行信息核验</text>
+      <text class="pt50">请耐心等待</text>
+    </view>
+  </view>
+  <view wx:if="{{ applyStatus == -1 || applyStatus == 2 }}" data-wpy-evt="32-6" bind:tap="__dispatcher" class="submitBtn">{{applyStatus == -1 ? '提交申请' : '重新申请'}}</view>
+  <image src="/images/shop/wave_top.png" alt="波浪" mode="aspectFill" class="wave"></image>
+  <view class="shopEdifice">
+    <image src="/images/shop/shop_edifice.jpeg" alt="门店大厦图" mode="aspectFit" style="width:550rpx;height:388rpx;"></image>
+  </view>
+  <view class="applyCard benefit">
+    <view class="title">商家好处</view>
+    <view class="introduce">
+      <view class="check">
+        <van-icon bind_init="__initComponent" name="checked" color="#febb2c" size="18"></van-icon>
+      </view>
+      <text class="text">基于线下店铺，服务周边社区客户，增加线上对社区客户的精准营销推广，实现客户主动触达产品信息，将会极大提升线上线下客流量，帮助营业增收</text>
+    </view>
+    <view class="introduce">
+      <view class="check">
+        <van-icon bind_init="__initComponent" name="checked" color="#febb2c" size="18"></van-icon>
+      </view>
+      <text class="text">新消费时代的营销手段、帮助商家将客户锁定</text>
+    </view>
+    <view class="introduce">
+      <view class="check">
+        <van-icon bind_init="__initComponent" name="checked" color="#febb2c" size="18"></van-icon>
+      </view>
+      <text class="text">商家信息展示，产品信息轮播，红包推广，提高客户复购率</text>
+    </view>
+  </view>
+</view>

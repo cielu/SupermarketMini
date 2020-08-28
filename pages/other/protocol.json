@@ -1,8 +1,6 @@
 {
-    "navigationBarTitleText": "协议及说明",
+    "navigationBarTitleText": "我的接单",
     "enablePullDownRefresh": false,
     "component": true,
-    "usingComponents": {
-        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index"
-    }
+    "usingComponents": {}
 }

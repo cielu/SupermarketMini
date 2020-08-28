@@ -1,136 +1,186 @@
 
-<view hidden="{{ !(showVanNavBar) }}" style="padding-top:{{statusBarHeight}}px;" class="header bgLinear">
-  <view class="navName">{{storeInfo.shortName || '一号小店'}}</view>
-  <view class="search-box">
-    <view data-wpy-evt="9-0" bindtap="_proxy" class="store-name">
-      <van-icon bind_init="_initComponent" name="shop-o" size="20" color="#FFFFFF"></van-icon>
-      <view style="padding:0 18rpx;">{{storeInfo.shortName || '一号小店'}}</view>
-      <van-icon bind_init="_initComponent" name="arrow-down" size="18"></van-icon>
+  <view hidden="{{ !(showVanNavBar) }}" style="padding-top:{{statusBarHeight}}px;" class="header bgLinear">
+    <view class="navName">{{storeInfo.shortName || '一号小店'}}</view>
+    <view class="search-box">
+      <view data-wpy-evt="14-0" bind:tap="__dispatcher" class="store-name">
+        <van-icon bind_init="__initComponent" name="shop-o" size="20" color="#FFFFFF"></van-icon>
+        <view style="padding:0 18rpx;">{{storeInfo.shortName || '一号小店'}}</view>
+        <van-icon bind_init="__initComponent" name="arrow-down" size="18"></van-icon>
+      </view>
+      <van-search bind_init="__initComponent" shape="round" readonly="{{true}}" custom-class="search" background="transparent" placeholder="请输入搜索关键词" style="flex: 1;"></van-search>
     </view>
-    <van-search bind_init="_initComponent" shape="round" readonly="{{true}}" custom-class="search" background="transparent" placeholder="请输入搜索关键词" style="flex: 1;"></van-search>
   </view>
-</view>
-
-<view wx:if="{{ storeInfo.storeId > 0 }}" class="container">
-  <view style=" {{ 'background:' + (topBackground) + ';' }}" class="topBox">
-    <van-nav-bar bind_init="_initComponent" border="{{false}}" fixed="{{false}}" custom-class="trans-nav" title-class="van-nav-bar-title">
-      <view slot="title" class="van-title">
-        <van-icon bind_init="_initComponent" name="shop-o" size="20px" data-wpy-evt="9-1" bindtap="_proxy"></van-icon>
-        <view data-wpy-evt="9-2" bindtap="_proxy" class="store-name">
-          <view style="margin-right: 20rpx;">{{storeInfo.shortName || '一号小店'}}</view>
-          <van-icon bind_init="_initComponent" name="arrow-down" size="15px"></van-icon>
+  
+  <view wx:if="{{ storeInfo.storeId > 0 }}" class="container">
+    <view style=" {{ 'background:' + (topBackground) + ';' + 'background-size:' + (\'cover\') + ';' }}" class="topBox">
+      <van-nav-bar bind_init="__initComponent" border="{{false}}" fixed="{{false}}" custom-class="trans-nav" title-class="van-nav-bar-title">
+        <view slot="title" class="van-title">
+          <van-icon bind_init="__initComponent" name="shop-o" size="20px" data-wpy-evt="14-1" bind:tap="__dispatcher"></van-icon>
+          <view data-wpy-evt="14-2" bind:tap="__dispatcher" class="store-name">
+            <view style="margin-right: 20rpx;">{{storeInfo.shortName || '一号小店'}}</view>
+            <van-icon bind_init="__initComponent" name="arrow-down" size="15px"></van-icon>
+          </view>
+        </view>
+      </van-nav-bar>
+      <van-search bind_init="__initComponent" readonly="{{true}}" clearable="{{true}}" shape="round" custom-class="search-box" background="transparent" placeholder="请输入搜索关键词" data-wpy-evt="14-3" bind:tap="__dispatcher"></van-search>
+      <swiper wx:if="{{ topBanners.length>0 }}" autoplay="{{true}}" circular="{{true}}" skip-hidden-item-layout indicator-active-color="rgba(255,255,255,.7)" indicator-dots="{{topBanners.length > 1 ? true : false}}" easing-function="easeOutCubic" interval="{{5000}}" duration="{{1000}}" previous-margin="30rpx" next-margin="30rpx" data-wpy-evt="14-4" bind:change="__dispatcher" class="swiper-banner">
+        <swiper-item wx:for="{{ topBanners }}" wx:for-index="index" wx:for-item="img" wx:key="index" data-wpy-evt="14-5" bind:tap="__dispatcher" data-wpytap-a="{{ img }}" class="slide-image">
+          <image src="{{img.imgUrl}}" class="slide-image {{curBannerIndex == index ? 'active' : 'quiet'}}"></image>
+        </swiper-item>
+      </swiper>
+    </view>
+    <scroll-view scroll-x="true" scroll-with-animation="true" wx:if="{{ menuTabs.length > 0 }}" data-wpy-evt="14-6" bind:scroll="__dispatcher" class="grids-box">
+      
+      <view wx:if="{{ !gridsInOneLine }}" class="grids-nowrap">
+        <view wx:for="{{ menuTabs }}" wx:for-index="index" wx:for-item="grids" wx:key="index" style="flex-direction: column;" class="grids">
+          <view wx:for="{{ grids }}" wx:for-index="index" wx:for-item="grid" wx:key="index" key="{{ grid.eleName }}" data-wpy-evt="14-7" bind:tap="__dispatcher" data-wpytap-a="{{ grid }}" class="grid">
+            <image src="{{grid.imgUrl}}" class="grid_icon"></image>
+            <view class="label">{{grid.eleName}}</view>
+          </view>
         </view>
       </view>
-    </van-nav-bar>
-    <van-search bind_init="_initComponent" readonly="{{true}}" clearable="{{true}}" shape="round" custom-class="search-box" background="transparent" placeholder="请输入搜索关键词" data-wpy-evt="9-3" bindtap="_proxy"></van-search>
-    <swiper wx:if="{{ topBanners.length>0 }}" autoplay="{{true}}" circular="{{true}}" skip-hidden-item-layout indicator-active-color="rgba(255,255,255,.7)" indicator-dots="{{topBanners.length > 1 ? true : false}}" easing-function="easeOutCubic" interval="{{5000}}" duration="{{1000}}" previous-margin="30rpx" next-margin="30rpx" data-wpy-evt="9-4" bindchange="_proxy" class="swiper-banner">
-      <swiper-item wx:for="{{ topBanners }}" wx:for-index="index" wx:for-item="img" wx:key="index" data-wpy-evt="9-5" bindtap="_proxy" data-wpytap-a="{{ img }}" class="slide-image">
-        <image src="{{img.imgUrl}}" class="slide-image {{curBannerIndex == index ? 'active' : 'quiet'}}"></image>
-      </swiper-item>
-    </swiper>
-  </view>
-  <scroll-view scroll-x="true" scroll-with-animation="true" wx:if="{{ menuTabs.length > 0 }}" data-wpy-evt="9-6" bindscroll="_proxy" class="grids-box">
+      <view wx:else class="grids-nowrap">
+        <view wx:for="{{ menuTabs }}" wx:for-index="index" wx:for-item="grid" wx:key="index" key="{{ grid.eleName }}" data-wpy-evt="14-8" bind:tap="__dispatcher" data-wpytap-a="{{ grid }}" class="grids">
+          <view class="grid">
+            <image src="{{grid.imgUrl}}" class="grid_icon"></image>
+            <view class="label">{{grid.eleName}}</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
     
-    <view style="flex-wrap: nowrap;">
-      <view wx:for="{{ menuTabs }}" wx:for-index="index" wx:for-item="grids" wx:key="index" class="grids">
-        <view wx:for="{{ grids }}" wx:for-index="index" wx:for-item="grid" wx:key="index" key="{{ grid.eleName }}" data-wpy-evt="9-7" bindtap="_proxy" data-wpytap-a="{{ grid }}" class="grid">
-          <image src="{{grid.imgUrl}}" class="grid_icon"></image>
-          <view class="label">{{grid.eleName}}</view>
+    <view wx:if="{{ menuTabs.length > 5 }}" class="slide">
+      <view class="slide-bar">
+        <view style=" {{ 'margin-left:' + (slideLeft <=1 ? 0 : slideLeft+\'rpx\') + ';' }}" class="slide-show"></view>
+      </view>
+    </view>
+    
+    <view wx:if="{{ storeActies.length > 0 }}" class="swiperTxtBox">
+      <view class="swiperTxtBody">
+        <view class="swiperTxtLeft">
+          <text style="padding-right:4rpx;">公告</text>
+          <van-icon bind_init="__initComponent" name="bullhorn-o"></van-icon>
+        </view>
+        <swiper autoplay="true" interval="2500" duration="1000" vertical="true" circular="true" class="swiperTxt">
+          <swiper-item wx:for="{{ storeActies }}" wx:for-index="key" wx:for-item="active" wx:key="key" key="{{ key }}">
+            <view class="txtInfo">
+              <view class="activityBox">门店满减</view>
+              <text>满{{active.full}}减{{active.reduce}}</text>
+            </view>
+          </swiper-item>
+          <swiper-item wx:if="{{ storeInfo.vipDiscount > 0 }}">
+            <view class="txtInfo">
+              <view class="activityBox">VIP折扣</view>
+              <text>会员商品{{storeInfo.vipDiscount * 10}}折</text>
+            </view>
+          </swiper-item>
+        </swiper>
+        <view data-wpy-evt="14-9" bind:tap="__dispatcher" class="swiperTxtLeft">
+          <van-icon bind_init="__initComponent" name="question-o" color="#999999" size="20px"></van-icon>
         </view>
       </view>
     </view>
-  </scroll-view>
-  
-  <view wx:if="{{ menuTabs.length > 5 }}" class="slide">
-    <view class="slide-bar">
-      <view style="margin-left:{{slideLeft <=1 ? 0 : slideLeft+'rpx'}};" class="slide-show"></view>
-    </view>
-  </view>
-  
-  <view class="card-box">
-    <view style="border: none;" class="card-title">
-      <view class="ac">
-        <van-icon bind_init="_initComponent" name="fire" color="#fb4028" size="20px"></van-icon>
-        <text style="font-size:36rpx;margin-left:14rpx;">精挑细选</text>
-        <text style="color:#feab43;margin:0 10rpx;">•</text>
-        <text style="font-size:22rpx;color: #939393;">优质品牌 放心之选</text>
+    
+    <view wx:if="{{ adverts.length > 0 }}" class="card-box">
+      <view style="border: none;" class="card-title">
+        <view class="ac">
+          <van-icon bind_init="__initComponent" name="fire" color="#fb4028" size="20px"></van-icon>
+          <text style="font-size:36rpx;margin-left:14rpx;">精挑细选</text>
+          <text style="color:#feab43;margin:0 10rpx;">•</text>
+          <text style="font-size:22rpx;color: #939393;">优质品牌 放心之选</text>
+        </view>
+
+
+
+
       </view>
-      <view style="color:#939393;" class="ac">
-        <text style="font-size:26rpx;">查看更多</text>
-        <van-icon bind_init="_initComponent" name="arrow" color="#939393" size="14px"></van-icon>
-      </view>
-    </view>
-    <view wx:if="{{ adverts.length > 0 }}" class="card-body">
-      <view style="height: 320rpx;width: 320rpx;">
-        <image src="{{ adverts[0].imgUrl }}" mode="aspectFill" style="height: 100%;width: 100%;">
-      </image></view>
-      <view class="body-right">
-        <view wx:if="{{ adverts.length > 1 }}" class="right-item">
-          <view style="flex-direction: column;height:120rpx;justify-content: space-around;">
-            <label style="font-size:30rpx;padding-bottom: 6rpx;">{{adverts[1].advertName}}</label>
-            <label style="font-size:24rpx;color: #9d9d9d;">{{adverts[1].advertDesc}}</label>
-          </view>
-          <image src="{{ adverts[1].imgUrl }}" mode="aspectFill" style="width: 160rpx;height: 140rpx;">
+      <view class="card-body">
+        <view data-wpy-evt="14-10" bind:tap="__dispatcher" style="height: 320rpx;width: 320rpx;">
+          <image src="{{ adverts[0].imgUrl }}" mode="aspectFill" style="height: 100%;width: 100%;">
         </image></view>
-        <view wx:if="{{ adverts.length > 2 }}" class="right-item">
-          <view style="flex-direction: column;height:120rpx;justify-content: space-around;">
-            <label style="font-size:30rpx;padding-bottom: 6rpx;">{{adverts[2].advertName}}</label>
-            <label style="font-size:24rpx;color: #9d9d9d;">{{adverts[2].advertDesc}}</label>
+        <view class="body-right">
+          <view wx:if="{{ adverts.length > 1 }}" data-wpy-evt="14-11" bind:tap="__dispatcher" class="right-item">
+            <view style="flex-direction: column;height:120rpx;justify-content: space-around;">
+              <label style="font-size:30rpx;padding-bottom: 6rpx;">{{adverts[1].advertName}}</label>
+              <label style="font-size:24rpx;color: #9d9d9d;">{{adverts[1].advertDesc}}</label>
+            </view>
+            <image src="{{ adverts[1].imgUrl }}" mode="aspectFill" style="width: 160rpx;height: 140rpx;">
+          </image></view>
+          <view wx:if="{{ adverts.length > 2 }}" data-wpy-evt="14-12" bind:tap="__dispatcher" class="right-item">
+            <view style="flex-direction: column;height:120rpx;justify-content: space-around;">
+              <label style="font-size:30rpx;padding-bottom: 6rpx;">{{adverts[2].advertName}}</label>
+              <label style="font-size:24rpx;color: #9d9d9d;">{{adverts[2].advertDesc}}</label>
+            </view>
+            <image src="{{ adverts[2].imgUrl }}" mode="aspectFill" style="width: 160rpx;height: 140rpx;">
+          </image></view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{ groupGoods.length > 0 }}" class="card-box">
+      <view class="card-title">
+        <view class="ac">
+          <van-icon bind_init="__initComponent" name="fire" color="#fb4028" size="20px"></van-icon>
+          <text style="font-size:36rpx;margin-left:14rpx;">在线拼团</text>
+          <text style="color:#feab43;margin:0 10rpx;">•</text>
+          <text style="font-size:22rpx;color: #939393;">拼出实惠、省钱省心</text>
+        </view>
+        <view data-wpy-evt="14-13" bind:tap="__dispatcher" style="color:#939393;" class="ac">
+          <text style="font-size:26rpx;">查看更多</text>
+          <van-icon bind_init="__initComponent" name="arrow" color="#939393" size="14px"></van-icon>
+        </view>
+      </view>
+      <view class="card-body">
+        <scroll-view scroll-x="true" class="scroll-h">
+          <view style="flex-wrap: nowrap;">
+            <view wx:for="{{ groupGoods }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="14-14" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="group-goods">
+              <image src="{{ item.goodsCoverUrl }}" mode="aspectFill" class="goodsPic"></image>
+              <text class="title">{{item.groupName}}</text>
+              <view class="group_nun">{{item.groupNum}}人团</view>
+              <view class="group_price">¥{{item.groupPrice}}</view>
+            </view>
           </view>
-          <image src="{{ adverts[2].imgUrl }}" mode="aspectFill" style="width: 160rpx;height: 140rpx;">
-        </image></view>
+        </scroll-view>
       </view>
     </view>
-  </view>
-  <view class="card-box">
-    <view class="card-title">
-      <view class="ac">
-        <van-icon bind_init="_initComponent" name="fire" color="#fb4028" size="20px"></van-icon>
-        <text style="font-size:36rpx;margin-left:14rpx;">在线拼团</text>
-        <text style="color:#feab43;margin:0 10rpx;">•</text>
-        <text style="font-size:22rpx;color: #939393;">拼出实惠、省钱省心</text>
-      </view>
-      <view data-wpy-evt="9-8" bindtap="_proxy" style="color:#939393;" class="ac">
-        <text style="font-size:26rpx;">查看更多</text>
-        <van-icon bind_init="_initComponent" name="arrow" color="#939393" size="14px"></van-icon>
-      </view>
-    </view>
-    <view class="card-body">
-      <scroll-view scroll-x="true" class="scroll-h">
-        <view style="flex-wrap: nowrap;">
-          <view wx:for="{{ groupGoods }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="9-9" bindtap="_proxy" data-wpytap-a="{{ item }}" class="group-goods">
-            <image src="{{ item.goodsCoverUrl }}" mode="aspectFill" class="goodsPic"></image>
-            <text class="title">{{item.groupName}}</text>
-            <view class="group_nun">{{item.groupNum}}人团</view>
-            <view class="group_price">¥{{item.groupPrice}}</view>
+    <view id="guessULikeGoods" class="guessULike">
+      <scroll-view hidden="{{ !(showGuessULikeBar) }}" scroll-x="{{true}}" scroll-with-animation="{{true}}" scroll-into-view="fixedTab{{currentLikedTab-1 < 0 ? 0 : currentLikedTab-1}}" style=" {{ 'top:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="scroll-x scroll-tab">
+        <view wx:for="{{ guessULikeTabs }}" wx:for-index="index" wx:for-item="item" wx:key="index" id="fixedTab{{index}}" data-wpy-evt="14-15" bind:tap="__dispatcher" data-wpytap-a="{{ index }}" style="display: inline-block;" class="tabs {{currentLikedTab === index ? 'active' : ''}}">
+          <view class="tab_name">{{item.tabName}}</view>
+        </view>
+      </scroll-view>
+      <scroll-view scroll-x="{{true}}" class="scroll-x">
+        <view style="white-space: nowrap;">
+          <view wx:for="{{ guessULikeTabs }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="14-16" bind:tap="__dispatcher" data-wpytap-a="{{ index }}" class="tabs {{currentLikedTab === index ? 'active' : ''}}">
+            <view class="tab_name">{{item.tabName}}</view>
+            <view class="tab_desc">{{item.tabDesc}}</view>
           </view>
         </view>
       </scroll-view>
+      
+      <goods-list-column bind_init="__initComponent" store-info="{{ storeInfo }}" goodsList="{{ guessULikeGoods }}" data-wpy-evt="14-17" bind:on-handle-cart="__dispatcher"></goods-list-column>
     </view>
   </view>
-  <view id="guessULikeGoods" class="guessULike">
-    <scroll-view hidden="{{ !(showGuessULikeBar) }}" scroll-x="{{true}}" scroll-with-animation="{{true}}" scroll-into-view="fixedTab{{currentLikedTab-1 < 0 ? 0 : currentLikedTab-1}}" style=" {{ 'top:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="scroll-x scroll-tab">
-      <view wx:for="{{ guessULikeTabs }}" wx:for-index="index" wx:for-item="item" wx:key="index" id="fixedTab{{index}}" data-wpy-evt="9-10" bindtap="_proxy" data-wpytap-a="{{ index }}" style="display: inline-block;" class="tabs {{currentLikedTab === index ? 'active' : ''}}">
-        <view class="tab_name">{{item.tabName}}</view>
-      </view>
-    </scroll-view>
-    <scroll-view scroll-x="{{true}}" class="scroll-x">
-      <view style="white-space: nowrap;">
-        <view wx:for="{{ guessULikeTabs }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="9-11" bindtap="_proxy" data-wpytap-a="{{ index }}" class="tabs {{currentLikedTab === index ? 'active' : ''}}">
-          <view class="tab_name">{{item.tabName}}</view>
-          <view class="tab_desc">{{item.tabDesc}}</view>
-        </view>
-      </view>
-    </scroll-view>
-    
-    <goods-list-column bind_init="_initComponent" store-info="{{ storeInfo }}" goodsList="{{ guessULikeGoods }}" data-wpy-evt="9-12" bindon-handle-cart="_proxy"></goods-list-column>
+  <view wx:else style="justify-content: center;">
+    <van-loading bind_init="__initComponent" wx:if="{{ loading }}" color="#FF5500"></van-loading>
+    <coming-soon bind_init="__initComponent" wx:else></coming-soon>
   </view>
-</view>
-<view wx:else style="justify-content: center;">
-  <van-loading bind_init="_initComponent" wx:if="{{ loading }}" color="#FF5500"></van-loading>
-  <coming-soon bind_init="_initComponent" wx:else></coming-soon>
-</view>
-
-<show-add-tip bind_init="_initComponent"></show-add-tip>
-
-<store-list-modal bind_init="_initComponent" store-id="{{ storeInfo.storeId }}" store-list="{{ storeList }}" show-modal="{{ showStoreModal }}" data-wpy-evt="9-13" bindon-modal-close="_proxy" bindchoose-store="_proxy"></store-list-modal>
+  
+  <show-add-tip bind_init="__initComponent"></show-add-tip>
+  
+  <store-list-modal bind_init="__initComponent" store-id="{{ storeInfo.storeId }}" store-list="{{ storeList }}" show-modal="{{ showStoreModal }}" data-wpy-evt="14-18" bind:on-modal-close="__dispatcher" bind:choose-store="__dispatcher"></store-list-modal>
+  
+  <van-popup bind_init="__initComponent" show="{{ showActivityModal }}" round="{{ true }}" closeable="{{ true }}" custom-style="width:80%;" data-wpy-evt="14-20" bind:close="__dispatcher" catch:touchmove="__dispatcher">
+    <view class="storeActivity">
+      <view class="title">门店优惠活动</view>
+      <scroll-view scroll-y="true" class="body">
+        <view wx:for="{{ storeActies }}" wx:for-index="key" wx:for-item="active" wx:key="key" key="{{ key }}" class="txtInfo">
+          <view class="activityBox">门店满减</view>
+          <text>满{{active.full}}减{{active.reduce}}</text>
+        </view>
+        <view wx:if="{{ storeInfo.vipDiscount > 0 }}" class="txtInfo">
+          <view class="activityBox">VIP折扣</view>
+          <text>会员商品{{storeInfo.vipDiscount * 10}}折</text>
+        </view>
+      </scroll-view>
+    </view>
+  </van-popup>

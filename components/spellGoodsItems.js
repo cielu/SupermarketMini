@@ -13,25 +13,21 @@ _core["default"].component({
       "default": []
     },
     index: {
-      type: Number
+      type: Number,
+      "default": 2
     }
   },
   data: {
-    status: ['未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成'],
-    userInfo: null
-  },
-  onLoad: function onLoad() {// this.userInfo = this.$parent.$parent.globalData.userInfo
+    status: ['未知', '待支付', '待审核', '已驳回', '招募中', '进行中', '已完成']
   },
   methods: {
     redirectTo: function redirectTo(path) {
       _util["default"].navigateTo(path);
     }
   }
-}, {info: {"components":{"end-line":{"path":"endLine"}},"on":{}}, handlers: {'69-0': {"tap": function proxy () {
-    
+}, {info: {"components":{"end-line":{"path":"./endLine"}},"on":{}}, handlers: {'83-0': {"tap": function proxy (item) {
     var _vm=this;
-      return (function () {
-        _vm.redirectTo('/packageGoods/spellGroup/detail');
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.redirectTo('/packageGoods/spellGroup/detail?activityId='+item.activityId);
+  })();
+}}}, models: {}, refs: undefined });

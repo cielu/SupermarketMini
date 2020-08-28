@@ -1,0 +1,66 @@
+
+<view>
+  <van-nav-bar bind_init="__initComponent" custom-class="trans-nav" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="38-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <map id="qMap" markers="{{qMap.markers}}" longitude="{{qMap.lng}}" latitude="{{qMap.lat}}" scale="{{qMap.scale}}" style=" {{ 'height:' + ((screenHeight * 0.42) + \'px\') + ';' }}" class="qMap"></map>
+</view>
+<view style=" {{ 'padding-top:' + ((screenHeight * 0.42) + \'px\') + ';' }}" class="container">
+  
+  <view style="position: fixed;" class="top">
+    <view class="input-box">
+      <view data-wpy-evt="38-1" bind:tap="__dispatcher" class="location">
+        <text style="margin-right:14rpx;">{{current_city}}</text>
+        <van-icon bind_init="__initComponent" name="arrow-down" size="12px"></van-icon>
+      </view>
+      <text style="transform: scaleY(.8);color: #898989;">|</text>
+      <input placeholder="搜索该城市的地址" data-wpy-evt="38-2" bind:input="__dispatcher" style="height:70rpx;flex:1;margin-left:22rpx;" />
+    </view>
+  </view>
+  <scroll-view scroll-y="{{true}}" style="height: {{(screenHeight - screenHeight * 0.42 - 55) - (isIPhoneX ? 80 : 60)}}px;" class="scroll-box">
+    <view class="location_city">
+      <view class="title ac">
+        <van-icon bind_init="__initComponent" name="location" size="16" color="#8d949f"></van-icon>
+        <text style="margin-left:12rpx;">选择位置</text>
+      </view>
+      <view class="ac location">
+        <text data-wpy-evt="38-3" bind:tap="__dispatcher" style="font-weight:500;font-size:32rpx;">{{currentArea.title}}</text>
+        <view data-wpy-evt="38-4" bind:tap="__dispatcher" class="ac">
+          <van-icon bind_init="__initComponent" name="aim" size="16" color="#FF7700"></van-icon>
+          <text style="margin:0 12rpx;color:#FF7700;">重新定位</text>
+        </view>
+      </view>
+    </view>
+    <view class="location_city">
+      <view class="title ac">
+        <van-icon bind_init="__initComponent" name="ios-compass" size="12px" color="#8d949f"></van-icon>
+        <text style="margin-left:12rpx;">附近地址</text>
+      </view>
+      <view wx:if="{{ local_area.length===0 }}" style="justify-content: center;">
+        没有搜索到地址信息
+      </view>
+      
+      <view wx:else style="flex-direction: column;">
+        
+        <view wx:for="{{ local_area }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="38-5" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="location_item city_item">
+          <van-icon bind_init="__initComponent" name="location-o" style="padding: 0 10rpx;"></van-icon>
+          <view style="flex-direction: column;flex:1;">
+            
+            <view class="ellipsis">{{item.title}}</view>
+            
+            <view style="font-size:12px;color:#696969;margin:2rpx 0 8rpx;" class="ellipsis">{{item.address}}</view>
+          </view>
+          
+          <view wx:if="{{ currentArea.id === item.id }}" class="distance">
+            <van-icon bind_init="__initComponent" name="success" color="#FF5500" size="18"></van-icon>
+          
+          </view>
+        </view>
+        <view wx:if="{{ local_area.length===0 }}" style="justify-content: center;padding-top:30rpx;">
+          <van-loading bind_init="__initComponent" color="#ccc"></van-loading>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+<view data-wpy-evt="38-6" bind:tap="__dispatcher" class="bottomBtn {{ [ isIPhoneX ? 'bottomIpx' : '' ] }}">
+  <view class="btnSure">确认地点</view>
+</view>

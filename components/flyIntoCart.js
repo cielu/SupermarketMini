@@ -31,7 +31,7 @@ _core["default"].component({
   },
   methods: {
     toShoppingCart: function toShoppingCart() {
-      (0, _util.redirectCart)();
+      (0, _util.navigateCart)();
     },
     setDelayTime: function setDelayTime(sec) {
       return new Promise(function (resolve, reject) {
@@ -87,11 +87,12 @@ _core["default"].component({
       return animation;
     }
   }
-}, {info: {"components":{"van-icon":{"path":"../$vendor/@vant/weapp/dist/icon/index"}},"on":{}}, handlers: {'64-0': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.toShoppingCart($event);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+}, {info: {"components":{"van-icon":{"path":"./../$vendor/@vant/weapp/dist/icon/index"}},"on":{}}, handlers: {'86-0': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.toShoppingCart.apply(_vm, $args || [$event]);
+  })();
+}}}, models: {}, refs: undefined });

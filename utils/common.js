@@ -17,6 +17,11 @@ function unixToLocal(unixTime) {
   var date = new Date(parseInt(unixTime) * 1000);
   var time = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-') + '  ' + [date.getHours(), date.getMinutes()].join(':');
   return time;
+} // 判断是否是手机号
+
+
+function isPhoneNumber(tel) {
+  return /^0?1[3|4|5|6|7|8][0-9]\d{8}$/.test(tel);
 } // toDecimal
 
 
@@ -32,6 +37,82 @@ function hidePhone(phone) {
 
 function beautifyStr(str) {
   return str.replace(/\s/g, '').replace(/(.{4})/g, '$1 ');
+} // 美化时间
+
+
+function beautifyNum(num) {
+  return num < 10 ? '0' + num : num;
+} // 获取分钟
+
+
+function getMinutesArr() {
+  var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var minutes = [];
+
+  for (var i = start; i < 60; i++) {
+    minutes.push(beautifyNum(i));
+  }
+
+  return minutes;
+} // 获取小时
+
+
+function getHourArrBetween() {
+  var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+  var end = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 22;
+  var hourArr = []; // 遍历小时时间
+
+  for (var i = start; i <= end; i++) {
+    hourArr.push(beautifyNum(i));
+  }
+
+  return hourArr;
+} // 获取未来14天
+
+
+function getFutureDaysArr() {
+  var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 14;
+  // 星期映射数组
+  var weekDayArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+  var nowDate = new Date();
+  var dateArr = []; // 获取未来天数
+
+  for (var i = 0; i < length; i++) {
+    var milliseconds = nowDate.getTime() + 1000 * 86400 * i; // 当i为0代表当前日期，为1时可以得到明天的日期，以此类推
+
+    var newDate = new Date(milliseconds);
+    var month = newDate.getMonth() + 1; // 获取当前月
+
+    var day = newDate.getDate(); // 获取当前日
+
+    var weekDay = weekDayArr[newDate.getDay()]; // 设置月
+
+    month = beautifyNum(month); // 设置日期
+
+    day = beautifyNum(day);
+
+    switch (i) {
+      case 0:
+        weekDay = weekDay + '(今天)';
+        break;
+
+      case 1:
+        weekDay = weekDay + '(明天)';
+        break;
+
+      case 2:
+        weekDay = weekDay + '(后天)';
+        break;
+
+      default:
+        break;
+    } // push 到数组
+
+
+    dateArr.push(month + '月' + day + '日 ' + weekDay);
+  }
+
+  return dateArr;
 } // 富文本里的图片宽度自适应
 
 
@@ -123,7 +204,11 @@ module.exports = {
   unixToLocal: unixToLocal,
   toDecimal: toDecimal,
   hidePhone: hidePhone,
+  isPhoneNumber: isPhoneNumber,
   beautifyStr: beautifyStr,
+  getMinutesArr: getMinutesArr,
+  getFutureDaysArr: getFutureDaysArr,
+  getHourArrBetween: getHourArrBetween,
   formatRichTextImg: formatRichTextImg,
   setNavBarColor: setNavBarColor,
   setCartBadge: setCartBadge,

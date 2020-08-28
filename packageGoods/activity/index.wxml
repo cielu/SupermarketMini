@@ -1,9 +1,9 @@
 
 <wxs module="tools" src="../../utils/tools.wxs"></wxs>
 <view class="theme">
-  <van-nav-bar bind_init="_initComponent" title="促销活动" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="24-0" bindclickLeft="_proxy"></van-nav-bar>
-  <view style="height:{{statusBarHeight+44}}px;" class="loading">
-    <van-loading bind_init="_initComponent" color="#fff"></van-loading>
+  <van-nav-bar bind_init="__initComponent" title="促销活动" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="41-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#fff"></van-loading>
   </view>
 </view>
 <view class="container">
@@ -15,7 +15,7 @@
         <view class="title">{{goods.goodsName}}</view>
         <view class="activity">
           <view wx:if="{{ goods.activityId > 0 }}" class="iBox {{goods.activity.type}}">{{goods.activity.title}}</view>
-          <vip-price-box bind_init="_initComponent" wx:if="{{ goods.isVipGoods }}"></vip-price-box>
+          <vip-price-box bind_init="__initComponent" wx:if="{{ goods.isVipGoods }}"></vip-price-box>
         </view>
         <view class="priceBox">
           <view wx:if="{{ goods.isVipGoods }}" class="flexColumn">
@@ -24,14 +24,14 @@
           </view>
           <text wx:else class="price">¥{{goods.salePrice}}</text>
           
-          <purchase-btn bind_init="_initComponent" is-single="{{ goods.attrType === 'single' }}" buy-num="{{ cartGoodsNum[goods.goodsCode] }}" data-wpy-evt="24-1" bindtap="_proxy" data-wpytap-a="{{ goods }}"></purchase-btn>
+          <purchase-btn bind_init="__initComponent" is-single="{{ goods.attrType === 'single' }}" buy-num="{{ cartGoodsNum[goods.goodsCode] }}" data-wpy-evt="41-1" bind:tap="__dispatcher" data-wpytap-a="{{ goods }}"></purchase-btn>
         </view>
       </view>
     </view>
     <view style="border: none;" class="goodsItem"></view>
   </view>
   
-  <end-line bind_init="_initComponent" wx:if="{{ goodsList.length > 10 }}"></end-line>
+  <end-line bind_init="__initComponent" wx:if="{{ goodsList.length > 10 }}"></end-line>
   
-  <fly-into-cart bind_init="_initComponent" data-ref="flyIntoCart" goodsNum="{{ totalGoodsNum }}"></fly-into-cart>
+  <fly-into-cart bind_init="__initComponent" data-ref="flyIntoCart" goodsNum="{{ totalGoodsNum }}"></fly-into-cart>
 </view>

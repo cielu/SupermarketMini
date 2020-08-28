@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "我发起的抽奖",
+    "backgroundColorTop": "#f7f7f7",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true,
+    "component": true,
+    "usingComponents": {
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "lottery-list": "./../../components/LotteryList"
+    }
+}

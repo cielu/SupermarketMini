@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "我的订单",
+    "backgroundColorTop": "#ff7700",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "order-list": "./../../components/orderList"
+    }
+}

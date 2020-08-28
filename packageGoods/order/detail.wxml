@@ -1,0 +1,110 @@
+
+<view class="theme">
+  <van-nav-bar bind_init="__initComponent" title="订单详情" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="49-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="orderStatus">
+    {{statusText[orderInfo.status+1]}}
+  </view>
+  <view style="margin-top:100rpx;" class="card">
+    <view class="cardHeader">
+      <text>订单编号</text>
+      <view class="ac">
+        <text class="tradeNo">{{orderInfo.outTradeNo}}</text>
+        <van-button bind_init="__initComponent" round="{{true}}" size="mini" color="linear-gradient(to right, #FF7700, #FF8800)" data-wpy-evt="49-1" bind:tap="__dispatcher">复制</van-button>
+      </view>
+    </view>
+    <view class="cardItem">
+      <view class="ac">
+        <van-icon bind_init="__initComponent" name="contact" size="22px" color="#f89218"></van-icon>
+        <text class="deliver">{{distributionLog.distributorName}}</text>
+      </view>
+      <view class="ac">
+        <van-icon bind_init="__initComponent" name="phone" size="18px" color="#2eb959"></van-icon>
+        <text data-wpy-evt="49-2" bind:tap="__dispatcher" style="margin-left:20rpx;">联系骑手</text>
+      </view>
+    </view>
+    <van-cell bind_init="__initComponent" title="送达时间" value="{{orderInfo.sendTime}}" customClass="vanCell ac" titleClass="vanCellTitle" valueClass="vanCellValue" border="{{false}}"></van-cell>
+    <van-cell bind_init="__initComponent" title="收货人" value="{{receiveAddr.linkMan + ' ' + receiveAddr.linkPhone}}" customClass="vanCell ac" titleClass="vanCellTitle" valueClass="vanCellValue" border="{{false}}"></van-cell>
+    <van-cell bind_init="__initComponent" title="收货地址" value="{{receiveAddr.addressDetail + ' ' + receiveAddr.roomNum}}" customClass="vanCell ac" titleClass="vanCellTitle" valueClass="vanCellValue" border="{{false}}"></van-cell>
+    <van-cell bind_init="__initComponent" title="订单备注" value="{{orderInfo.userRemark}}" customClass="vanCell ac" titleClass="vanCellTitle" valueClass="vanCellValue" border="{{false}}"></van-cell>
+  </view>
+  <view class="card">
+    <view class="cardItem">
+      <view class="ac">
+        <image src="{{storeInfo.logoUrl || '/images/shop/shop_logo.png'}}" alt class="shopLogo"></image>
+        <text style="margin-left:20rpx;">{{storeInfo.storeName}}</text>
+      </view>
+      <view class="ac">
+        <van-icon bind_init="__initComponent" name="phone" size="18px" color="#2eb959"></van-icon>
+        <text class="deliver">联系小店客服</text>
+      </view>
+    </view>
+    <view class="orderDetail">
+      <view wx:for="{{ orderDetail }}" wx:for-index="index" wx:for-item="goods" wx:key="index" hidden="{{ !(index<5 || showAll) }}" class="goodsItem">
+        <image src="{{ goods.goodsCoverUrl }}" alt class="goodsImg"></image>
+        <view class="goodsInfo">
+          <view class="goodsTitle ellipsis">{{goods.goodsName}}</view>
+          <view class="ellipsis">{{goods.goodsAttribute}}</view>
+          <view style="font-size: 28rpx;">¥{{goods.goodsPrice}}</view>
+        </view>
+        <view class="purchaseInfo">
+          <view class="goodsNum">x{{goods.goodsNum}}</view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{ orderDetail.length > 5 }}" data-wpy-evt="49-3" bind:tap="__dispatcher" class="ac moreGoods">
+      <text class="text">{{showAll ? '还有' +(orderDetail.length - 5)+ '件商品' : '收起'}}</text>
+      <van-icon bind_init="__initComponent" name="arrow-{{showAll? 'down' :'up'}}" size="16px" color="#898989"></van-icon>
+    </view>
+    <view class="ac cell">
+      <view>商品总额</view>
+      <view class="fs28">¥{{orderInfo.goodsTotalPrice || '0.00'}}</view>
+    </view>
+    <view class="ac cell">
+      <view>配送费</view>
+      <view class="fs28"><text wx:if="{{ orderInfo.deliveryFee == 0 }}" class="strikePrice">¥{{orderInfo.originDeliveryFee || '0.00'}}</text>¥{{orderInfo.deliveryFee || '0.00'}}</view>
+    </view>
+    <view wx:if="{{ orderInfo.packingFee >0 }}" class="ac cell">
+      <view>包装费</view>
+      <view class="fs28">¥{{orderInfo.packingFee || '0.00'}}</view>
+    </view>
+    <view wx:if="{{ orderInfo.redPackfee >0 }}" class="ac cell">
+      <view>红包</view>
+      <view class="fs28">¥{{orderInfo.redPackFee || '0.00'}}</view>
+    </view>
+    <view wx:if="{{ orderInfo.promReduce >0 }}" class="ac cell">
+      <view>活动减免</view>
+      <view class="fs28">¥{{orderInfo.promReduce || '0.00'}}</view>
+    </view>
+    <view style="padding:38rpx 20rpx;justify-content: flex-end;" class="ac">
+      <view class="fs28">
+        订单总额：
+        <text style="color:#f55644;font-size:32rpx;align-items: center;">¥{{orderInfo.totalPay || '0.00'}}</text>
+      </view>
+    </view>
+  </view>
+  <view style="padding: 22rpx 0;" class="card">
+    <view class="ac cardSmallItem">
+      <text style="min-width: 160rpx;color:#696969;">下单时间</text>
+      <text>{{orderInfo.createdAt}}</text>
+    </view>
+    <view class="ac cardSmallItem">
+      <text style="min-width: 160rpx;color:#696969;">支付时间</text>
+      <text>{{orderInfo.paidAt}}</text>
+    </view>
+    <view class="ac cardSmallItem">
+      <text style="min-width: 160rpx;color:#696969;">支付方式</text>
+      <text>{{orderInfo.payType}}</text>
+    </view>
+  </view>
+  <view wx:if="{{ orderInfo.status == 0 }}" class="submitBox">
+    <view data-wpy-evt="49-4" bind:tap="__dispatcher" class="submitBtn">支付</view>
+  </view>
+  <view wx:else class="submitBox">
+    <view data-wpy-evt="49-5" bind:tap="__dispatcher" class="submitBtn">再来一单</view>
+  </view>
+</view>

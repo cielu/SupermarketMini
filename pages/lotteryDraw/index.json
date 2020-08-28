@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "下单抽奖",
+    "backgroundColorTop": "#fc6172",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "van-popup": "./../../$vendor/@vant/weapp/dist/popup/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "lottery-list": "./../../components/LotteryList"
+    }
+}

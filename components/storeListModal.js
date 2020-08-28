@@ -62,39 +62,30 @@ _core["default"].component({
       this.$emit('on-modal-close', e);
     }
   }
-}, {info: {"components":{"van-popup":{"path":"../$vendor/@vant/weapp/dist/popup/index"},"van-icon":{"path":"../$vendor/@vant/weapp/dist/icon/index"},"van-notice-bar":{"path":"../$vendor/@vant/weapp/dist/notice-bar/index"}},"on":{"61-0":["touchmove","close"],"61-3":["tap"]}}, handlers: {'61-0': {"touchmove": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-popup":{"path":"./../$vendor/@vant/weapp/dist/popup/index"},"van-icon":{"path":"./../$vendor/@vant/weapp/dist/icon/index"},"van-notice-bar":{"path":"./../$vendor/@vant/weapp/dist/notice-bar/index"}},"on":{"76-0":["close","touchmove"],"76-2":["tap"]}}, handlers: {'76-0': {"close": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onStoreModalClose.apply(_vm, $args || [$event]);
+  })();
+}, "touchmove": function proxy () {
     var _vm=this;
-      return (function () {
-        return($event);
-      })();
-    
-  }, "close": function proxy () {
-    var $event = arguments[arguments.length - 1];
+  return (function () {
+    !function(){};
+  })();
+}},'76-2': {"tap": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.chooseLocation.apply(_vm, $args || [$event]);
+  })();
+}},'76-3': {"tap": function proxy (store) {
     var _vm=this;
-      return (function () {
-        _vm.onStoreModalClose($event);
-      })();
-    
-  }},'61-2': {"touchmove": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        return($event);
-      })();
-    
-  }},'61-3': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.chooseLocation($event);
-      })();
-    
-  }},'61-4': {"tap": function proxy (store) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.chooseStore(store);
-      })();
-    
-  }}}, models: {}, refs: undefined });
+  return (function () {
+    _vm.chooseStore(store);
+  })();
+}}}, models: {}, refs: undefined });

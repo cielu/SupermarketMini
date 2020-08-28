@@ -1,29 +1,27 @@
 
 <view class="theme">
-  <van-nav-bar bind_init="_initComponent" title="会员中心" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}"></van-nav-bar>
-  <view style="height:{{statusBarHeight+44}}px;" class="loading"></view>
+  <van-nav-bar bind_init="__initComponent" title="会员中心" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading"></view>
 </view>
 <view class="container">
   <view class="topField">
     <view style="flex:1;align-items: center;padding:10rpx 20rpx 0;">
-      <view wx:if="{{ userInfo != null }}" style="flex:1;" class="ac">
-        <image src="{{ userInfo.avatar }}" alt mode="aspectFill" class="avatar"></image>
+      <view wx:if="{{ user != null }}" style="flex:1;" class="ac">
+        <image src="{{ user.avatar }}" alt mode="aspectFill" class="avatar"></image>
         <view class="info">
           <view class="ac">
-            <text>{{userInfo.phone}}</text>
-            <view class="vipBox">会员</view>
+            <text>{{user.phone}}</text>
           </view>
           <view style="font-size: 22rpx;">
-            <text wx:if="{{ userInfo.birthday }}">{{userInfo.nickname}}</text>
-            <text wx:else data-wpy-evt="13-0" bindtap="_proxy">完善会员信息可获得50积分</text>
+            <text wx:if="{{ user.birthday }}">{{user.nickname}}</text>
+            <text wx:else data-wpy-evt="18-0" bind:tap="__dispatcher">完善会员信息可获得50积分</text>
           </view>
         </view>
       </view>
-      <view wx:else data-wpy-evt="13-1" bindtap="_proxy" style="font-size:50rpx;flex:1;">点击登录</view>
-      <van-icon bind_init="_initComponent" name="qr" size="22"></van-icon>
+      <view wx:else data-wpy-evt="18-1" bind:tap="__dispatcher" style="font-size:50rpx;flex:1;">点击登录</view>
     </view>
     <view class="tabs">
-      <view wx:for="{{ tabs }}" wx:for-index="key" wx:for-item="tab" wx:key="key" key="{{ key }}" class="tab">
+      <view wx:for="{{ tabs }}" wx:for-index="key" wx:for-item="tab" wx:key="key" key="{{ key }}" data-wpy-evt="18-2" bind:tap="__dispatcher" data-wpytap-a="{{ key }}" class="tab">
         <view class="val">{{tab.val}}</view>
         <view class="name">{{tab.name}}</view>
       </view>
@@ -33,25 +31,27 @@
     <view class="card">
       <view class="cardTitle">
         <text>我的订单</text>
-        <view data-wpy-evt="13-2" bindtap="_proxy" class="more">
+        <view data-wpy-evt="18-3" bind:tap="__dispatcher" class="more">
           <text style="margin-right:10rpx;">查看全部</text>
-          <van-icon bind_init="_initComponent" name="arrow" color="#999999" size="16px"></van-icon>
+          <van-icon bind_init="__initComponent" name="arrow" color="#999999" size="16px"></van-icon>
         </view>
       </view>
       <view class="cardBody">
-        <view data-wpy-evt="13-3" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-4" bind:tap="__dispatcher" class="item">
           <image src="/images/order/wait_pay.png" mode="aspectFill" class="icon-l"></image>
           <text>待支付</text>
+          <view wx:if="{{ orderNum.waitPay > 0 }}" class="badge">{{orderNum.waitPay}}</view>
         </view>
-        <view data-wpy-evt="13-4" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-5" bind:tap="__dispatcher" class="item">
           <image src="/images/order/wait_receive.png" mode="aspectFill" class="icon-l"></image>
+          <view wx:if="{{ orderNum.waitReceive > 0 }}" class="badge">{{orderNum.waitReceive}}</view>
           <text>待收货</text>
         </view>
-        <view data-wpy-evt="13-5" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-6" bind:tap="__dispatcher" class="item">
           <image src="/images/order/wait_comment.png" mode="aspectFill" class="icon-l"></image>
           <text>已完成</text>
         </view>
-        <view data-wpy-evt="13-6" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-7" bind:tap="__dispatcher" class="item">
           <image src="/images/order/service.png" mode="aspectFill" class="icon-l"></image>
           <text>退款·售后</text>
         </view>
@@ -59,7 +59,7 @@
     </view>
     <view wx:if="{{ adverts.length>0 }}" class="card">
       <swiper autoplay="{{true}}" circular="{{true}}" skip-hidden-item-layout indicator-active-color="rgba(255,255,255,.7)" indicator-dots="{{adverts.length > 1 ? true : false}}" easing-function="easeOutCubic" interval="{{5000}}" duration="{{1000}}" class="swiper-banner">
-        <swiper-item wx:for="{{ adverts }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="13-7" bindtap="_proxy" data-wpytap-a="{{ item }}" class="slide-image">
+        <swiper-item wx:for="{{ adverts }}" wx:for-index="index" wx:for-item="item" wx:key="index" data-wpy-evt="18-8" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="slide-image">
           <image src="{{item.imgUrl}}" class="slide-image"></image>
         </swiper-item>
       </swiper>
@@ -69,24 +69,36 @@
         <text>服务帮助</text>
       </view>
       <view class="cardBody">
-        <view data-wpy-evt="13-8" bindtap="_proxy" class="item">
-          <image src="/images/member/daily_sign.png" mode="aspectFill" class="icon-l"></image>
-          <text>每日签到</text>
+        <view wx:if="{{ isDistributor }}" data-wpy-evt="18-9" bind:tap="__dispatcher" class="item">
+          <image src="/images/member/order_taking.png" mode="aspectFill" style="padding-top:6rpx;" class="icon"></image>
+          <text>抢单大厅</text>
         </view>
-        <view data-wpy-evt="13-9" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-10" bind:tap="__dispatcher" class="item">
           <image src="/images/member/receive_address.png" mode="aspectFill" class="icon-l"></image>
           <text>地址管理</text>
         </view>
-        <view data-wpy-evt="13-10" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-11" bind:tap="__dispatcher" class="item">
+          <image src="/images/member/daily_sign.png" mode="aspectFill" class="icon-l"></image>
+          <text>每日签到</text>
+        </view>
+        <view wx:if="{{ applySettlement }}" data-wpy-evt="18-12" bind:tap="__dispatcher" class="item">
+          <image src="/images/member/apply_settlement.png" mode="aspectFill" class="icon-l"></image>
+          <text>申请入驻</text>
+        </view>
+        <button open-type="contact" class="item item-btn">
+          <image src="/images/member/service.png" mode="aspectFill" class="icon-l"></image>
+          <text>联系客服</text>
+        </button>
+        <view data-wpy-evt="18-13" bind:tap="__dispatcher" class="item">
           <image src="/images/member/suggest.png" mode="aspectFill" class="icon-l"></image>
           <text>意见反馈</text>
         </view>
-        <view data-wpy-evt="13-11" bindtap="_proxy" class="item">
+        <view data-wpy-evt="18-14" bind:tap="__dispatcher" class="item">
           <image src="/images/member/setting.png" mode="aspectFill" class="icon-l"></image>
           <text>设置</text>
         </view>
       </view>
     </view>
-    <view class="version">当前版本：v1.0.0</view>
+    <view class="version">当前版本：v1.0.5</view>
   </view>
 </view>

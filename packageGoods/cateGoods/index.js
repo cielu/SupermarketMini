@@ -32,7 +32,6 @@ _core["default"].page({
     cateId: 0,
     curPage: 0,
     title: '一号小店',
-    userInfo: null,
     activeCateIdx: 0,
     canLoadMore: true,
     categories: [],
@@ -66,9 +65,6 @@ _core["default"].page({
     }
 
     this.loadCategories();
-  },
-  onShow: function onShow() {
-    this.userInfo = this.$app.$options.globalData.userInfo;
   },
   // 事件处理函数(集中保存在methods对象中)
   methods: _objectSpread({}, (0, _x.mapActions)(['initShoppingCart', 'addIntoCart']), {
@@ -120,7 +116,7 @@ _core["default"].page({
       if (!this.canLoadMore && page !== 0) return null;
       var params = {
         page: page + 1,
-        cateId: this.categories[this.activeCateIdx].cateId,
+        cateId: this.categories.length > 0 ? this.categories[this.activeCateIdx].cateId : 0,
         rootCateId: this.cateId
       };
       (0, _goods.getGoodsList)(params).then(function (res) {
@@ -139,7 +135,13 @@ _core["default"].page({
     handleAddIntoCart: function handleAddIntoCart(event, goods) {
       var _this4 = this;
 
-      // x, y表示手指点击横纵坐标, 即小球的起始坐标
+      // 多sku
+      if (goods.attrType === 'multiple') {
+        this.redirectToGoodsDetail(goods.goodsCode);
+        return;
+      } // x, y表示手指点击横纵坐标, 即小球的起始坐标
+
+
       var _event$touches$ = event.touches[0],
           clientX = _event$touches$.clientX,
           clientY = _event$touches$.clientY; // 加入购物车
@@ -148,8 +150,12 @@ _core["default"].page({
         goods: goods,
         skuId: 0
       };
-      this.addIntoCart(cartParams).then(function (_) {
-        _this4.$refs['flyIntoCart'].createAnimation(clientX, clientY);
+      this.addIntoCart(cartParams).then(function (res) {
+        if (res.status === 'error') {
+          _util["default"].toast(res.msg);
+        } else {
+          _this4.$refs['flyIntoCart'].createAnimation(clientX, clientY);
+        }
       });
     }
   }),
@@ -177,39 +183,34 @@ _core["default"].page({
       success: function success(_) {}
     };
   }
-}, {info: {"components":{"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"../../$vendor/@vant/weapp/dist/loading/index"},"van-tabs":{"path":"../../$vendor/@vant/weapp/dist/tabs/index"},"van-tab":{"path":"../../$vendor/@vant/weapp/dist/tab/index"},"vip-price-box":{"path":"../../components/vipPriceBox"},"fly-into-cart":{"path":"../../components/flyIntoCart"},"purchase-btn":{"path":"../../components/purchaseBtn"},"end-line":{"path":"../../components/endLine"},"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"}},"on":{"25-0":["clickLeft"],"25-4":["tap"]},"refs":[]}, handlers: {'25-0': {"clickLeft": function proxy () {
-    var $event = arguments[arguments.length - 1];
+}, {info: {"components":{"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"./../../$vendor/@vant/weapp/dist/loading/index"},"van-tab":{"path":"./../../$vendor/@vant/weapp/dist/tab/index"},"van-tabs":{"path":"./../../$vendor/@vant/weapp/dist/tabs/index"},"vip-price-box":{"path":"./../../components/vipPriceBox"},"end-line":{"path":"./../../components/endLine"},"fly-into-cart":{"path":"./../../components/flyIntoCart"},"purchase-btn":{"path":"./../../components/purchaseBtn"}},"on":{"42-4":["tap"]},"refs":[]}, handlers: {'42-0': {"clickLeft": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onClickBack.apply(_vm, $args || [$event]);
+  })();
+}},'42-1': {"tap": function proxy (index) {
     var _vm=this;
-      return (function () {
-        _vm.onClickBack($event);
-      })();
-    
-  }},'25-1': {"tap": function proxy (index) {
-    
+  return (function () {
+    _vm.onChangeCategory(index);
+  })();
+}},'42-2': {"tap": function proxy (goods) {
     var _vm=this;
-      return (function () {
-        _vm.onChangeCategory(index);
-      })();
-    
-  }},'25-2': {"tap": function proxy (goods) {
-    
+  return (function () {
+    _vm.redirectToGoodsDetail(goods.goodsCode);
+  })();
+}},'42-3': {"tap": function proxy (goods) {
     var _vm=this;
-      return (function () {
-        _vm.redirectToGoodsDetail(goods.goodsCode);
-      })();
-    
-  }},'25-3': {"tap": function proxy (goods) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.redirectToGoodsDetail(goods.goodsCode);
-      })();
-    
-  }},'25-4': {"tap": function proxy (goods) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleAddIntoCart($event,goods);
-      })();
-    
-  }}}, models: {}, refs: [] });
+  return (function () {
+    _vm.redirectToGoodsDetail(goods.goodsCode);
+  })();
+}},'42-4': {"tap": function proxy (goods) {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var _vm=this;
+  return (function () {
+    _vm.handleAddIntoCart($event,goods);
+  })();
+}}}, models: {}, refs: [] });

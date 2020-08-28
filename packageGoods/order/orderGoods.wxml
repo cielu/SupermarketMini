@@ -1,0 +1,25 @@
+
+<view class="theme">
+  <van-nav-bar title="商品列表" custom-class="bgLinear" title-class="white" fixed="{{true}}" z-index="999" border="{{false}}" left-arrow="{{true}}" data-wpy-evt="46-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}" class="loading">
+    <van-loading bind_init="__initComponent" color="#fff"></van-loading>
+  </view>
+</view>
+<view class="container">
+  <view class="goodsList">
+    <view wx:for="{{ goodsList }}" wx:for-index="index" wx:for-item="goods" wx:key="index" class="goodsItem">
+      <image src="{{ goods.goodsCoverUrl }}" alt class="goodsImg"></image>
+      <view class="goodsInfo">
+        <view class="goodsTitle">{{goods.goodsName}}</view>
+        <view class="goodsUnit">{{goods.goodsAttribute}}</view>
+        <view class="activity">
+          <view wx:if="{{ goods.activity && goods.activity.activityId > 0 }}" class="iBox {{goods.activity.type}}">
+            {{goods.activity.title}}
+          </view>
+        </view>
+        <view class="price">¥{{goods.goodsPrice}}</view>
+      </view>
+      <view class="goodsNum">x{{goods.goodsNum}}</view>
+    </view>
+  </view>
+</view>

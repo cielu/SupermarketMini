@@ -1,0 +1,7 @@
+
+<view>
+  <canvas disable-scroll="{{ true }}" canvas-id="cropper" data-wpy-evt="85-0" bind:touchstart="__dispatcher" bind:touchmove="__dispatcher" bind:touchend="__dispatcher" bind:error="__dispatcher" style="width:{{_width}}px;height:{{_height}}px;" class="cropper">
+  </canvas>
+  <canvas disable-scroll="{{ true }}" canvas-id="targetCropper" style="position: fixed; top: -{{_width * pixelRatio}}px; left: -{{_height * pixelRatio}}px; width:{{_width * pixelRatio}}px;height:{{_height * pixelRatio}}px;" class="cropper">
+  </canvas>
+</view>

@@ -12,7 +12,9 @@ var FIT_MODE_MAP = {
   none: 'center',
   fill: 'scaleToFill',
   cover: 'aspectFill',
-  contain: 'aspectFit'
+  contain: 'aspectFit',
+  widthFix: 'widthFix',
+  heightFix: 'heightFix'
 };
 (0, _component.VantComponent)({
   mixins: [_button.button, _openType.openType],
@@ -57,7 +59,8 @@ var FIT_MODE_MAP = {
   },
   data: {
     error: false,
-    loading: true
+    loading: true,
+    viewStyle: ''
   },
   mounted: function mounted() {
     this.setMode();
@@ -90,7 +93,7 @@ var FIT_MODE_MAP = {
       }
 
       this.setData({
-        style: style
+        viewStyle: style
       });
     },
     onLoad: function onLoad(event) {

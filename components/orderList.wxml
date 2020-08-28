@@ -9,7 +9,7 @@
       </view>
       <text class="status">{{statusText[item.status+1]}}</text>
     </view>
-    <view data-wpy-evt="67-0" bindtap="_proxy" data-wpytap-a="{{ item }}" class="body">
+    <view data-wpy-evt="88-0" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="body">
       <view style="justify-content: space-between;padding:0 20rpx;" class="ac">
         <view class="goodsImgs">
           <image wx:for="{{ item.details }}" wx:for-index="key" wx:for-item="img" wx:key="key" src="{{ img.goodsCoverUrl }}" key="{{ key }}" alt class="goodsImg"></image>
@@ -21,16 +21,15 @@
       </view>
     </view>
     <view class="footer">
-      <view wx:if="{{ item.orderType == 2 }}" data-wpy-evt="67-1" bindtap="_proxy" data-wpytap-a="{{ item }}" class="btn">邀请参团</view>
-      <view wx:else data-wpy-evt="67-2" bindtap="_proxy" class="btn">再来一单</view>
-      <view wx:if="{{ item.status == 0 }}" data-wpy-evt="67-3" bindtap="_proxy" data-wpytap-a="{{ item }}" class="btn payBtn">支付</view>
+      <view wx:if="{{ item.orderType == 2 }}" data-wpy-evt="88-1" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="btn">邀请参团</view>
+      <view wx:else data-wpy-evt="88-2" bind:tap="__dispatcher" class="btn">再来一单</view>
+      <view wx:if="{{ item.status == 0 }}" data-wpy-evt="88-3" bind:tap="__dispatcher" data-wpytap-a="{{ item }}" class="btn payBtn">支付</view>
     </view>
   </view>
   <view wx:if="{{ orderList.length == 0 }}" class="emptyOrder">
-    <image src="/images/other/empty_cart.png" alt="空购物车" class="emptyIcon"></image>
-    <text style="padding: 50rpx 20rpx 20rpx;">请给我一份订单</text>
-    <text style="padding: 20rpx;">让我好好爱你</text>
+    <image src="/images/other/empty_order.png" alt="空订单" class="emptyIcon"></image>
+    <text style="padding-top: 50rpx;">暂无订单</text>
   </view>
 </view>
 
-<end-line bind_init="_initComponent" wx:if="{{ orderList.length > 3 }}"></end-line>
+<end-line bind_init="__initComponent" wx:if="{{ orderList.length > 3 }}"></end-line>

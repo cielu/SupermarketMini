@@ -20,15 +20,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   relation: {
     name: 'tab',
     type: 'descendant',
+    current: 'tabs',
     linked: function linked(target) {
-      target.index = this.children.length;
-      this.children.push(target);
+      target.index = this.children.length - 1;
       this.updateTabs();
     },
-    unlinked: function unlinked(target) {
-      this.children = this.children.filter(function (child) {
-        return child !== target;
-      }).map(function (child, index) {
+    unlinked: function unlinked() {
+      this.children = this.children.map(function (child, index) {
         child.index = index;
         return child;
       });
@@ -36,11 +34,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }
   },
   props: {
+    sticky: Boolean,
+    border: Boolean,
+    swipeable: Boolean,
+    titleActiveColor: String,
+    titleInactiveColor: String,
     color: {
       type: String,
       observer: 'setLine'
     },
-    sticky: Boolean,
     animated: {
       type: Boolean,
       observer: function observer() {
@@ -51,10 +53,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         });
       }
     },
-    swipeable: Boolean,
     lineWidth: {
       type: [String, Number],
-      value: -1,
+      value: 40,
       observer: 'setLine'
     },
     lineHeight: {
@@ -62,8 +63,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       value: -1,
       observer: 'setLine'
     },
-    titleActiveColor: String,
-    titleInactiveColor: String,
     active: {
       type: [String, Number],
       value: 0,
@@ -76,10 +75,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     type: {
       type: String,
       value: 'line'
-    },
-    border: {
-      type: Boolean,
-      value: true
     },
     ellipsis: {
       type: Boolean,
@@ -95,7 +90,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     },
     swipeThreshold: {
       type: Number,
-      value: 4,
+      value: 5,
       observer: function observer(value) {
         this.setData({
           scrollable: this.children.length > value || !this.data.ellipsis
@@ -120,21 +115,25 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     currentIndex: null,
     container: null
   },
-  beforeCreate: function beforeCreate() {
-    this.children = [];
-  },
   mounted: function mounted() {
     var _this2 = this;
 
-    this.setData({
-      container: function container() {
-        return _this2.createSelectorQuery().select('.van-tabs');
-      }
+    wx.nextTick(function () {
+      _this2.setLine(true);
+
+      _this2.scrollIntoView();
     });
-    this.setLine(true);
-    this.scrollIntoView();
   },
   methods: {
+    updateContainer: function updateContainer() {
+      var _this3 = this;
+
+      this.setData({
+        container: function container() {
+          return _this3.createSelectorQuery().select('.van-tabs');
+        }
+      });
+    },
     updateTabs: function updateTabs() {
       var _this$children = this.children,
           children = _this$children === void 0 ? [] : _this$children,
@@ -147,32 +146,32 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       });
       this.setCurrentIndexByName(this.getCurrentName() || data.active);
     },
-    trigger: function trigger(eventName) {
+    trigger: function trigger(eventName, child) {
       var currentIndex = this.data.currentIndex;
-      var child = this.children[currentIndex];
+      var currentChild = child || this.children[currentIndex];
 
-      if (!(0, _utils.isDef)(child)) {
+      if (!(0, _utils.isDef)(currentChild)) {
         return;
       }
 
       this.$emit(eventName, {
-        index: currentIndex,
-        name: child.getComputedName(),
-        title: child.data.title
+        index: currentChild.index,
+        name: currentChild.getComputedName(),
+        title: currentChild.data.title
       });
     },
     onTap: function onTap(event) {
-      var _this3 = this;
+      var _this4 = this;
 
       var index = event.currentTarget.dataset.index;
       var child = this.children[index];
 
       if (child.data.disabled) {
-        this.trigger('disabled');
+        this.trigger('disabled', child);
       } else {
         this.setCurrentIndex(index);
         wx.nextTick(function () {
-          _this3.trigger('click');
+          _this4.trigger('click');
         });
       }
     },
@@ -189,7 +188,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
     },
     setCurrentIndex: function setCurrentIndex(currentIndex) {
-      var _this4 = this;
+      var _this5 = this;
 
       var data = this.data,
           _this$children3 = this.children,
@@ -203,7 +202,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         var active = index === currentIndex;
 
         if (active !== item.data.active || !item.inited) {
-          item.updateRender(active, _this4);
+          item.updateRender(active, _this5);
         }
       });
 
@@ -216,14 +215,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         currentIndex: currentIndex
       });
       wx.nextTick(function () {
-        _this4.setLine();
+        _this5.setLine();
 
-        _this4.scrollIntoView();
+        _this5.scrollIntoView();
 
-        _this4.trigger('input');
+        _this5.updateContainer();
+
+        _this5.trigger('input');
 
         if (shouldEmitChange) {
-          _this4.trigger('change');
+          _this5.trigger('change');
         }
       });
     },
@@ -235,7 +236,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
     },
     setLine: function setLine(skipTransition) {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.data.type !== 'line') {
         return;
@@ -255,22 +256,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           return;
         }
 
-        var width = lineWidth !== -1 ? lineWidth : rect.width / 2;
         var height = lineHeight !== -1 ? "height: ".concat((0, _utils.addUnit)(lineHeight), "; border-radius: ").concat((0, _utils.addUnit)(lineHeight), ";") : '';
         var left = rects.slice(0, currentIndex).reduce(function (prev, curr) {
           return prev + curr.width;
         }, 0);
-        left += (rect.width - width) / 2;
+        left += (rect.width - lineWidth) / 2;
         var transition = skipTransition ? '' : "transition-duration: ".concat(duration, "s; -webkit-transition-duration: ").concat(duration, "s;");
 
-        _this5.setData({
-          lineStyle: "\n            ".concat(height, "\n            width: ").concat((0, _utils.addUnit)(width), ";\n            background-color: ").concat(color, ";\n            -webkit-transform: translateX(").concat(left, "px);\n            transform: translateX(").concat(left, "px);\n            ").concat(transition, "\n          ")
+        _this6.setData({
+          lineStyle: "\n            ".concat(height, "\n            width: ").concat((0, _utils.addUnit)(lineWidth), ";\n            background-color: ").concat(color, ";\n            -webkit-transform: translateX(").concat(left, "px);\n            transform: translateX(").concat(left, "px);\n            ").concat(transition, "\n          ")
         });
       });
     },
     // scroll active tab into view
     scrollIntoView: function scrollIntoView() {
-      var _this6 = this;
+      var _this7 = this;
 
       var _this$data2 = this.data,
           currentIndex = _this$data2.currentIndex,
@@ -290,7 +290,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           return prev + curr.width;
         }, 0);
 
-        _this6.setData({
+        _this7.setData({
           scrollLeft: offsetLeft - (navRect.width - tabRect.width) / 2
         });
       });
@@ -309,21 +309,34 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     // watch swipe touch end
     onTouchEnd: function onTouchEnd() {
       if (!this.data.swipeable) return;
-      var _this$data3 = this.data,
-          tabs = _this$data3.tabs,
-          currentIndex = _this$data3.currentIndex;
       var direction = this.direction,
           deltaX = this.deltaX,
           offsetX = this.offsetX;
       var minSwipeDistance = 50;
 
       if (direction === 'horizontal' && offsetX >= minSwipeDistance) {
-        if (deltaX > 0 && currentIndex !== 0) {
-          this.setCurrentIndex(currentIndex - 1);
-        } else if (deltaX < 0 && currentIndex !== tabs.length - 1) {
-          this.setCurrentIndex(currentIndex + 1);
+        var index = this.getAvaiableTab(deltaX);
+
+        if (index !== -1) {
+          this.setCurrentIndex(index);
         }
       }
+    },
+    getAvaiableTab: function getAvaiableTab(direction) {
+      var _this$data3 = this.data,
+          tabs = _this$data3.tabs,
+          currentIndex = _this$data3.currentIndex;
+      var step = direction > 0 ? -1 : 1;
+
+      for (var i = step; currentIndex + i < tabs.length && currentIndex + i >= 0; i += step) {
+        var index = currentIndex + i;
+
+        if (index >= 0 && index < tabs.length && tabs[index] && !tabs[index].disabled) {
+          return index;
+        }
+      }
+
+      return -1;
     }
   }
 });

@@ -1,0 +1,23 @@
+
+<view>
+  <van-nav-bar title="我的中奖记录" z-index="99" fixed="{{ true }}" border="{{ false }}" left-arrow="{{ true }}" data-wpy-evt="26-0" bind:clickLeft="__dispatcher"></van-nav-bar>
+  <view style=" {{ 'height:' + ((statusBarHeight + 44) + \'px\') + ';' }}"></view>
+</view>
+<view class="container">
+  <view wx:if="{{ winnerLog.length ==  0 }}" class="emptyLog">暂无中奖记录</view>
+  
+  <view class="itemList">
+    <view wx:for="{{ winnerLog }}" wx:for-index="key" wx:for-item="log" wx:key="key" key="{{ key }}" class="item">
+      <view class="cover">
+        <image src="{{ log.lotteryGiftCover || '/images/other/lottery_gift.png' }}" alt mode="aspectFill" class="cover"></image>
+      </view>
+      <view class="info">
+        <view class="giftName">{{log.lotteryGiftName}}</view>
+        <view class="phone">{{log.address.linkMan + ' · ' +log.address.linkPhone}}</view>
+        <view class="address">{{log.address.city + log.address.district + log.address.addressDetail + log.address.roomNum}}</view>
+      </view>
+    </view>
+  </view>
+  
+  <end-line bind_init="__initComponent" wx:if="{{ winnerLog.length > 5 }}"></end-line>
+</view>

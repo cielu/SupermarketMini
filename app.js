@@ -6,6 +6,8 @@ var _x = _interopRequireDefault(require('./vendor.js')(4));
 
 var _auth = require('./api/auth.js');
 
+var _store = _interopRequireDefault(require('./store/index.js'));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // import eventHub from './common/eventHub'
@@ -20,7 +22,6 @@ _core["default"].app({
     // }
   },
   globalData: {
-    userInfo: null,
     storeInfo: null,
     authorization: null,
     systemInfo: null,
@@ -36,7 +37,7 @@ _core["default"].app({
     var authorization = wx.getStorageSync('authorization');
 
     if (userInfo !== '') {
-      this.$options.globalData.userInfo = userInfo;
+      _store["default"].dispatch('setUserInfo', userInfo);
     }
 
     if (authorization !== '') {
@@ -58,7 +59,9 @@ _core["default"].app({
               data.code = login.code;
               (0, _auth.miniAppLogin)(data).then(function (res) {
                 if (res.data.user) {
-                  _this.$options.globalData.userInfo = res.data.user; // set to storage
+                  _store["default"].dispatch('setUserInfo', userInfo);
+
+                  _this.$options.globalData.authorization = res.data.token; // set to storage
 
                   wx.setStorageSync('userInfo', res.data.user);
                   wx.setStorageSync('authorization', res.data.token);

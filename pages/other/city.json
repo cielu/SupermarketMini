@@ -1,0 +1,12 @@
+{
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "我的位置",
+    "backgroundColorBottom": "#ffffff",
+    "enablePullDownRefresh": false,
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index"
+    }
+}

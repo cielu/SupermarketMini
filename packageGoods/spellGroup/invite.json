@@ -1,0 +1,13 @@
+{
+    "navigationBarTitleText": "在线拼团",
+    "backgroundColorBottom": "#f7f7f7",
+    "component": true,
+    "usingComponents": {
+        "van-nav-bar": "./../../$vendor/@vant/weapp/dist/nav-bar/index",
+        "van-icon": "./../../$vendor/@vant/weapp/dist/icon/index",
+        "van-loading": "./../../$vendor/@vant/weapp/dist/loading/index",
+        "van-divider": "./../../$vendor/@vant/weapp/dist/divider/index",
+        "van-count-down": "./../../$vendor/@vant/weapp/dist/count-down/index",
+        "end-line": "./../../components/endLine"
+    }
+}

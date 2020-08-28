@@ -1,0 +1,1 @@
+.guessULike{font-size:30rpx;padding:30rpx 0;align-items:center;justify-content:center}.guessULike .guessText{padding:0 20rpx;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-image:linear-gradient(to right, #f57a37 0%, #f21b07 100%)}.guessULike .icon{width:30rpx;height:30rpx}

@@ -1,0 +1,7 @@
+{
+    "component": true,
+    "usingComponents": {
+        "end-line": "./endLine",
+        "van-count-down": "./../$vendor/@vant/weapp/dist/count-down/index"
+    }
+}

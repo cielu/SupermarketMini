@@ -30,7 +30,6 @@ _core["default"].page({
     activityId: 0,
     curPage: 0,
     goodsNum: 0,
-    nowTime: null,
     storeInfo: null,
     goodsList: [],
     cartGoodsNum: {},
@@ -49,12 +48,10 @@ _core["default"].page({
 
     this.activityTitle = options.title;
     this.activityId = options.activityId;
-    this.userInfo = this.$app.$options.globalData.userInfo;
     this.storeInfo = this.$app.$options.globalData.storeInfo;
     this.loadActivityGoods();
   },
-  onShow: function onShow() {
-    this.nowTime = Date.parse(new Date()) / 1000;
+  onShow: function onShow() {// this.nowTime = Date.parse(new Date()) / 1000
   },
   // 事件处理函数(集中保存在methods对象中)
   methods: _objectSpread({}, (0, _x.mapActions)(['addIntoCart']), {
@@ -63,7 +60,7 @@ _core["default"].page({
       _util["default"].navigateTo(path);
     },
     toShoppingCart: function toShoppingCart() {
-      _util["default"].redirectCart();
+      _util["default"].navigateCart();
     },
     onClickBack: function onClickBack() {
       _util["default"].navigateBack();
@@ -71,8 +68,14 @@ _core["default"].page({
     onPlusGoodsNum: function onPlusGoodsNum(event, goods) {
       var _this = this;
 
-      // console.log(event, goods)
-      // x, y表示手指点击横纵坐标, 即小球的起始坐标
+      // 多sku
+      if (goods.attrType === 'multiple') {
+        _util["default"].navigateTo('/packageGoods/goods/detail?goodsCode=' + goods.goodsCode);
+
+        return;
+      } // x, y表示手指点击横纵坐标, 即小球的起始坐标
+
+
       var _event$touches$ = event.touches[0],
           clientX = _event$touches$.clientX,
           clientY = _event$touches$.clientY; // 加入购物车
@@ -81,8 +84,12 @@ _core["default"].page({
         goods: goods,
         skuId: 0
       };
-      this.addIntoCart(cartParams).then(function (_) {
-        _this.$refs['flyIntoCart'].createAnimation(clientX, clientY);
+      this.addIntoCart(cartParams).then(function (res) {
+        if (res.status === 'error') {
+          _util["default"].toast(res.msg);
+        } else {
+          _this.$refs['flyIntoCart'].createAnimation(clientX, clientY);
+        }
       });
     },
     loadActivityGoods: function loadActivityGoods() {
@@ -121,18 +128,19 @@ _core["default"].page({
   onReachBottom: function onReachBottom() {
     this.loadActivityGoods(this.curPage);
   }
-}, {info: {"components":{"van-nav-bar":{"path":"../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"../../$vendor/@vant/weapp/dist/loading/index"},"vip-price-box":{"path":"../../components/vipPriceBox"},"fly-into-cart":{"path":"../../components/flyIntoCart"},"purchase-btn":{"path":"../../components/purchaseBtn"},"end-line":{"path":"../../components/endLine"}},"on":{"24-0":["clickLeft"],"24-1":["tap"]},"refs":[]}, handlers: {'24-0': {"clickLeft": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.onClickBack($event);
-      })();
-    
-  }},'24-1': {"tap": function proxy (goods) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.onPlusGoodsNum($event,goods);
-      })();
-    
-  }}}, models: {}, refs: [] });
+}, {info: {"components":{"van-nav-bar":{"path":"./../../$vendor/@vant/weapp/dist/nav-bar/index"},"van-icon":{"path":"./../../$vendor/@vant/weapp/dist/icon/index"},"van-loading":{"path":"./../../$vendor/@vant/weapp/dist/loading/index"},"vip-price-box":{"path":"./../../components/vipPriceBox"},"end-line":{"path":"./../../components/endLine"},"fly-into-cart":{"path":"./../../components/flyIntoCart"},"purchase-btn":{"path":"./../../components/purchaseBtn"}},"on":{"41-0":["clickLeft"],"41-1":["tap"]},"refs":[]}, handlers: {'41-0': {"clickLeft": function proxy () {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var $args = $wx.detail && $wx.detail.arguments;
+  var _vm=this;
+  return (function () {
+    _vm.onClickBack.apply(_vm, $args || [$event]);
+  })();
+}},'41-1': {"tap": function proxy (goods) {
+  var $wx = arguments[arguments.length - 1].$wx;
+  var $event = ($wx.detail && $wx.detail.arguments) ? $wx.detail.arguments[0] : arguments[arguments.length -1];
+  var _vm=this;
+  return (function () {
+    _vm.onPlusGoodsNum($event,goods);
+  })();
+}}}, models: {}, refs: [] });
